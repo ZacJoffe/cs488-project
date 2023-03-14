@@ -1,5 +1,6 @@
 \documentclass {article}
 \usepackage{fullpage}
+\usepackage{parskip}
 
 \begin{document}
 
@@ -9,84 +10,108 @@
 
 A5 Project Proposal
 
-Title: FPS Game Engine
+Title: First-Person Shooter Game Engine
 
 Name: Zac Joffe
 
 Student ID: 207118120
 
-User ID:
+User ID: zmjoffe
+
 \end{center}
 \vfill ~\vfill~
 \newpage
-\noindent{\Large \bf Final Project:}
-\begin{description}
-\item[Purpose]:\\
-    To tie together three totally unrelated rendering issues.
+\tableofcontents
+\section{Project Outline}
+\subsection{Purpose}
+To create a 3-dimensional environment that can be explored via a first-person perspective. The player is equipped with a firearm, which can be used to defeat dynamically-placed enemies in the environment.
 
-\item[Statement]:\\
-    For Ray Tracers: Paragraph describing interesting scene to be
-        rendered and what features are needed to achieve
-        this scene.
+\subsection{Background \& Motivation}
 
-    Paragraph: What it's about.
+I've always been interested in creating a 3D game engine using OpenGL. First-person shooters have been one of my favourite game genres for well over a decade. The project is far more focused on the graphics engine as opposed to the game itself. The player shall be able to move around the world (as described by the objectives) and shoot enemies, but the gameplay will be simple and serves as an interesting context for the implementation of the graphics components.
 
-    Paragraph: What to do.
+This project is challenging since it employs a wide range of graphics concepts. Nearly all concepts in the pre-ray tracing part of the course will need to be employed, and implementation of most objectives are non-trivial. The project is also highly extensible; the ten objectives provide a solid foundation for further graphics and gameplay extensions. An example of possible extensions \footnote{I don't necessarily plan to implement any of these for the subjective marks. The point is that the project has great expansion potential beyond the specification outlined by the ten objectives.} include more complex scenes, improved physics modeling, and hierarchical modeling of enemies for more realistic model movement and variable damage based on hit location. The foundation of this game engine can be used to implement clever enemy AI, such as that found in \textit{F.E.A.R.}.
+% TODO cite https://alumni.media.mit.edu/~jorkin/gdc2006_orkin_jeff_fear.pdf
 
-    Paragraph: Why it is interesting and challenging.
+Through this project, I will learn how to create a basic 3D game engine which can be used to create a basic first-person shooter. It will also aid in further developing my understanding of the raster graphics pipeline taught in lectures and in assignments 1, 2, and 3.
 
-    Paragraph: What I will learn
+% \begin{description}
+% \item[Purpose]:\\
+%     To tie together three totally unrelated rendering issues.
 
-\item[Technical Outline]:\\
-    Basically, your objectives in your objective list should be fairly
-    short statements of the objective; you should provide additional
-    details about your objectives in this section to clarify what you
-    plan to do.
+% \item[Statement]:\\
+%     For Ray Tracers: Paragraph describing interesting scene to be
+%         rendered and what features are needed to achieve
+%         this scene.
 
-     Further, survey the important data structures and algorithms that
-     will be necessary to achieve the goals, and (for ray tracing
-     projects) lists the new commands
-     that will need to be added to the input language.
+%     Paragraph: What it's about.
 
-     To  get  bold face: {\bf bold face words}.  To get italics: {\it italic
-     face words}.  To  get typewriter font: {\tt typed words}.  To get
-     larger  words:  {\large large  words}.   To  get smaller words:
-     {\small small words}.
+%     Paragraph: What to do.
 
-\item[Bibliography]:\\
-     Articles  and/or  books  with  important  information on the
-     topics of the project.
+%     Paragraph: Why it is interesting and challenging.
 
-\end{description}
+%     Paragraph: What I will learn
+
+% \item[Technical Outline]:\\
+%     Basically, your objectives in your objective list should be fairly
+%     short statements of the objective; you should provide additional
+%     details about your objectives in this section to clarify what you
+%     plan to do.
+
+%      Further, survey the important data structures and algorithms that
+%      will be necessary to achieve the goals, and (for ray tracing
+%      projects) lists the new commands
+%      that will need to be added to the input language.
+
+%      To  get  bold face: {\bf bold face words}.  To get italics: {\it italic
+%      face words}.  To  get typewriter font: {\tt typed words}.  To get
+%      larger  words:  {\large large  words}.   To  get smaller words:
+%      {\small small words}.
+
+% \item[Bibliography]:\\
+%      Articles  and/or  books  with  important  information on the
+%      topics of the project.
+
+% \end{description}
 \newpage
 
+\section{Technical Outline}
+\newpage
 
-\noindent{\Large\bf Objectives:}
-
-{\hfill{\bf Full UserID:\rule{2in}{.1mm}}\hfill{\bf Student ID:\rule{2in}{.1mm}}\hfill}
-
+\section{Objectives}
 \begin{enumerate}
-     \item[\_\_\_ 1:]  Objective one.
+    \item[\textbf{1:}]
+    Model the scene for the player to move around in.
 
-     \item[\_\_\_ 2:]  Objective two.
+    \item[\textbf{2:}]
+    Main menu user interface which the player will interact with to start the game.
 
-     \item[\_\_\_ 3:]  Objective three.
+    \item[\textbf{3:}]
+    Texture mapping.
 
-     \item[\_\_\_ 4:]  Objective four.
+    \item[\textbf{4:}]
+    % Particle system for visual feedback of bullet.
+    Particle system.
 
-     \item[\_\_\_ 5:]  Objective five.
+    \item[\textbf{5:}]
+    Synchronized sound for player actions.
 
-     \item[\_\_\_ 6:]  Objective six.
+    \item[\textbf{6:}]
+    Static collision detection of surrounding environment.
 
-     \item[\_\_\_ 7:]  Objective seven.
+    \item[\textbf{7:}]
+    % Dynamic collision detection for bullets hitting enemies (hitscan).
+    Dynamic collision detection for bullets hitting enemies.
 
-     \item[\_\_\_ 8:]  Objective eight.
+    \item[\textbf{8:}]
+    % Physics engine with friction for player movement and gravity for player jumping.
+    Physics engine with friction and gravity.
 
-     \item[\_\_\_ 9:]  Objective nine.
+    \item[\textbf{9:}]
+    Shadows using shadow volumes. % TODO references https://en.wikipedia.org/wiki/Shadow_volume#cite_note-1
 
-     \item[\_\_\_ 10:]  Objective ten.
+    \item[\textbf{10:}]
+    Keyframe animation using linear interpolation.
 \end{enumerate}
 
-% Delete % at start of next line if this is a ray tracing project
-% A4 extra objective:
 \end{document}
