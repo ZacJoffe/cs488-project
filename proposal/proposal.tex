@@ -2,6 +2,19 @@
 \usepackage{fullpage}
 \usepackage{parskip}
 
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=false,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+% biblatex setup
+\usepackage[style=numeric,backend=biber,sorting=none]{biblatex} % use biber and order references as they appear
+\addbibresource{references.bib} % biblatex file
+\emergencystretch=1em % prevent overflow of bib
+
 \begin{document}
 
 ~\vfill
@@ -14,7 +27,7 @@ Title: First-Person Shooter Game Engine
 
 Name: Zac Joffe
 
-Student ID: 207118120
+Student ID: 20711812
 
 User ID: zmjoffe
 
@@ -30,8 +43,7 @@ To create a 3-dimensional environment that can be explored via a first-person pe
 
 I've always been interested in creating a 3D game engine using OpenGL. First-person shooters have been one of my favourite game genres for well over a decade. The project is far more focused on the graphics engine as opposed to the game itself. The player shall be able to move around the world (as described by the objectives) and shoot enemies, but the gameplay will be simple and serves as an interesting context for the implementation of the graphics components.
 
-This project is challenging since it employs a wide range of graphics concepts. Nearly all concepts in the pre-ray tracing part of the course will need to be employed, and implementation of most objectives are non-trivial. The project is also highly extensible; the ten objectives provide a solid foundation for further graphics and gameplay extensions. An example of possible extensions \footnote{I don't necessarily plan to implement any of these for the subjective marks. The point is that the project has great expansion potential beyond the specification outlined by the ten objectives.} include more complex scenes, improved physics modeling, and hierarchical modeling of enemies for more realistic model movement and variable damage based on hit location. The foundation of this game engine can be used to implement clever enemy AI, such as that found in \textit{F.E.A.R.}.
-% TODO cite https://alumni.media.mit.edu/~jorkin/gdc2006_orkin_jeff_fear.pdf
+This project is challenging since it employs a wide range of graphics concepts. Nearly all concepts in the pre-ray tracing part of the course will need to be employed, and implementation of most objectives are non-trivial. The project is also highly extensible; the ten objectives provide a solid foundation for further graphics and gameplay extensions. An example of possible extensions \footnote{I don't necessarily plan to implement any of these for the subjective marks. The point is that the project has great expansion potential beyond the specification outlined by the ten objectives.} include more complex scenes, improved physics modeling, and hierarchical modeling of enemies for more realistic model movement and variable damage based on hit location. The foundation of this game engine can be used to implement clever enemy AI, such as that found in \textit{F.E.A.R.}~\cite{fear}.
 
 Through this project, I will learn how to create a basic 3D game engine which can be used to create a basic first-person shooter. It will also aid in further developing my understanding of the raster graphics pipeline taught in lectures and in assignments 1, 2, and 3.
 
@@ -75,10 +87,37 @@ Through this project, I will learn how to create a basic 3D game engine which ca
 % \end{description}
 \newpage
 
-\section{Technical Outline}
+\section{Technical Outline}\label{sec:tech}
+This section outlines technical details associated with each of the ten objectives. See section~\ref{sec:objectives} for an abbreviated list of objectives.
+
+\subsection{Objective 1}
+This objective is about modeling the area where players can move around. This will be a simple scene with a flat, rectangular floor and four surrounding walls.
+
+\subsection{Objective 2}
+% Main menu user interface which the player will interact with to start the game.
+The game will launch in a main menu that is visually distinct from the normal gameplay. The menu will have a button that lets players start the game. Implementation of this feature can be done with a finite state machine with two states --- one for the game, and one for the main menu. This state machine can be implemented with the state with polymorphic rendering methods, as described in \textit{Game Programming Patterns}~\cite{state}.
+
+\subsection{Objective 3}
+%Texture mapping.
+Texture mapping will be employed to give surfaces more detail and realistic appearances. The approach to implementing texture mapping in OpenGL largely the same as first described by Blinn and Newell~\cite{texture}. Texture rasters are loaded from disk into 
+
+% https://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/#about-uv-coordinates
+
+\subsection{Objective 4}
+\subsection{Objective 5}
+\subsection{Objective 6}
+\subsection{Objective 7}
+\subsection{Objective 8}
+\subsection{Objective 9}
+\cite{shadows}
+
+\subsection{Objective 10}
+
+
+
 \newpage
 
-\section{Objectives}
+\section{Objectives}\label{sec:objectives}
 \begin{enumerate}
     \item[\textbf{1:}]
     Model the scene for the player to move around in.
@@ -113,5 +152,8 @@ Through this project, I will learn how to create a basic 3D game engine which ca
     \item[\textbf{10:}]
     Keyframe animation using linear interpolation.
 \end{enumerate}
+
+\newpage
+\printbibliography[heading=bibintoc, title={References}] % https://tex.stackexchange.com/a/279977
 
 \end{document}
