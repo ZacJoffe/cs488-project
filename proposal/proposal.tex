@@ -21,7 +21,7 @@
 \begin{center}
 \Large
 
-A5 Project Proposal
+CS488 Project Proposal
 
 Title: First-Person Shooter Game Engine
 
@@ -35,17 +35,20 @@ User ID: zmjoffe
 \vfill ~\vfill~
 \newpage
 \tableofcontents
+\newpage
+
 \section{Project Outline}
 \subsection{Purpose}
-To create a 3-dimensional environment that can be explored via a first-person perspective. The player is equipped with a firearm, which can be used to defeat dynamically-placed enemies in the environment.
+To create a 3D environment that can be explored via a first-person perspective.
+
+%The player is equipped with a firearm that can be used to defeat dynamically-placed enemies in the environment.
 
 \subsection{Background \& Motivation}
+I've always been interested in creating a 3D game engine using OpenGL. First-person shooters have been one of my favourite game genres for well over a decade \footnote{Standout titles of the genre include \textit{Doom}, \textit{Quake}, \textit{Blood}, \textit{Half-Life}, \textit{Portal 2}, and \textit{Metroid Prime}.}. This project is primarily focused on the graphics engine; the gameplay will be simple and serves as an interesting context for the implementation of the graphics component. The player controls a character equipped with a firearm in a first-person point of view. The gun can be used to shoot dynamically-placed enemies in the environment. The player can freely move about the world on the ground-level and look around the environment, just as one would expect from a first-person shooter.
 
-I've always been interested in creating a 3D game engine using OpenGL. First-person shooters have been one of my favourite game genres for well over a decade. The project is far more focused on the graphics engine as opposed to the game itself. The player shall be able to move around the world (as described by the objectives) and shoot enemies, but the gameplay will be simple and serves as an interesting context for the implementation of the graphics components.
+This project is challenging since it employs a wide range of graphics concepts. Nearly all concepts in the pre-ray tracing part of the course will need to be employed, and implementation of most objectives are non-trivial. The project is also highly extensible; the ten objectives provide a solid foundation for further graphics and gameplay extensions. An example of possible extensions \footnote{I don't necessarily plan to implement any of these for the subjective marks. The point is to illustrate that the project has great expansion potential beyond the specification outlined by the ten objectives.} include more complex scenes, improved physics modeling, and hierarchical modeling of enemies for variable damage based on hit location. The foundation of this game engine could also be used to implement clever enemy AI, such as that found in \textit{F.E.A.R.}~\cite{fear}.
 
-This project is challenging since it employs a wide range of graphics concepts. Nearly all concepts in the pre-ray tracing part of the course will need to be employed, and implementation of most objectives are non-trivial. The project is also highly extensible; the ten objectives provide a solid foundation for further graphics and gameplay extensions. An example of possible extensions \footnote{I don't necessarily plan to implement any of these for the subjective marks. The point is that the project has great expansion potential beyond the specification outlined by the ten objectives.} include more complex scenes, improved physics modeling, and hierarchical modeling of enemies for more realistic model movement and variable damage based on hit location. The foundation of this game engine can be used to implement clever enemy AI, such as that found in \textit{F.E.A.R.}~\cite{fear}.
-
-Through this project, I will learn how to create a basic 3D game engine which can be used to create a basic first-person shooter. It will also aid in further developing my understanding of the raster graphics pipeline taught in lectures and in assignments 1, 2, and 3.
+Through this project, I will learn how to create a basic 3D game engine which can be used to create a simple first-person shooter. It will also aid in further developing my understanding of the raster graphics pipeline taught in lectures and through assignments 1, 2, and 3.
 
 % \begin{description}
 % \item[Purpose]:\\
@@ -91,7 +94,7 @@ Through this project, I will learn how to create a basic 3D game engine which ca
 This section outlines technical details associated with each of the ten objectives. See section~\ref{sec:objectives} for an abbreviated list of objectives.
 
 \subsection{Objective 1}
-This objective is about modeling the area where players can move around. This will be a simple scene with a flat, rectangular floor and four surrounding walls.
+This objective is about modeling the area where the player can move around. This will be a simple scene with a flat, rectangular floor and four surrounding walls.
 
 \subsection{Objective 2}
 % Main menu user interface which the player will interact with to start the game.
@@ -99,20 +102,53 @@ The game will launch in a main menu that is visually distinct from the normal ga
 
 \subsection{Objective 3}
 %Texture mapping.
-Texture mapping will be employed to give surfaces more detail and realistic appearances. The approach to implementing texture mapping in OpenGL largely the same as first described by Blinn and Newell~\cite{texture}. Texture rasters are loaded from disk into 
+Texture mapping will be employed to give surfaces more detail and realistic appearances. The approach to implementing texture mapping in OpenGL largely the same as first described by Blinn and Newell~\cite{texture}. 2D texture rasters are loaded from disk and stored on the GPU. Texture coordinates for a  $u, v$ texture coordinates are passed into the vertex shader, which outputs it to the fragment shader. The fragment shader uses the input texture coordinates to determine the fragment's color. With the \texttt{GL\_LINEAR} texture filtering option, OpenGL performs bilinear interpolation to calculate the color.
 
-% https://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube/#about-uv-coordinates
+% https://www.opengl-tutorial.org/beginners-tutorials/tutorial-5-a-textured-cube
+% https://learnopengl.com/Getting-started/Textures
+% https://www.youtube.com/watch?v=u-00hjlfMKc
+% NOTE the uv values are for each vertex, and I should be able to hardcode them (or calculate them) on the cpu
 
 \subsection{Objective 4}
+%Particle system.
+A particle system will be implemented to give visual feedback of the muzzle flash in front of the gun after being fired. An implementation of particle systems is outlined in \textit{Learn OpenGL: Learn Modern OpenGL Graphics Programming in a Step-by-step Fashion.}~\cite{learnopengl}. Particles are implemented using a particle emitter, which spawns a myriad of particles in certain locations with a given color, lifetime, and velocity. After reaching a certain height or a set amount of time has passed, the particles are killed.
+
+% https://learnopengl.com/In-Practice/2D-Game/Particles
+% https://www.opengl-tutorial.org/intermediate-tutorials/billboards-particles/particles-instancing/
+
 \subsection{Objective 5}
+Sounds will be played to give feedback for specific player actions. For instance, the player firing a gun may be accompanied by a synchronized gunshot noise. These sounds are implemented as sound files that are loaded into the game engine. One of many C++ high-level audio libraries can be employed to play these sounds, such as \href{https://github.com/libsdl-org/SDL\_mixer}{\texttt{SDL\_mixer}} and \href{https://solhsa.com/soloud/}{\texttt{SoLoud}}.
+
+% https://solhsa.com/soloud/
+
 \subsection{Objective 6}
+% Static collision detection of surrounding environment.
+Static collision detection will be employed to prevent the player from moving out of the bounds defined by scene. The player's location will be surrounded by an invisible axis-aligned bounding box (AABB). The size of this box will be make to enclose the imaginary player character model. All collidable objects will have an AABB. Upon player input for movement, the updated position of the player will be calculated. Then, prior to rendering the update on said frame, every collidable object in the scene will be tested for collision with the player by testing for intersection of AABBs. If a collision occurs, player locations are not updated to the updated value that was calculated prior to the collision tests.
+
 \subsection{Objective 7}
+% Dynamic collision detection for bullets hitting enemies.
+
+% Enemy locations will be dynamic in the scene (i.e. dynamic movement). A dynamic collision detection algorithm will be used to determine if a bullet shot by the player hits the enemy. First-person shooters employ two approaches for modeling bullets: hitscan and projectile. Hitscanning is where a ray is casted and hit registration is instantly determined based on intersection with the enemy. Projectile based bullets model the physics of the bullet after being fired, and the bullet
+
+Enemy locations will be dynamic in the scene (i.e. dynamic movement). A dynamic collision detection algorithm will be used to determine if a bullet shot by the player hits the enemy.
+The implementation of this is done via a method called hitscanning, which is very similar ray casting as described in the ray tracing chapter of \textit{Fundamentals of Computer Graphics}~\cite{rtbook}. When the player shoots their gun, a ray will be casted from the camera in the direction of the gunshot. Each enemy will have an AABB, similar to the static geometry in objective 6, which will be used to compute ray-enemy intersection. The nearest enemy hit will then take damage in some visible way.
+
+% all enemies (contained in a list) will be tested for collision
+% simplify calculations by using an AABB for enemy
+
 \subsection{Objective 8}
+% Physics engine with friction and gravity.
+The physics engine will govern player movement with its simulation of friction and gravity. When a player releases a movement key, friction will cause them to slow to a stop rather than stopping on a dime. In classical mechanics, friction can be modeled as a function of material properties and the normal force of the object. This model is simplified to be a function that reduces the magnitude of the velocity linearly to 0 at a convincing rate.
+
+Gravity simulation will allow for realistic jumping mechanics. In classical mechanics, gravity (on earth) is represented as a constant force acting down on an object proportional to its mass. This model is simplified by ignoring the mass of the player. Upon jumping, the player's height will increase by some initial velocity. The force of gravity will cause this velocity to decrease over time by a constant acceleration value. This will cause the player to rise and fall in the same way one would if they were to jump in the real world.
+
 \subsection{Objective 9}
-\cite{shadows}
+% Shadows using shadow mapping.
+Shadows are implemented in the world using shadow mapping. This algorithm was first described by Williams in 1978 \cite{shadowmapping}, and involves a two-pass rendered where the world is rendered from the light's point of view, then rendered from the camera's point of view. The latter rendering uses z-buffer values computed from the first rendering pass to determine if a pixel is visible from the light source, and draws shadows accordingly.
 
 \subsection{Objective 10}
-
+% Keyframe animation using linear interpolation.
+Players will be able to see a model of the gun they wield in their first-person perspective. This gun will be animated using keyframes, where linear interpolation is used to render the intermediate frames between keyframes. An example of gun animation is recoil after the gun is shot; another effective way to give visual feedback to the player after shooting.
 
 
 \newpage
@@ -123,7 +159,7 @@ Texture mapping will be employed to give surfaces more detail and realistic appe
     Model the scene for the player to move around in.
 
     \item[\textbf{2:}]
-    Main menu user interface which the player will interact with to start the game.
+    Main menu user interface that the player will interact with to start the game.
 
     \item[\textbf{3:}]
     Texture mapping.
@@ -133,21 +169,20 @@ Texture mapping will be employed to give surfaces more detail and realistic appe
     Particle system.
 
     \item[\textbf{5:}]
-    Synchronized sound for player actions.
+    Synchronized sound corresponding to player actions.
 
     \item[\textbf{6:}]
     Static collision detection of surrounding environment.
 
     \item[\textbf{7:}]
-    % Dynamic collision detection for bullets hitting enemies (hitscan).
-    Dynamic collision detection for bullets hitting enemies.
+    Dynamic collision detection for hitscan bullets.
 
     \item[\textbf{8:}]
     % Physics engine with friction for player movement and gravity for player jumping.
     Physics engine with friction and gravity.
 
     \item[\textbf{9:}]
-    Shadows using shadow volumes. % TODO references https://en.wikipedia.org/wiki/Shadow_volume#cite_note-1
+    Shadows using shadow mapping.
 
     \item[\textbf{10:}]
     Keyframe animation using linear interpolation.
