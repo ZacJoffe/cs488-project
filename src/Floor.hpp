@@ -20,12 +20,14 @@ namespace floor_constants {
 
 class Floor : public Geometry {
 public:
-    Floor();
+    Floor(const std::shared_ptr<ShaderHandler> & shader_handler);
     ~Floor() override;
 
-    void draw(const std::shared_ptr<ShaderHandler> & shader_handler) override;
+    void draw() override;
 
 private:
     void init() override;
+
+    std::shared_ptr<ShaderHandler> m_shader_handler;
 };
 

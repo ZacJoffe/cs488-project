@@ -1,15 +1,12 @@
 #pragma once
 
 #include "cs488-framework/OpenGLImport.hpp"
-#include "ShaderHandler.hpp"
-
-#include <memory>
 
 class Geometry {
 public:
-    virtual ~Geometry();
+    virtual ~Geometry() {}
 
-    virtual void draw(const std::shared_ptr<ShaderHandler> & shader_handler) = 0;
+    virtual void draw() = 0;
 
 protected:
     virtual void init() = 0;

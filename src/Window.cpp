@@ -18,6 +18,8 @@ void Window::init() {
     initFloor();
     initCamera();
     initProjectionMatrix();
+
+    m_model = glm::mat4(1.0f);
 }
 
 void Window::initBackgroundColor() {
@@ -29,14 +31,14 @@ void Window::initShaderHandler() {
 }
 
 void Window::initFloor() {
-    m_geos.push_back(std::make_shared<Floor>());
+    m_geos.push_back(std::make_shared<Floor>(m_shader_handler));
 }
 
 void Window::initProjectionMatrix() {
     float aspect = static_cast<float>(m_framebufferWidth) / static_cast<float>(m_framebufferHeight);
     // TODO these values probably need tweaking (including fovy)
     float near_plane = 1.0f;
-    float far_plane = 1000.0f;
+    float far_plane = 100.0f;
 
     m_projection = glm::perspective(
         glm::radians(DEFAULT_FOVY),
@@ -49,12 +51,9 @@ void Window::initProjectionMatrix() {
 void Window::initCamera() {
     m_cam = Camera(
         glm::vec3(0.0f, 0.0f, 3.0f),
-        glm::vec3(0.0f, 0.0f, -1.0f),
+        glm::vec3(0.0f, 0.0f, 0.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
-
-    // DELETEME
-    // m_view = m_cam.getView();
 }
 
 void Window::appLogic() {}
@@ -66,11 +65,18 @@ void Window::draw()
     glEnable(GL_DEPTH_TEST);
 
     m_shader_handler->uploadProjectionUniform(m_projection);
-    m_shader_handler->uploadViewUniform(m_cam.getView());
+    // m_shader_handler->uploadViewUniform(m_cam.getView());
+    m_shader_handler->uploadViewUniform(
+        glm::lookAt(
+            glm::vec3(0.0f, 1.0f, 1.0f),
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 1.0f, 0.0f)
+        )
+    );
     m_shader_handler->uploadModelUniform(m_model);
 
     for (const auto geo : m_geos) {
-        geo->draw(m_shader_handler);
+        geo->draw();
     }
 
     glBindVertexArray(0);

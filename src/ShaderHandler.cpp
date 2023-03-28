@@ -3,6 +3,10 @@
 #include <glm/gtc/type_ptr.hpp>
 
 ShaderHandler::ShaderHandler() {
+    init();
+}
+
+void ShaderHandler::init() {
     // build shaders
     m_shader.generateProgramObject();
     m_shader.attachVertexShader("./Assets/VertexShader.vs");

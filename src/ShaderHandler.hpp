@@ -21,6 +21,8 @@ public:
     void uploadColorUniform(const glm::vec3 & color);
 
 private:
+    void init();
+
     ShaderProgram m_shader;
 
     GLint m_projection_uni;
