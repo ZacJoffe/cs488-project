@@ -4,16 +4,6 @@
 #include "cs488-framework/ShaderProgram.hpp"
 
 #include <glm/glm.hpp>
-#include <optional>
-
-/*
-struct SceneUniformValues {
-    std::optional<glm::mat4> projection;
-    std::optional<glm::mat4> view;
-    std::optional<glm::mat4> model;
-    std::optional<glm::vec3> color;
-};
-*/
 
 // composition-based wrapper of the ShaderProgram class
 class ShaderHandler {
@@ -24,9 +14,6 @@ public:
 
     void enable();
     void disable();
-
-    // something like this is called A3::appLogic (every frame), not sure if I need it here
-    // void uploadSceneUniforms(const SceneUniformValues & vals);
 
     void uploadProjectionUniform(const glm::mat4 & projection);
     void uploadViewUniform(const glm::mat4 & view);

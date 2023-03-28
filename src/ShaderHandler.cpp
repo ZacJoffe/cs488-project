@@ -14,44 +14,28 @@ void ShaderHandler::disable() {
     m_shader.disable();
 }
 
-/*
-void ShaderHandler::uploadSceneUniforms(const SceneUniformValues & vals) {
-    enable();
-    {
-        if (vals.projection) {
-            glUniformMatrix4fv(m_projection_uni, 1, GL_FALSE, glm::value_ptr(vals->projection));
-        }
-
-        if (vals.view) {
-            glUniformMatrix4fv(m_view_uni, 1, GL_FALSE, glm::value_ptr(vals->view));
-        }
-
-        if (vals.model) {
-            glUniformMatrix4fv(m_model_uni, 1, GL_FALSE, glm::value_ptr(vals->model));
-        }
-
-        if (vals.color) {
-            glUniform3f(m_color_uni, vals->color.r, vals->color.g, vals->color.b);
-        }
-    }
-    disable();
-}
-*/
-
 void ShaderHandler::uploadProjectionUniform(const glm::mat4 & projection) {
+    enable();
     glUniformMatrix4fv(m_projection_uni, 1, GL_FALSE, glm::value_ptr(projection));
+    disable();
 }
 
 void ShaderHandler::uploadViewUniform(const glm::mat4 & view) {
+    enable();
     glUniformMatrix4fv(m_view_uni, 1, GL_FALSE, glm::value_ptr(view));
+    disable();
 }
 
 void ShaderHandler::uploadModelUniform(const glm::mat4 & model) {
+    enable();
     glUniformMatrix4fv(m_model_uni, 1, GL_FALSE, glm::value_ptr(model));
+    disable();
 }
 
 void ShaderHandler::uploadColorUniform(const glm::vec3 & color) {
+    enable();
     glUniform3f(m_color__uni, color.r, color.g, color.b);
+    disable();
 }
 
 ShaderHandler::ShaderHandler() {

@@ -13,13 +13,9 @@ void Floor:draw(const std::shared_ptr<ShaderHandler> & shader_handler) {
         throw std::runtime_error();
     }
 
-    shader_handler->enable(); // TODO needed?
-    {
-        glBindVertexArray(m_vao);
-        shader_handler->uploadColorUniform(glm::vec3(1.0f, 1.0f, 1.0f)); // TODO change to texture
-        glDrawArrays(GL_LINES, 0, floor_constants::NUM_VERTICES);
-    }
-    shader_handler->disable(); // TODO needed?
+    glBindVertexArray(m_vao);
+    shader_handler->uploadColorUniform(glm::vec3(1.0f, 1.0f, 1.0f)); // TODO change to texture
+    glDrawArrays(GL_LINES, 0, floor_constants::NUM_VERTICES);
 }
 
 void Floor::init() {
