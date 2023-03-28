@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "Camera.hpp"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "Floor.hpp"
 
@@ -50,8 +51,11 @@ void Window::initProjectionMatrix() {
 
 void Window::initCamera() {
     m_cam = Camera(
-        glm::vec3(0.0f, 0.0f, 3.0f),
-        glm::vec3(0.0f, 0.0f, 0.0f),
+        // glm::vec3(0.0f, 1.0f, 1.0f),
+        // glm::vec3(0.0f, 0.0f, 0.0f),
+        // glm::vec3(0.0f, 1.0f, 0.0f)
+        glm::vec3(0.0f, 1.0f, 3.0f),
+        glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
 }
@@ -64,15 +68,13 @@ void Window::draw()
 {
     glEnable(GL_DEPTH_TEST);
 
+    // glm::mat4 W(1.0f);
+    // W = glm::rotate(W, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    // m_model = W * m_model;
+
+
     m_shader_handler->uploadProjectionUniform(m_projection);
-    // m_shader_handler->uploadViewUniform(m_cam.getView());
-    m_shader_handler->uploadViewUniform(
-        glm::lookAt(
-            glm::vec3(0.0f, 1.0f, 1.0f),
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        )
-    );
+    m_shader_handler->uploadViewUniform(m_cam.getView());
     m_shader_handler->uploadModelUniform(m_model);
 
     for (const auto geo : m_geos) {
@@ -135,11 +137,30 @@ bool Window::windowResizeEvent(int width, int height) {
 }
 
 bool Window::keyInputEvent(int key, int action, int mods) {
-    bool eventHandled(false);
-
-    if( action == GLFW_PRESS ) {
-        // Respond to some key events.
+    if (action == GLFW_PRESS) {
+        switch (key) {
+            case GLFW_KEY_W: {
+                std::cout << "w key pressed" << std::endl;
+                m_cam.move(MovementDirection::forward);
+                return true;
+            }
+            case GLFW_KEY_S: {
+                std::cout << "s key pressed" << std::endl;
+                m_cam.move(MovementDirection::backward);
+                return true;
+            }
+            case GLFW_KEY_A: {
+                std::cout << "a key pressed" << std::endl;
+                m_cam.move(MovementDirection::left);
+                return true;
+            }
+            case GLFW_KEY_D: {
+                std::cout << "d key pressed" << std::endl;
+                m_cam.move(MovementDirection::right);
+                return true;
+            }
+        }
     }
 
-    return eventHandled;
+    return false;
 }

@@ -2,6 +2,13 @@
 
 #include <glm/glm.hpp>
 
+enum class MovementDirection {
+    forward,
+    backward,
+    left,
+    right,
+};
+
 class Camera {
 public:
     Camera();
@@ -12,6 +19,7 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
+    void move(MovementDirection direction);
 
 private:
     glm::vec3 m_pos;

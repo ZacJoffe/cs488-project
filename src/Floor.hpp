@@ -11,10 +11,10 @@ namespace floor_constants {
     // this floor covers the entire plane
     static const float VERTICES[NUM_VERTICES * 3] = {
         // x, y, z, right hand coordinate system
-        -1.0f, 0.0f, 1.0f,   // front left
-        -1.0f, 0.0f, -1.0f,  // back left
-        1.0f, 0.0f, -1.0f,   // back right
-        1.0f, 0.0f, 1.0f,    // front right
+        -1.0f, -1.0f, 1.0f,   // front left
+        -1.0f, -1.0f, -1.0f,  // back left
+        1.0f, -1.0f, -1.0f,   // back right
+        1.0f, -1.0f, 1.0f,    // front right
     };
 
     static const GLuint NUM_INDEXES = 6;
