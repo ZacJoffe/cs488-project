@@ -1,0 +1,8 @@
+Makefile
+build/
+.cache/
+
+imgui.ini
+
+# binary
+fps
