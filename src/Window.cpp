@@ -1,58 +1,35 @@
-// Termm--Fall 2020
-
-#include "cs488-framework/GlErrorCheck.hpp"
-
 #include "Window.hpp"
-
-// #include <sys/types.h>
-// #include <unistd.h>
+#include "cs488-framework/GlErrorCheck.hpp"
+#include "Floor.hpp"
 
 #include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 // #include <glm/gtc/type_ptr.hpp>
-
 #include <iostream>
 
-static const float DEFAULT_FOVY = 45.0f;
+using namespace window_constants;
 
 Window::Window() {}
 Window::~Window() {}
 
 void Window::init() {
-    // Set the background colour.
-    glClearColor(0.3, 0.5, 0.7, 1.0);
-
-    // Build the shader
-    m_shader.generateProgramObject();
-    m_shader.attachVertexShader(getAssetFilePath("VertexShader.vs").c_str());
-    m_shader.attachFragmentShader(getAssetFilePath("FragmentShader.fs").c_str());
-    m_shader.link();
-
-    // Set up the uniforms
-    P_uni = m_shader.getUniformLocation("P");
-    // TODO encapsulate
-    V_uni = m_shader.getUniformLocation("V");
-    M_uni = m_shader.getUniformLocation("M");
-
+    initBackgroundColor();
+    initShaderHandler();
     initFloor();
+    initCamera();
+    initProjectionMatrix();
+}
 
-    // Set up initial view and projection matrices (need to do this here,
-    // since it depends on the GLFW window being set up correctly).
-    view = glm::lookAt(
-        glm::vec3(0.0f, 2.*float(DIM)*2.0*M_SQRT1_2, float(DIM)*2.0*M_SQRT1_2),
-        glm::vec3(0.0f, 0.0f, 0.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f)
-    );
+void Window::initBackgroundColor() {
+    glClearColor(0.3, 0.5, 0.7, 1.0);
+}
 
-    proj = glm::perspective(
-        glm::radians(30.0f),
-        float(m_framebufferWidth) / float(m_framebufferHeight),
-        1.0f, 1000.0f
-    );
+void Window::initShaderHandler() {
+    m_shader_handler = std::make_shared<ShaderHandler>();
 }
 
 void Window::initFloor() {
-    // TODO
+    m_geos.push_back(std::make_shared<Floor>());
 }
 
 void Window::initProjectionMatrix() {
@@ -65,17 +42,19 @@ void Window::initProjectionMatrix() {
         glm::radians(DEFAULT_FOVY),
         aspect,
         near_plane,
-        far_plane,
+        far_plane
     );
 }
 
-void Window::initViewMatrix() {
-    // TODO here
-}
+void Window::initCamera() {
+    m_cam = Camera(
+        glm::vec3(0.0f, 0.0f, 3.0f),
+        glm::vec3(0.0f, 0.0f, -1.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)
+    );
 
-
-void Window::uploadCommonSceneUniforms() {
-    // TODO
+    // DELETEME
+    // m_view = m_cam.getView();
 }
 
 void Window::appLogic() {}
@@ -84,6 +63,20 @@ void Window::guiLogic() {}
 
 void Window::draw()
 {
+    glEnable(GL_DEPTH_TEST);
+
+    m_shader_handler->uploadProjectionUniform(m_projection);
+    m_shader_handler->uploadViewUniform(m_cam.getView());
+    m_shader_handler->uploadModelUniform(m_model);
+
+    for (const auto geo : m_geos) {
+        geo->draw(m_shader_handler);
+    }
+
+    glBindVertexArray(0);
+    CHECK_GL_ERRORS;
+
+    /*
     // Create a global transformation for the model (centre it).
     mat4 W;
     W = glm::translate( W, vec3( -float(DIM)/2.0f, 0, -float(DIM)/2.0f ) );
@@ -108,6 +101,7 @@ void Window::draw()
     glBindVertexArray( 0 );
 
     CHECK_GL_ERRORS;
+    */
 }
 
 void Window::cleanup() {}

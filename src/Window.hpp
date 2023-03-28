@@ -1,10 +1,19 @@
 #pragma once
 
-#include <glm/glm.hpp>
-
 #include "cs488-framework/CS488Window.hpp"
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
+#include "Camera.hpp"
+#include "Geometry.hpp"
+#include "ShaderHandler.hpp"
+
+#include <glm/glm.hpp>
+#include <memory>
+#include <vector>
+
+namespace window_constants {
+    static const float DEFAULT_FOVY = 45.0f;
+}
 
 class Window : public CS488Window {
 public:
@@ -26,21 +35,19 @@ protected:
     bool keyInputEvent(int key, int action, int mods) override;
 
 private:
+    void initBackgroundColor();
+    void initShaderHandler();
     void initFloor();
     void initProjectionMatrix();
-    void initViewMatrix();
+    void initCamera();
 
-    void uploadCommonSceneUniforms();
-
-    // Fields related to the shader and uniforms.
-    ShaderProgram m_shader;
-    // GLint P_uni; // Uniform location for Projection matrix.
-    // GLint V_uni; // Uniform location for View matrix.
-    // GLint M_uni; // Uniform location for Model matrix.
+    std::shared_ptr<ShaderHandler> m_shader_handler;
 
     glm::mat4 m_projection;
-    glm::mat4 m_view;
+    // glm::mat4 m_view;
     glm::mat4 m_model;
+
+    Camera m_cam;
 
     // Fields related to grid geometry.
     GLuint m_grid_vao; // Vertex Array Object
@@ -50,7 +57,5 @@ private:
     glm::mat4 proj;
     glm::mat4 view;
 
-    // TODO DELETEME
-    // float colour[3];
-    // int current_col;
+    std::vector<std::shared_ptr<Geometry>> m_geos;
 };
