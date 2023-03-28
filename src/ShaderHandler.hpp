@@ -9,6 +9,7 @@
 class ShaderHandler {
 public:
     ShaderHandler();
+    ~ShaderHandler();
 
     GLint getPositionAttribute() const;
 
