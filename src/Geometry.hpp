@@ -13,5 +13,6 @@ protected:
 
     GLuint m_vao;
     GLuint m_vbo;
+    GLuint m_ebo;
 };
 

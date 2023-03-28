@@ -16,25 +16,22 @@ Floor::~Floor() {}
 void Floor::draw() {
     glBindVertexArray(m_vao);
     m_shader_handler->uploadColorUniform(glm::vec3(1.0f, 1.0f, 1.0f)); // TODO change to texture
-    glDrawArrays(GL_TRIANGLES, 0, floor_constants::NUM_VERTICES);
+    glDrawElements(GL_TRIANGLES, floor_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
 }
 
 void Floor::init() {
+    using namespace floor_constants;
+
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
-    const float verts[] = {
-        // x, y, z, right hand coordinate system
-        -1.0f, -1.0f, -1.0f,  // back left
-        -1.0f, -1.0f, 1.0f,   // front left
-        1.0f, -1.0f, 1.0f,    // front right
-        1.0f, -1.0f, -1.0f,   // back right
-    };
-
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    // glBufferData(GL_ARRAY_BUFFER, sizeof(floor_constants::VERTICES), floor_constants::VERTICES, GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
+
+    glGenBuffers(1, &m_ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VERTICES_INDEXES), VERTICES_INDEXES, GL_STATIC_DRAW);
 
     GLint position_attribute = m_shader_handler->getPositionAttribute();
     glEnableVertexAttribArray(position_attribute);
