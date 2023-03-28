@@ -4,6 +4,7 @@
 
 class Camera {
 public:
+    Camera();
     Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up);
     ~Camera();
 

@@ -11,9 +11,10 @@ public:
 
     virtual void draw(const std::shared_ptr<ShaderHandler> & shader_handler) = 0;
 
-private:
+protected:
     virtual void init() = 0;
 
     GLuint m_vao;
     GLuint m_vbo;
-}
+};
+

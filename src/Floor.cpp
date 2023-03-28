@@ -8,9 +8,9 @@ Floor::Floor() {
 
 Floor::~Floor() {}
 
-void Floor:draw(const std::shared_ptr<ShaderHandler> & shader_handler) {
+void Floor::draw(const std::shared_ptr<ShaderHandler> & shader_handler) {
     if (shader_handler == nullptr) {
-        throw std::runtime_error();
+        throw std::runtime_error("Shader handler must not be null");
     }
 
     glBindVertexArray(m_vao);

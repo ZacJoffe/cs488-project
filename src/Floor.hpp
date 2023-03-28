@@ -23,8 +23,9 @@ public:
     Floor();
     ~Floor() override;
 
-    void draw(const std::shared_ptr<ShaderHandler> & shader_handler) override();
+    void draw(const std::shared_ptr<ShaderHandler> & shader_handler) override;
 
 private:
     void init() override;
-}
+};
+

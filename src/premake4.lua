@@ -50,7 +50,7 @@ buildOptions = {"-std=c++17"}
 solution "CS488-Projects"
     configurations { "Debug", "Release" }
 
-    project "A1"
+    project "fps"
         kind "ConsoleApp"
         language "C++"
         location "build"
