@@ -3,14 +3,11 @@
 #include <iostream>
 #include <utility>
 
-InputHandler::InputHandler() {}
+InputHandler::InputHandler(float window_width, float window_height) :
+    m_prev_cursor_pos(window_width / 2.0f, window_height / 2.0f) {}
 
 void InputHandler::setCamera(const std::shared_ptr<Camera> & camera) {
     m_camera = camera;
-}
-
-void InputHandler::setInitialCursorPosition(const std::pair<float, float> & cursor_pos) {
-    m_prev_cursor_pos = cursor_pos;
 }
 
 void InputHandler::pressKey(int key) {

@@ -13,7 +13,7 @@
 using namespace window_constants;
 
 Window::Window() :
-    m_first_mouse_move(true) {}
+    m_input_handler(m_windowHeight, m_windowWidth) {}
 
 Window::~Window() {}
 
@@ -139,13 +139,7 @@ bool Window::cursorEnterWindowEvent(int entered) {
 bool Window::mouseMoveEvent(double xPos, double yPos) {
     float x_pos = static_cast<float>(xPos);
     float y_pos = static_cast<float>(yPos);
-
-    if (m_first_mouse_move) {
-        m_input_handler.setInitialCursorPosition(std::make_pair(x_pos, y_pos));
-        m_first_mouse_move = false;
-    } else {
-        m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
-    }
+    m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
 
     // this value is not used by the caller in the cs488 framework
     return false;

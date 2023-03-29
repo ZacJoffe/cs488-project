@@ -9,10 +9,9 @@
 
 class InputHandler {
 public:
-    InputHandler();
+    InputHandler(float window_width, float window_height);
 
     void setCamera(const std::shared_ptr<Camera> & camera);
-    void setInitialCursorPosition(const std::pair<float, float> & cursor_pos);
 
     void pressKey(int key);
     void releaseKey(int key);
