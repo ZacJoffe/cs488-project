@@ -38,22 +38,23 @@ void Camera::updateDirection(float dx, float dy) {
 
 void Camera::move(MovementDirection direction) {
     const float speed = 0.05f;
+    const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
+    const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
+
     switch (direction) {
         case MovementDirection::forward: {
-            m_pos += speed * m_front;
+            m_pos += speed * forward_axis;
             break;
         }
         case MovementDirection::backward: {
-            m_pos -= speed * m_front;
+            m_pos -= speed * forward_axis;
             break;
         }
         case MovementDirection::left: {
-            glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
             m_pos -= speed * right_axis;
             break;
         }
         case MovementDirection::right: {
-            glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
             m_pos += speed * right_axis;
             break;
         }
