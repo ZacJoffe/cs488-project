@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include "Camera.hpp"
+#include "GLFW/glfw3.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "Floor.hpp"
 
@@ -139,17 +140,16 @@ bool Window::windowResizeEvent(int width, int height) {
 }
 
 bool Window::keyInputEvent(int key, int action, int mods) {
-    switch (action) {
-        case GLFW_PRESS: {
-            m_key_input_handler.pressKey(key);
-            break;
+    if (action == GLFW_PRESS) {
+        if (key == GLFW_KEY_ESCAPE) {
+            std::cout << "quitting game..." << std::endl;
+            glfwSetWindowShouldClose(m_window, GL_TRUE);
+            return true;
         }
-        case GLFW_RELEASE: {
-            m_key_input_handler.releaseKey(key);
-            break;
-        }
-        default:
-            break;
+
+        m_key_input_handler.pressKey(key);
+    } else if (action == GLFW_RELEASE) {
+        m_key_input_handler.releaseKey(key);
     }
 
     return true;
