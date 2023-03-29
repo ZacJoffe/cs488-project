@@ -50,7 +50,7 @@ void Window::initProjectionMatrix() {
 }
 
 void Window::initCamera() {
-    m_cam = Camera(
+    m_camera = Camera(
         // glm::vec3(0.0f, 1.0f, 1.0f),
         // glm::vec3(0.0f, 0.0f, 0.0f),
         // glm::vec3(0.0f, 1.0f, 0.0f)
@@ -60,7 +60,9 @@ void Window::initCamera() {
     );
 }
 
-void Window::appLogic() {}
+void Window::appLogic() {
+    m_key_input_handler.performAction(m_camera);
+}
 
 void Window::guiLogic() {}
 
@@ -74,7 +76,7 @@ void Window::draw()
 
 
     m_shader_handler->uploadProjectionUniform(m_projection);
-    m_shader_handler->uploadViewUniform(m_cam.getView());
+    m_shader_handler->uploadViewUniform(m_camera.getView());
     m_shader_handler->uploadModelUniform(m_model);
 
     for (const auto geo : m_geos) {
@@ -137,30 +139,18 @@ bool Window::windowResizeEvent(int width, int height) {
 }
 
 bool Window::keyInputEvent(int key, int action, int mods) {
-    if (action == GLFW_PRESS) {
-        switch (key) {
-            case GLFW_KEY_W: {
-                std::cout << "w key pressed" << std::endl;
-                m_cam.move(MovementDirection::forward);
-                return true;
-            }
-            case GLFW_KEY_S: {
-                std::cout << "s key pressed" << std::endl;
-                m_cam.move(MovementDirection::backward);
-                return true;
-            }
-            case GLFW_KEY_A: {
-                std::cout << "a key pressed" << std::endl;
-                m_cam.move(MovementDirection::left);
-                return true;
-            }
-            case GLFW_KEY_D: {
-                std::cout << "d key pressed" << std::endl;
-                m_cam.move(MovementDirection::right);
-                return true;
-            }
+    switch (action) {
+        case GLFW_PRESS: {
+            m_key_input_handler.pressKey(key);
+            break;
         }
+        case GLFW_RELEASE: {
+            m_key_input_handler.releaseKey(key);
+            break;
+        }
+        default:
+            break;
     }
 
-    return false;
+    return true;
 }

@@ -18,7 +18,7 @@ glm::mat4 Camera::getView() const {
 }
 
 void Camera::move(MovementDirection direction) {
-    const float speed = 0.5f;
+    const float speed = 0.05f;
     switch (direction) {
         case MovementDirection::forward: {
             m_pos += speed * m_front;
