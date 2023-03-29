@@ -34,12 +34,8 @@ end
 if not os.isfile("lib/liblua.a") then
     os.chdir("shared/lua-5.3.1")
 
-    if PLATFORM == "macosx" then
-        os.execute("make macosx")
-    elseif PLATFORM == "linux" then
+    if PLATFORM == "linux" then
         os.execute("make linux")
-    elseif PLATFORM == "windows" then
-        os.execute("make mingw")
     end
 
     os.chdir("../../")
