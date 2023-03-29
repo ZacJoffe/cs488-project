@@ -61,4 +61,6 @@ private:
     glm::mat4 view;
 
     std::vector<std::shared_ptr<Geometry>> m_geos;
+
+    bool m_first_mouse_move;
 };
