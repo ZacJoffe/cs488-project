@@ -25,6 +25,10 @@ void Window::init() {
     initProjectionMatrix();
 
     m_model = glm::mat4(1.0f);
+
+    // DELETEME after doing the ui objective
+    // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // std::cout << glfwGetInputMode(m_window, GLFW_CURSOR) << std::endl;
 }
 
 void Window::initBackgroundColor() {
@@ -70,7 +74,11 @@ void Window::appLogic() {
     m_input_handler.performActions();
 }
 
-void Window::guiLogic() {}
+void Window::guiLogic() {
+    // DELETEME after doing the ui objective
+    // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // std::cout << glfwGetInputMode(m_window, GLFW_CURSOR) << std::endl;
+}
 
 void Window::draw()
 {
@@ -133,7 +141,7 @@ bool Window::mouseMoveEvent(double xPos, double yPos) {
     float y_pos = static_cast<float>(yPos);
     m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
 
-    // this value is by the caller in the cs488 framework
+    // this value is not used by the caller in the cs488 framework
     return false;
 }
 

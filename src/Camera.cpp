@@ -30,9 +30,9 @@ void Camera::updateDirection(float dx, float dy) {
 
     m_front = glm::normalize(
         glm::vec3(
-            glm::cos(glm::radians(m_yaw) * glm::cos(glm::radians(m_pitch))),
+            glm::cos(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch)),
             glm::sin(glm::radians(m_pitch)),
-            glm::sin(glm::radians(m_yaw) * glm::cos(glm::radians(m_pitch)))
+            glm::sin(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch))
         ));
 }
 
