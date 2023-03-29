@@ -5,7 +5,7 @@
 *.o
 compile_commands.json
 
-Makefile
+/Makefile
 /build
 /lib
 
