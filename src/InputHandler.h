@@ -6,9 +6,9 @@
 #include <memory>
 #include <unordered_map>
 
-class KeyInputHandler {
+class InputHandler {
 public:
-    KeyInputHandler();
+    InputHandler();
 
     void pressKey(int key);
     void releaseKey(int key);

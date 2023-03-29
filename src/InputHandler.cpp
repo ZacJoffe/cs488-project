@@ -1,18 +1,18 @@
-#include "KeyInputHandler.h"
+#include "InputHandler.h"
 
 #include <iostream>
 
-KeyInputHandler::KeyInputHandler() {}
+InputHandler::InputHandler() {}
 
-void KeyInputHandler::pressKey(int key) {
+void InputHandler::pressKey(int key) {
     setKeyHelper(key, true);
 }
 
-void KeyInputHandler::releaseKey(int key) {
+void InputHandler::releaseKey(int key) {
     setKeyHelper(key, false);
 }
 
-void KeyInputHandler::performAction(Camera & camera) {
+void InputHandler::performAction(Camera & camera) {
     // NOTE this works since a kvp that doesn't exist will be inserted with a
     // default value of false when using operator[]
     if (m_key_states[Key::W]) {
@@ -30,7 +30,7 @@ void KeyInputHandler::performAction(Camera & camera) {
 }
 
 
-void KeyInputHandler::setKeyHelper(int key, bool action) {
+void InputHandler::setKeyHelper(int key, bool action) {
     switch (key) {
         case GLFW_KEY_W: {
             if (action) {

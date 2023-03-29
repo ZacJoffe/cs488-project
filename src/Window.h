@@ -5,7 +5,7 @@
 #include "cs488-framework/ShaderProgram.hpp"
 #include "Camera.h"
 #include "Geometry.h"
-#include "KeyInputHandler.h"
+#include "InputHandler.h"
 #include "ShaderHandler.h"
 
 #include <glm/glm.hpp>
@@ -50,7 +50,7 @@ private:
 
     Camera m_camera;
 
-    KeyInputHandler m_key_input_handler;
+    InputHandler m_input_handler;
 
     // Fields related to grid geometry.
     GLuint m_grid_vao; // Vertex Array Object

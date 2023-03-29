@@ -62,7 +62,7 @@ void Window::initCamera() {
 }
 
 void Window::appLogic() {
-    m_key_input_handler.performAction(m_camera);
+    m_input_handler.performAction(m_camera);
 }
 
 void Window::guiLogic() {}
@@ -147,9 +147,9 @@ bool Window::keyInputEvent(int key, int action, int mods) {
             return true;
         }
 
-        m_key_input_handler.pressKey(key);
+        m_input_handler.pressKey(key);
     } else if (action == GLFW_RELEASE) {
-        m_key_input_handler.releaseKey(key);
+        m_input_handler.releaseKey(key);
     }
 
     return true;
