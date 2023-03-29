@@ -8,10 +8,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 // #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <utility>
 
 using namespace window_constants;
 
-Window::Window() {}
+Window::Window() :
+    m_input_handler(m_windowHeight, m_windowWidth) {}
+
 Window::~Window() {}
 
 void Window::init() {
@@ -51,7 +54,7 @@ void Window::initProjectionMatrix() {
 }
 
 void Window::initCamera() {
-    m_camera = Camera(
+    m_camera = std::make_shared<Camera>(
         // glm::vec3(0.0f, 1.0f, 1.0f),
         // glm::vec3(0.0f, 0.0f, 0.0f),
         // glm::vec3(0.0f, 1.0f, 0.0f)
@@ -59,10 +62,12 @@ void Window::initCamera() {
         glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
+
+    m_input_handler.setCamera(m_camera);
 }
 
 void Window::appLogic() {
-    m_input_handler.performAction(m_camera);
+    m_input_handler.performActions();
 }
 
 void Window::guiLogic() {}
@@ -77,7 +82,7 @@ void Window::draw()
 
 
     m_shader_handler->uploadProjectionUniform(m_projection);
-    m_shader_handler->uploadViewUniform(m_camera.getView());
+    m_shader_handler->uploadViewUniform(m_camera->getView());
     m_shader_handler->uploadModelUniform(m_model);
 
     for (const auto geo : m_geos) {
@@ -124,6 +129,11 @@ bool Window::cursorEnterWindowEvent(int entered) {
 }
 
 bool Window::mouseMoveEvent(double xPos, double yPos) {
+    float x_pos = static_cast<float>(xPos);
+    float y_pos = static_cast<float>(yPos);
+    m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
+
+    // this value is by the caller in the cs488 framework
     return false;
 }
 

@@ -2,10 +2,14 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera() {}
+using namespace camera_constants;
+
+Camera::Camera() :
+    m_yaw(DEFAULT_YAW),
+    m_pitch(DEFAULT_PITCH) {}
 
 Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up) :
-    m_pos(pos), m_front(front), m_up(up) {}
+    m_pos(pos), m_front(front), m_up(up), m_yaw(DEFAULT_YAW), m_pitch(DEFAULT_PITCH) {}
 
 Camera::~Camera() {}
 
@@ -15,6 +19,21 @@ glm::mat4 Camera::getView() const {
         m_pos + m_front,
         m_up
     );
+}
+
+void Camera::updateDirection(float dx, float dy) {
+    m_yaw += dx;
+    m_pitch += dy;
+
+    // TODO uncomment
+    // glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
+
+    m_front = glm::normalize(
+        glm::vec3(
+            glm::cos(glm::radians(m_yaw) * glm::cos(glm::radians(m_pitch))),
+            glm::sin(glm::radians(m_pitch)),
+            glm::sin(glm::radians(m_yaw) * glm::cos(glm::radians(m_pitch)))
+        ));
 }
 
 void Camera::move(MovementDirection direction) {

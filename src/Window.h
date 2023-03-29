@@ -48,7 +48,7 @@ private:
     // glm::mat4 m_view;
     glm::mat4 m_model;
 
-    Camera m_camera;
+    std::shared_ptr<Camera> m_camera;
 
     InputHandler m_input_handler;
 
