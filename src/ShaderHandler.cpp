@@ -13,8 +13,8 @@ ShaderHandler::~ShaderHandler() {
 void ShaderHandler::init() {
     // build shaders
     m_shader.generateProgramObject();
-    m_shader.attachVertexShader("./Assets/VertexShader.vs");
-    m_shader.attachFragmentShader("./Assets/FragmentShader.fs");
+    m_shader.attachVertexShader("./assets/VertexShader.vs");
+    m_shader.attachFragmentShader("./assets/FragmentShader.fs");
     m_shader.link();
 
     m_projection_uni = m_shader.getUniformLocation("projection");

@@ -7,6 +7,10 @@ includeDirList = {
     "shared/include"
 }
 
+libDirectories = {
+    "lib"
+}
+
 buildOptions = {"-std=c++17"}
 
 -- Get the current OS platform
@@ -41,6 +45,22 @@ if not os.isfile("lib/liblua.a") then
     os.chdir("../../")
     os.execute("cp shared/lua-5.3.1/src/liblua.a lib/")
 end
+
+linkLibs = {
+    "cs488-framework",
+    "imgui",
+    "glfw3",
+    "GL",
+    "Xinerama",
+    "Xcursor",
+    "Xxf86vm",
+    "Xi",
+    "Xrandr",
+    "X11",
+    "stdc++",
+    "dl",
+    "pthread"
+}
 
 
 solution "BuildStaticLibs"
@@ -77,7 +97,7 @@ solution "BuildStaticLibs"
             "shared/imgui/examples/opengl3_example",
             "shared/imgui/examples/libs/gl3w/",
         }
-        files { 
+        files {
             "shared/imgui/*.cpp",
             "shared/gl3w/GL/gl3w.c"
         }
@@ -93,6 +113,19 @@ solution "BuildStaticLibs"
         includedirs {
             "shared/lodepng"
         }
-        files { 
+        files {
             "shared/lodepng/lodepng.cpp"
         }
+
+    project "fps"
+        kind "ConsoleApp"
+        language "C++"
+        location "build"
+        objdir "build"
+        targetdir "."
+        buildoptions (buildOptions)
+        libdirs (libDirectories)
+        links (linkLibs)
+        linkoptions (linkOptionList)
+        includedirs (includeDirList)
+        files { "src/*.cpp" }
