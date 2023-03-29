@@ -1,4 +1,4 @@
-#include "KeyInputHandler.hpp"
+#include "KeyInputHandler.h"
 
 #include <iostream>
 

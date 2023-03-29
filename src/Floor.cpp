@@ -1,4 +1,4 @@
-#include "Floor.hpp"
+#include "Floor.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 
 #include <stdexcept>

@@ -1,8 +1,8 @@
-#include "Window.hpp"
-#include "Camera.hpp"
+#include "Window.h"
+#include "Camera.h"
 #include "GLFW/glfw3.h"
 #include "cs488-framework/GlErrorCheck.hpp"
-#include "Floor.hpp"
+#include "Floor.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

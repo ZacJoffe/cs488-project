@@ -3,10 +3,10 @@
 #include "cs488-framework/CS488Window.hpp"
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
-#include "Camera.hpp"
-#include "Geometry.hpp"
-#include "KeyInputHandler.hpp"
-#include "ShaderHandler.hpp"
+#include "Camera.h"
+#include "Geometry.h"
+#include "KeyInputHandler.h"
+#include "ShaderHandler.h"
 
 #include <glm/glm.hpp>
 #include <memory>

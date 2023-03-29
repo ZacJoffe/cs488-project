@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
-#include "Camera.hpp"
+#include "Camera.h"
 
 #include <memory>
 #include <unordered_map>

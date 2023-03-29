@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Geometry.hpp"
-#include "ShaderHandler.hpp"
+#include "Geometry.h"
+#include "ShaderHandler.h"
 
 #include <memory>
 
