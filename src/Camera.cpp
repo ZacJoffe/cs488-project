@@ -9,7 +9,13 @@ Camera::Camera() :
     m_pitch(DEFAULT_PITCH) {}
 
 Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up) :
-    m_pos(pos), m_front(front), m_up(up), m_yaw(DEFAULT_YAW), m_pitch(DEFAULT_PITCH) {}
+    m_pos(pos),
+    m_front(front),
+    m_up(up),
+    m_yaw(DEFAULT_YAW),
+    m_pitch(DEFAULT_PITCH),
+    m_prev_direction(MovementDirection::forward),
+    m_speed(0.0f) {}
 
 Camera::~Camera() {}
 
@@ -37,7 +43,7 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
-    const float speed = 2.5f * delta_time;
+    const float speed = m_speed * delta_time;
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
 
@@ -80,6 +86,12 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
                 break;
             }
         }
+
+        if (m_speed < MAX_SPEED) {
+            m_speed += ACCELERATION * delta_time;
+        }
+
+        m_prev_direction = *direction;
     } else {
         // no keys are being pressed, slow player down to stop if they are moving
     }

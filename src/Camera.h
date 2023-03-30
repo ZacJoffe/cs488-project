@@ -10,6 +10,9 @@ namespace camera_constants {
 
     static const float MIN_PITCH = -89.0f;
     static const float MAX_PITCH = +89.0f;
+
+    static const float ACCELERATION = 100.0f; // TODO tweak this value
+    static const float MAX_SPEED = 5.0f;
 }
 
 // 8-directional movement
@@ -44,4 +47,7 @@ private:
 
     float m_yaw;
     float m_pitch;
+
+    MovementDirection m_prev_direction;
+    float m_speed;
 };
