@@ -11,7 +11,8 @@ namespace camera_constants {
     static const float MIN_PITCH = -89.0f;
     static const float MAX_PITCH = +89.0f;
 
-    static const float ACCELERATION = 100.0f; // TODO tweak this value
+    // TODO change this for the demo?
+    static const float ACCELERATION = 50.0f;
     static const float MAX_SPEED = 5.0f;
     static const float MIN_SPEED = 0.0f;
 }
