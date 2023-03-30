@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace window_constants {
-    static const float DEFAULT_FOVY = 45.0f;
+    static const float DEFAULT_FOVY = 60.0f;
 }
 
 class Window : public CS488Window {

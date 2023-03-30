@@ -4,7 +4,7 @@
 
 namespace camera_constants {
     static const float DEFAULT_YAW = -90.0f;
-    static const float DEFAULT_PITCH = 0.0f;
+    static const float DEFAULT_PITCH = 0.0f; // TODO figure out bug with starting camera position
     static const float SENSITIVITY = 0.1f;
 
     static const float MIN_PITCH = -89.0f;

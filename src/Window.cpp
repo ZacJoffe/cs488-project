@@ -44,10 +44,10 @@ void Window::initFloor() {
 }
 
 void Window::initProjectionMatrix() {
-    float aspect = static_cast<float>(m_framebufferWidth) / static_cast<float>(m_framebufferHeight);
+    const float aspect = static_cast<float>(m_framebufferWidth) / static_cast<float>(m_framebufferHeight);
     // TODO these values probably need tweaking (including fovy)
-    float near_plane = 1.0f;
-    float far_plane = 100.0f;
+    const float near_plane = 1.0f;
+    const float far_plane = 100.0f;
 
     m_projection = glm::perspective(
         glm::radians(DEFAULT_FOVY),
@@ -139,6 +139,7 @@ bool Window::cursorEnterWindowEvent(int entered) {
 bool Window::mouseMoveEvent(double xPos, double yPos) {
     float x_pos = static_cast<float>(xPos);
     float y_pos = static_cast<float>(yPos);
+    // std::cout << x_pos << ", " << y_pos << std::endl;
     m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
 
     // this value is not used by the caller in the cs488 framework
