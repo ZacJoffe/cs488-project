@@ -15,6 +15,9 @@ namespace camera_constants {
     static const float ACCELERATION = 50.0f;
     static const float MAX_SPEED = 5.0f;
     static const float MIN_SPEED = 0.0f;
+
+    static const float INITIAL_JUMP_VELOCITY = 5.0f;
+    static const float GRAVITY = -10.0f;
 }
 
 // 8-directional movement
@@ -41,6 +44,7 @@ public:
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
     void move(std::optional<MovementDirection> direction, float delta_time);
+    void initiateJump();
 
 private:
     glm::vec3 m_pos;
@@ -51,5 +55,8 @@ private:
     float m_pitch;
 
     MovementDirection m_prev_direction;
-    float m_speed;
+    float m_speed_xz;
+
+    float m_velocity_y;
+    bool m_jumping;
 };

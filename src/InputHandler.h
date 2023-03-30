@@ -26,9 +26,10 @@ private:
         S = GLFW_KEY_S,
         A = GLFW_KEY_A,
         D = GLFW_KEY_D,
+        Space = GLFW_KEY_SPACE,
     };
 
-    void setKeyHelper(int key, bool action);
+    void setKeyHelper(int key, bool is_pressed);
 
     std::shared_ptr<Camera> m_camera;
     std::unordered_map<Key, bool> m_key_states;

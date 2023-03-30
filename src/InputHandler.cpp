@@ -1,5 +1,6 @@
 #include "InputHandler.h"
 #include "Camera.h"
+#include "GLFW/glfw3.h"
 
 #include <iostream>
 #include <optional>
@@ -21,6 +22,10 @@ void InputHandler::releaseKey(int key) {
 }
 
 void InputHandler::performActions(float delta_time) {
+    if (m_key_states[Key::Space]) {
+        m_camera->initiateJump();
+    }
+
     std::optional<MovementDirection> direction = {};
 
     // NOTE this works since a kvp that doesn't exist will be inserted with a
@@ -59,42 +64,51 @@ void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
     m_camera->updateDirection(dx, dy);
 }
 
-void InputHandler::setKeyHelper(int key, bool action) {
+void InputHandler::setKeyHelper(int key, bool is_pressed) {
     switch (key) {
         case GLFW_KEY_W: {
-            if (action) {
+            if (is_pressed) {
                 std::cout << "w key pressed" << std::endl;
             } else {
                 std::cout << "w key released" << std::endl;
             }
-            m_key_states[Key::W] = action;
+            m_key_states[Key::W] = is_pressed;
             return;
         }
         case GLFW_KEY_S: {
-            if (action) {
+            if (is_pressed) {
                 std::cout << "s key pressed" << std::endl;
             } else {
                 std::cout << "s key released" << std::endl;
             }
-            m_key_states[Key::S] = action;
+            m_key_states[Key::S] = is_pressed;
             return;
         }
         case GLFW_KEY_A: {
-            if (action) {
+            if (is_pressed) {
                 std::cout << "a key pressed" << std::endl;
             } else {
                 std::cout << "a key released" << std::endl;
             }
-            m_key_states[Key::A] = action;
+            m_key_states[Key::A] = is_pressed;
             return;
         }
         case GLFW_KEY_D: {
-            if (action) {
+            if (is_pressed) {
                 std::cout << "d key pressed" << std::endl;
             } else {
                 std::cout << "d key released" << std::endl;
             }
-            m_key_states[Key::D] = action;
+            m_key_states[Key::D] = is_pressed;
+            return;
+        }
+        case GLFW_KEY_SPACE: {
+            if (is_pressed) {
+                std::cout << "space key pressed" << std::endl;
+            } else {
+                std::cout << "space key released" << std::endl;
+            }
+            m_key_states[Key::Space] = is_pressed;
             return;
         }
     }
