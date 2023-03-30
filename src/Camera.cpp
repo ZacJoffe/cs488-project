@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdexcept>
+// #include "glm/gtx/string_cast.hpp"
+// #include <iostream>
 
 using namespace camera_constants;
 
@@ -46,6 +48,8 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
+    // std::cout << glm::to_string(m_pos) << std::endl;
+
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
     const glm::vec3 forward_right_axis = glm::normalize(forward_axis + right_axis);
@@ -113,6 +117,7 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
     }
 
     if (m_jumping) {
+        // approximate integral in movement equation with semi-implicit euler integrator
         m_velocity_y += GRAVITY * delta_time;
         m_pos.y += m_velocity_y * delta_time;
 

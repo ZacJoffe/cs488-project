@@ -57,6 +57,8 @@ private:
     MovementDirection m_prev_direction;
     float m_speed_xz;
 
+    // jumping physics is 1D, therefore we can represent vectors as floats where
+    // the direction is represented with their signs
     float m_velocity_y;
     bool m_jumping;
 };
