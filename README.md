@@ -11,3 +11,11 @@ Run the binary in the root directory (or else assets will fail to load):
 $ ./fps
 ```
 
+
+### Libs
+- stb image loader - https://github.com/nothings/stb/blob/master/stb_image.h
+  - MIT
+
+### Assets
+- textures - https://opengameart.org/content/tileable-grass-textures-set-1
+  - CC0 1.0 Universal
