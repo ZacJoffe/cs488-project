@@ -36,8 +36,8 @@ void Camera::updateDirection(float dx, float dy) {
     m_yaw += dx;
     m_pitch += dy;
 
-    // TODO uncomment
-    // glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
+    // std::cout << m_pitch << std::endl;
+    m_pitch = glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
 
     m_front = glm::normalize(
         glm::vec3(

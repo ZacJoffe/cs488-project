@@ -8,10 +8,11 @@ namespace camera_constants {
     static const float DEFAULT_PITCH = 0.0f; // TODO figure out bug with starting camera position
     static const float SENSITIVITY = 0.1f;
 
-    static const float MIN_PITCH = -89.0f;
-    static const float MAX_PITCH = +89.0f;
+    static const float MIN_PITCH = -80.0f;
+    static const float MAX_PITCH = 80.0f;
 
     // TODO change this for the demo?
+    // TODO put in physics namespace?
     static const float ACCELERATION = 50.0f;
     static const float MAX_SPEED = 5.0f;
     static const float MIN_SPEED = 0.0f;
