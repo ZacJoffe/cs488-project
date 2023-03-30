@@ -1,6 +1,8 @@
 #include "InputHandler.h"
+#include "Camera.h"
 
 #include <iostream>
+#include <optional>
 #include <utility>
 
 InputHandler::InputHandler(float window_width, float window_height) :
@@ -19,20 +21,33 @@ void InputHandler::releaseKey(int key) {
 }
 
 void InputHandler::performActions(float delta_time) {
+    std::optional<MovementDirection> direction = {};
+
     // NOTE this works since a kvp that doesn't exist will be inserted with a
     // default value of false when using operator[]
     if (m_key_states[Key::W]) {
-        m_camera->move(MovementDirection::forward, delta_time);
+        if (m_key_states[Key::A]) {
+            direction = MovementDirection::forward_left;
+        } else if (m_key_states[Key::D]) {
+            direction = MovementDirection::forward_right;
+        } else {
+            direction = MovementDirection::forward;
+        }
+    } else if (m_key_states[Key::S]) {
+        if (m_key_states[Key::A]) {
+            direction = MovementDirection::back_left;
+        } else if (m_key_states[Key::D]) {
+            direction = MovementDirection::back_right;
+        } else {
+            direction = MovementDirection::back;
+        }
+    } else if (m_key_states[Key::A]) {
+        direction = MovementDirection::left;
+    } else if (m_key_states[Key::D]) {
+        direction = MovementDirection::right;
     }
-    if (m_key_states[Key::S]) {
-        m_camera->move(MovementDirection::backward, delta_time);
-    }
-    if (m_key_states[Key::A]) {
-        m_camera->move(MovementDirection::left, delta_time);
-    }
-    if (m_key_states[Key::D]) {
-        m_camera->move(MovementDirection::right, delta_time);
-    }
+
+    m_camera->move(direction, delta_time);
 }
 
 

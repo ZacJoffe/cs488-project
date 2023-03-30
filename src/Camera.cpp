@@ -36,27 +36,51 @@ void Camera::updateDirection(float dx, float dy) {
         ));
 }
 
-void Camera::move(MovementDirection direction, float delta_time) {
+void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
     const float speed = 2.5f * delta_time;
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
 
-    switch (direction) {
-        case MovementDirection::forward: {
-            m_pos += speed * forward_axis;
-            break;
+    if (direction) {
+        switch (*direction) {
+            case MovementDirection::forward: {
+                m_pos += speed * forward_axis;
+                break;
+            }
+            case MovementDirection::forward_right: {
+                m_pos += speed * forward_axis;
+                m_pos += speed * right_axis;
+                break;
+            }
+            case MovementDirection::right: {
+                m_pos += speed * right_axis;
+                break;
+            }
+            case MovementDirection::back_right: {
+                m_pos -= speed * forward_axis;
+                m_pos += speed * right_axis;
+                break;
+            }
+            case MovementDirection::back: {
+                m_pos -= speed * forward_axis;
+                break;
+            }
+            case MovementDirection::back_left: {
+                m_pos -= speed * forward_axis;
+                m_pos -= speed * right_axis;
+                break;
+            }
+            case MovementDirection::left: {
+                m_pos -= speed * right_axis;
+                break;
+            }
+            case MovementDirection::forward_left: {
+                m_pos += speed * forward_axis;
+                m_pos -= speed * right_axis;
+                break;
+            }
         }
-        case MovementDirection::backward: {
-            m_pos -= speed * forward_axis;
-            break;
-        }
-        case MovementDirection::left: {
-            m_pos -= speed * right_axis;
-            break;
-        }
-        case MovementDirection::right: {
-            m_pos += speed * right_axis;
-            break;
-        }
+    } else {
+        // no keys are being pressed, slow player down to stop if they are moving
     }
 }

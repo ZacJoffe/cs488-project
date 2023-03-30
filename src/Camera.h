@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <optional>
 
 namespace camera_constants {
     static const float DEFAULT_YAW = -90.0f;
@@ -11,11 +12,16 @@ namespace camera_constants {
     static const float MAX_PITCH = +89.0f;
 }
 
+// 8-directional movement
 enum class MovementDirection {
     forward,
-    backward,
-    left,
+    forward_right,
     right,
+    back_right,
+    back,
+    back_left,
+    left,
+    forward_left,
 };
 
 class Camera {
@@ -29,7 +35,7 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(MovementDirection direction, float delta_time);
+    void move(std::optional<MovementDirection> direction, float delta_time);
 
 private:
     glm::vec3 m_pos;
