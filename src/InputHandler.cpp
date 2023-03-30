@@ -18,20 +18,20 @@ void InputHandler::releaseKey(int key) {
     setKeyHelper(key, false);
 }
 
-void InputHandler::performActions() {
+void InputHandler::performActions(float delta_time) {
     // NOTE this works since a kvp that doesn't exist will be inserted with a
     // default value of false when using operator[]
     if (m_key_states[Key::W]) {
-        m_camera->move(MovementDirection::forward);
+        m_camera->move(MovementDirection::forward, delta_time);
     }
     if (m_key_states[Key::S]) {
-        m_camera->move(MovementDirection::backward);
+        m_camera->move(MovementDirection::backward, delta_time);
     }
     if (m_key_states[Key::A]) {
-        m_camera->move(MovementDirection::left);
+        m_camera->move(MovementDirection::left, delta_time);
     }
     if (m_key_states[Key::D]) {
-        m_camera->move(MovementDirection::right);
+        m_camera->move(MovementDirection::right, delta_time);
     }
 }
 

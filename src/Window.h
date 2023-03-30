@@ -43,6 +43,8 @@ private:
     void initProjectionMatrix();
     void initCamera();
 
+    void calculateDeltaTime();
+
     std::shared_ptr<ShaderHandler> m_shader_handler;
 
     glm::mat4 m_projection;
@@ -63,4 +65,7 @@ private:
 
     // std::vector<std::shared_ptr<Geometry>> m_geos;
     std::shared_ptr<Floor> m_floor;
+
+    float m_delta_time;
+    float m_last_frame_time;
 };

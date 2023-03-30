@@ -13,7 +13,7 @@
 using namespace window_constants;
 
 Window::Window() :
-    m_input_handler(m_windowHeight, m_windowWidth) {}
+    m_input_handler(m_windowHeight, m_windowWidth), m_delta_time(0.0f), m_last_frame_time(0.0f) {}
 
 Window::~Window() {}
 
@@ -71,8 +71,17 @@ void Window::initCamera() {
     m_input_handler.setCamera(m_camera);
 }
 
+
+void Window::calculateDeltaTime() {
+    const float current_frame_time = glfwGetTime();
+    m_delta_time = current_frame_time - m_last_frame_time;
+    m_last_frame_time = current_frame_time;
+}
+
 void Window::appLogic() {
-    m_input_handler.performActions();
+    calculateDeltaTime();
+
+    m_input_handler.performActions(m_delta_time);
 }
 
 void Window::guiLogic() {

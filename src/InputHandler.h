@@ -16,7 +16,7 @@ public:
     void pressKey(int key);
     void releaseKey(int key);
 
-    void performActions();
+    void performActions(float delta_time);
 
     void updateCursorPos(const std::pair<float, float> & cursor_pos);
 

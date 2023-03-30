@@ -36,8 +36,8 @@ void Camera::updateDirection(float dx, float dy) {
         ));
 }
 
-void Camera::move(MovementDirection direction) {
-    const float speed = 0.05f;
+void Camera::move(MovementDirection direction, float delta_time) {
+    const float speed = 2.5f * delta_time;
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
 

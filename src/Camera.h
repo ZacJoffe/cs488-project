@@ -29,7 +29,7 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(MovementDirection direction);
+    void move(MovementDirection direction, float delta_time);
 
 private:
     glm::vec3 m_pos;
