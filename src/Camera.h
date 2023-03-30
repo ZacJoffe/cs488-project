@@ -13,6 +13,7 @@ namespace camera_constants {
 
     static const float ACCELERATION = 100.0f; // TODO tweak this value
     static const float MAX_SPEED = 5.0f;
+    static const float MIN_SPEED = 0.0f;
 }
 
 // 8-directional movement
