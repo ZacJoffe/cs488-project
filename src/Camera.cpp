@@ -85,19 +85,24 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
     };
 
     if (direction) {
-        const glm::vec3 velocity = calculateVelocity(*direction);
-        m_pos += velocity;
-
+        // approximate integral in movement equation with semi-implicit euler integrator
+        // https://gafferongames.com/post/integration_basics/
         if (m_speed < MAX_SPEED) {
             m_speed += ACCELERATION * delta_time;
         }
 
+        const glm::vec3 velocity = calculateVelocity(*direction);
+        m_pos += velocity;
+
         m_prev_direction = *direction;
     } else if (m_speed > MIN_SPEED) {
         // no keys are being pressed and player is moving, slow player down to stop
+
+        // approximate integral in movement equation with semi-implicit euler integrator
+        m_speed += -1 * ACCELERATION * delta_time;
+
         const glm::vec3 velocity = calculateVelocity(m_prev_direction);
         m_pos += velocity;
-        m_speed += -1 * ACCELERATION * delta_time;
 
         // explicitly clamp speed to 0 to avoid numerical headaches
         if (m_speed < MIN_SPEED) {
