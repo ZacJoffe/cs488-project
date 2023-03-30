@@ -23,11 +23,13 @@ void Floor::draw() {
     glBindTexture(GL_TEXTURE_2D, m_tex);
     glBindVertexArray(m_vao);
 
-    glm::mat4 trans(1.0f);
-
-    // trans = glm::scale(trans, glm::vec3(10.0f, 1.0f, 10.0f));
-    m_shader_handler->uploadModelUniform(trans);
-    glDrawElements(GL_TRIANGLES, floor_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
+    for (unsigned int x = 0; x < 10; ++x) {
+        for (unsigned int z = 0; z < 10; ++z) {
+            glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
+            m_shader_handler->uploadModelUniform(trans);
+            glDrawElements(GL_TRIANGLES, floor_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
+        }
+    }
 }
 
 void Floor::init() {
