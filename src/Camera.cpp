@@ -46,46 +46,49 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
     const float speed = m_speed * delta_time;
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
+    const glm::vec3 forward_right_axis = glm::normalize(forward_axis + right_axis);
+    const glm::vec3 forward_left_axis = glm::normalize(forward_axis - right_axis);
 
     if (direction) {
+        glm::vec3 velocity;
+
         switch (*direction) {
             case MovementDirection::forward: {
-                m_pos += speed * forward_axis;
+                velocity = speed * forward_axis;
                 break;
             }
             case MovementDirection::forward_right: {
-                m_pos += speed * forward_axis;
-                m_pos += speed * right_axis;
+                velocity = speed * forward_right_axis;
                 break;
             }
             case MovementDirection::right: {
-                m_pos += speed * right_axis;
+                velocity = speed * right_axis;
                 break;
             }
             case MovementDirection::back_right: {
-                m_pos -= speed * forward_axis;
-                m_pos += speed * right_axis;
+                // TODO make -1 some negative constant that limits backward movement speed
+                velocity = -1 * speed * forward_left_axis;
                 break;
             }
             case MovementDirection::back: {
-                m_pos -= speed * forward_axis;
+                velocity = -1 * speed * forward_axis;
                 break;
             }
             case MovementDirection::back_left: {
-                m_pos -= speed * forward_axis;
-                m_pos -= speed * right_axis;
+                velocity = -1 * speed * forward_right_axis;
                 break;
             }
             case MovementDirection::left: {
-                m_pos -= speed * right_axis;
+                velocity = -1 * speed * right_axis;
                 break;
             }
             case MovementDirection::forward_left: {
-                m_pos += speed * forward_axis;
-                m_pos -= speed * right_axis;
+                velocity = speed * forward_left_axis;
                 break;
             }
         }
+
+        m_pos += velocity;
 
         if (m_speed < MAX_SPEED) {
             m_speed += ACCELERATION * delta_time;
