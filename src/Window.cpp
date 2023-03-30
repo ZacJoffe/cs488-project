@@ -40,7 +40,8 @@ void Window::initShaderHandler() {
 }
 
 void Window::initFloor() {
-    m_geos.push_back(std::make_shared<Floor>(m_shader_handler));
+    // m_geos.push_back(std::make_shared<Floor>(m_shader_handler));
+    m_floor = std::make_shared<Floor>(m_shader_handler);
 }
 
 void Window::initProjectionMatrix() {
@@ -84,19 +85,24 @@ void Window::draw()
 {
     glEnable(GL_DEPTH_TEST);
 
-    // glm::mat4 W(1.0f);
-    // W = glm::rotate(W, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    // m_model = W * m_model;
 
+    glm::mat4 world(1.0f);
+    glm::mat4 trans = world;
+
+    m_shader_handler->enable();
 
     m_shader_handler->uploadProjectionUniform(m_projection);
     m_shader_handler->uploadViewUniform(m_camera->getView());
     m_shader_handler->uploadModelUniform(m_model);
 
-    for (const auto geo : m_geos) {
-        geo->draw();
-    }
+    // for (const auto geo : m_geos) {
+    //     trans = glm::scale(trans, glm::vec3(10.0f, 1.0f, 10.0f));
+    //     m_shader_handler->uploadModelUniform(trans);
+    //     geo->draw();
+    // }
+    m_floor->draw();
 
+    m_shader_handler->disable();
     glBindVertexArray(0);
     CHECK_GL_ERRORS;
 

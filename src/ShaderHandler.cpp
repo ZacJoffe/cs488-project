@@ -20,7 +20,7 @@ void ShaderHandler::init() {
     m_projection_uni = m_shader.getUniformLocation("projection");
     m_view_uni = m_shader.getUniformLocation("view");
     m_model_uni = m_shader.getUniformLocation("model");
-    m_color_uni = m_shader.getUniformLocation("color");
+    // m_color_uni = m_shader.getUniformLocation("color");
 
     enable();
 }

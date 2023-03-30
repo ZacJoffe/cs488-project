@@ -9,12 +9,12 @@ namespace floor_constants {
     static const GLuint NUM_VERTICES = 4;
 
     // this floor covers the entire plane
-    static const float VERTICES[NUM_VERTICES * 3] = {
-        // x, y, z, right hand coordinate system
-        -1.0f, -1.0f, 1.0f,   // front left
-        -1.0f, -1.0f, -1.0f,  // back left
-        1.0f, -1.0f, -1.0f,   // back right
-        1.0f, -1.0f, 1.0f,    // front right
+    static const float VERTICES[NUM_VERTICES * 5] = {
+        // x     y      z       texture coords
+        -1.0f, -1.0f,  1.0f,    0.0f, 0.0f,  // front left
+        -1.0f, -1.0f, -1.0f,    0.0f, 1.0f,  // back left
+         1.0f, -1.0f, -1.0f,    1.0f, 1.0f,  // back right
+         1.0f, -1.0f,  1.0f,    1.0f, 0.0f   // front right
     };
 
     static const GLuint NUM_INDEXES = 6;
@@ -33,6 +33,7 @@ public:
 
 private:
     void init() override;
+    void initTexture();
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
 };

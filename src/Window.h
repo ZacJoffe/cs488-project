@@ -4,6 +4,7 @@
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
 #include "Camera.h"
+#include "Floor.h"
 #include "Geometry.h"
 #include "InputHandler.h"
 #include "ShaderHandler.h"
@@ -60,5 +61,6 @@ private:
     glm::mat4 proj;
     glm::mat4 view;
 
-    std::vector<std::shared_ptr<Geometry>> m_geos;
+    // std::vector<std::shared_ptr<Geometry>> m_geos;
+    std::shared_ptr<Floor> m_floor;
 };
