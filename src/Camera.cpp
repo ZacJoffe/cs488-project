@@ -43,13 +43,13 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
-    const float speed = m_speed * delta_time;
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
     const glm::vec3 forward_right_axis = glm::normalize(forward_axis + right_axis);
     const glm::vec3 forward_left_axis = glm::normalize(forward_axis - right_axis);
 
     if (direction) {
+        const float speed = m_speed * delta_time;
         glm::vec3 velocity;
 
         switch (*direction) {
@@ -97,5 +97,53 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
         m_prev_direction = *direction;
     } else {
         // no keys are being pressed, slow player down to stop if they are moving
+        if (m_speed > 0.0f) {
+            const float speed = m_speed * delta_time;
+            glm::vec3 velocity;
+
+            switch (m_prev_direction) {
+                case MovementDirection::forward: {
+                    velocity = speed * forward_axis;
+                    break;
+                }
+                case MovementDirection::forward_right: {
+                    velocity = speed * forward_right_axis;
+                    break;
+                }
+                case MovementDirection::right: {
+                    velocity = speed * right_axis;
+                    break;
+                }
+                case MovementDirection::back_right: {
+                    // TODO make -1 some negative constant that limits backward movement speed
+                    velocity = -1 * speed * forward_left_axis;
+                    break;
+                }
+                case MovementDirection::back: {
+                    velocity = -1 * speed * forward_axis;
+                    break;
+                }
+                case MovementDirection::back_left: {
+                    velocity = -1 * speed * forward_right_axis;
+                    break;
+                }
+                case MovementDirection::left: {
+                    velocity = -1 * speed * right_axis;
+                    break;
+                }
+                case MovementDirection::forward_left: {
+                    velocity = speed * forward_left_axis;
+                    break;
+                }
+            }
+
+            m_pos += velocity;
+            m_speed += -1 * ACCELERATION * delta_time;
+
+            // explicitly clamp speed to 0 to avoid numerical headaches
+            if (m_speed < 0.0f) {
+                m_speed = 0.0f;
+            }
+        }
     }
 }
