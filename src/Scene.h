@@ -9,6 +9,14 @@
 #include <memory>
 #include <vector>
 
+namespace scene_constants {
+    // N x Y x N world
+    static const float N = 50.0f;
+    static const float Y = 5.0f;
+    static const glm::vec3 WORLD_BOUNDARY_MIN = glm::vec3(0.0f, 2.0f, 0.0f);
+    static const glm::vec3 WORLD_BOUNDARY_MAX = glm::vec3(N, Y, N);
+}
+
 class Scene {
 public:
     Scene();
