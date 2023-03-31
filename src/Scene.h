@@ -4,6 +4,7 @@
 #include "Texture.h"
 #include "Tile.h"
 
+#include <array>
 #include <glm/glm.hpp>
 #include <memory>
 #include <vector>
@@ -19,4 +20,7 @@ private:
 
     std::shared_ptr<Texture> m_floor_texture;
     Tiles m_floor;
+
+    std::shared_ptr<Texture> m_wall_texture;
+    std::array<Tiles, 4> m_walls;
 };

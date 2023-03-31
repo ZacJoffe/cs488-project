@@ -17,9 +17,10 @@ Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat
     init();
 }
 
-void Tile::draw(const glm::mat4 & world_trans) {
+void Tile::draw(const glm::mat4 & world_trans) const {
     m_texture->bind(GL_TEXTURE0);
-    m_shader_handler->uploadModelUniform(m_trans * world_trans);
+    // m_shader_handler->uploadModelUniform(m_trans * world_trans);
+    m_shader_handler->uploadModelUniform(world_trans * m_trans);
     glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, tile_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
 }
@@ -69,7 +70,7 @@ Tiles::Tiles(const glm::mat4 & world_trans,
     }
 }
 
-void Tiles::draw() {
+void Tiles::draw() const {
     for (const auto & tile : m_tiles) {
         tile->draw(m_trans);
     }

@@ -36,7 +36,7 @@ public:
           const std::shared_ptr<ShaderHandler> & shader_handler,
           const std::shared_ptr<Texture> & texture);
 
-    void draw();
+    void draw() const;
 
 private:
     glm::mat4 m_trans;
@@ -51,7 +51,7 @@ public:
          const glm::mat4 & trans,
          const std::shared_ptr<Texture> & texture);
 
-    void draw(const glm::mat4 & world_trans = glm::mat4(1.0f));
+    void draw(const glm::mat4 & world_trans = glm::mat4(1.0f)) const;
 
 private:
     void init();
