@@ -19,3 +19,6 @@ $ ./fps
 ### Assets
 - textures - https://opengameart.org/content/tileable-grass-textures-set-1
   - CC0 1.0 Universal
+
+- textures - https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
+  - CC0 1.0 Universal
