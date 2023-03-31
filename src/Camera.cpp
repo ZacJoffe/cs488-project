@@ -50,9 +50,7 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
-    // std::cout << glm::to_string(m_pos) << std::endl;
-    std::cout << m_speed_xz << std::endl;
-
+    debugCameraPrint();
 
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
@@ -164,4 +162,8 @@ void Camera::startSprint() {
 
 void Camera::stopSprint() {
     m_sprinting = false;
+}
+
+void Camera::debugCameraPrint() const {
+    std::cout << "Position: " << glm::to_string(m_pos) << ", Front: " << glm::to_string(m_front) << ", Speed " << m_speed_xz << std::endl;
 }

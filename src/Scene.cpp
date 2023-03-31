@@ -11,7 +11,6 @@ Scene::Scene() {
     // init floor tiles
     m_floor_texture = std::make_shared<Texture>("./assets/textures/Grass_02.png");
     m_floor = Tiles(
-        // glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.0f, 0.5f)),
         glm::mat4(1.0f),
         50,
         50,

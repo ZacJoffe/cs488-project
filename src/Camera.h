@@ -4,8 +4,8 @@
 #include <optional>
 
 namespace camera_constants {
-    static const float DEFAULT_YAW = -90.0f;
-    static const float DEFAULT_PITCH = 0.0f; // TODO figure out bug with starting camera position
+    static const float DEFAULT_YAW = -45.0f;
+    static const float DEFAULT_PITCH = 45.0f;
     static const float SENSITIVITY = 0.1f;
 
     static const float MIN_PITCH = -80.0f;
@@ -49,6 +49,8 @@ public:
     void initiateJump();
     void startSprint();
     void stopSprint();
+
+    void debugCameraPrint() const;
 
 private:
     glm::vec3 m_pos;
