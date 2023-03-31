@@ -171,7 +171,7 @@ void Camera::debugCameraPrint() const {
     std::cout << "Position: " << glm::to_string(m_pos)
               // << ", Front: " << glm::to_string(m_front)
               // << ", Speed " << m_speed_xz
-              << ", Bounding Box: (" << glm::to_string(m_bounding_box_xy->min) << ", " << glm::to_string(m_bounding_box_xy->max) << ")"
+              << ", Bounding Box: " << m_bounding_box_xy->toString()
               << std::endl;
 }
 
