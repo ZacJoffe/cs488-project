@@ -10,9 +10,10 @@ namespace camera_constants {
 
     static const float MIN_PITCH = -80.0f;
     static const float MAX_PITCH = 80.0f;
+}
 
+namespace physics_constants {
     // TODO change this for the demo?
-    // TODO put in physics namespace?
     static const float ACCELERATION = 50.0f;
     static const float MAX_WALK_SPEED = 5.0f;
     static const float MAX_SPRINT_SPEED = 15.0f;

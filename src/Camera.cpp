@@ -6,6 +6,7 @@
 #include <iostream>
 
 using namespace camera_constants;
+using namespace physics_constants;
 
 Camera::Camera() :
     m_yaw(DEFAULT_YAW),
