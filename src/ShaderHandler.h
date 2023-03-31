@@ -19,7 +19,7 @@ public:
     void uploadProjectionUniform(const glm::mat4 & projection);
     void uploadViewUniform(const glm::mat4 & view);
     void uploadModelUniform(const glm::mat4 & model);
-    void uploadColorUniform(const glm::vec3 & color);
+    // void uploadColorUniform(const glm::vec3 & color);
 
 private:
     void init();

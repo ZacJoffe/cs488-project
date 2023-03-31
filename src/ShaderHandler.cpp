@@ -49,7 +49,7 @@ void ShaderHandler::uploadModelUniform(const glm::mat4 & model) {
     glUniformMatrix4fv(m_model_uni, 1, GL_FALSE, glm::value_ptr(model));
 }
 
-void ShaderHandler::uploadColorUniform(const glm::vec3 & color) {
-    glUniform3f(m_color_uni, color.r, color.g, color.b);
-}
+// void ShaderHandler::uploadColorUniform(const glm::vec3 & color) {
+//     glUniform3f(m_color_uni, color.r, color.g, color.b);
+// }
 

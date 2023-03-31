@@ -6,7 +6,7 @@
 
 #include <stdexcept>
 
-Texture::Texture(const std::string & file_name) : m_file_name(file_name) {
+Texture::Texture(const std::string & filename) : m_filename(filename) {
     glGenTextures(1, &m_tex);
     glBindTexture(GL_TEXTURE_2D, m_tex);
 
@@ -18,7 +18,7 @@ Texture::Texture(const std::string & file_name) : m_file_name(file_name) {
     // force stbi to load image with origin coordinate being on bottom left of image
     stbi_set_flip_vertically_on_load(1);
     int x, y, n;
-    unsigned char * data = stbi_load(m_file_name.c_str(), &x, &y, &n, 0);
+    unsigned char * data = stbi_load(m_filename.c_str(), &x, &y, &n, 0);
     if (data == nullptr) {
         throw std::runtime_error("Unable to load texture");
     }

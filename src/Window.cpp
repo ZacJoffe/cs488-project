@@ -13,18 +13,17 @@
 using namespace window_constants;
 
 Window::Window() :
-    m_input_handler(m_windowHeight, m_windowWidth), m_delta_time(0.0f), m_last_frame_time(0.0f) {}
+    m_input_handler(m_windowHeight, m_windowWidth),
+    m_delta_time(0.0f),
+    m_last_frame_time(0.0f) {}
 
 Window::~Window() {}
 
 void Window::init() {
     initBackgroundColor();
-    initShaderHandler();
-    initFloor();
     initCamera();
     initProjectionMatrix();
-
-    m_model = glm::mat4(1.0f);
+    initScene();
 
     // DELETEME after doing the ui objective
     // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -35,13 +34,17 @@ void Window::initBackgroundColor() {
     glClearColor(0.3, 0.5, 0.7, 1.0);
 }
 
-void Window::initShaderHandler() {
-    m_shader_handler = std::make_shared<ShaderHandler>();
-}
+void Window::initCamera() {
+    m_camera = std::make_shared<Camera>(
+        // glm::vec3(0.0f, 1.0f, 1.0f),
+        // glm::vec3(0.0f, 0.0f, 0.0f),
+        // glm::vec3(0.0f, 1.0f, 0.0f)
+        glm::vec3(0.0f, 1.0f, 3.0f),
+        glm::vec3(0.0f, 0.0f, -1.0f),
+        glm::vec3(0.0f, 1.0f, 0.0f)
+    );
 
-void Window::initFloor() {
-    // m_geos.push_back(std::make_shared<Floor>(m_shader_handler));
-    m_floor = std::make_shared<Tile>(m_shader_handler);
+    m_input_handler.setCamera(m_camera);
 }
 
 void Window::initProjectionMatrix() {
@@ -58,19 +61,9 @@ void Window::initProjectionMatrix() {
     );
 }
 
-void Window::initCamera() {
-    m_camera = std::make_shared<Camera>(
-        // glm::vec3(0.0f, 1.0f, 1.0f),
-        // glm::vec3(0.0f, 0.0f, 0.0f),
-        // glm::vec3(0.0f, 1.0f, 0.0f)
-        glm::vec3(0.0f, 1.0f, 3.0f),
-        glm::vec3(0.0f, 0.0f, -1.0f),
-        glm::vec3(0.0f, 1.0f, 0.0f)
-    );
-
-    m_input_handler.setCamera(m_camera);
+void Window::initScene() {
+    m_scene = std::make_unique<Scene>();
 }
-
 
 void Window::calculateDeltaTime() {
     const float current_frame_time = glfwGetTime();
@@ -98,49 +91,9 @@ void Window::draw()
     glm::mat4 world(1.0f);
     glm::mat4 trans = world;
 
-    m_shader_handler->enable();
-
-    m_shader_handler->uploadProjectionUniform(m_projection);
-    m_shader_handler->uploadViewUniform(m_camera->getView());
-    m_shader_handler->uploadModelUniform(m_model);
-
-    // for (const auto geo : m_geos) {
-    //     trans = glm::scale(trans, glm::vec3(10.0f, 1.0f, 10.0f));
-    //     m_shader_handler->uploadModelUniform(trans);
-    //     geo->draw();
-    // }
-    m_floor->draw();
-
-    m_shader_handler->disable();
-    glBindVertexArray(0);
-    CHECK_GL_ERRORS;
-
-    /*
-    // Create a global transformation for the model (centre it).
-    mat4 W;
-    W = glm::translate( W, vec3( -float(DIM)/2.0f, 0, -float(DIM)/2.0f ) );
-
-    m_shader.enable();
-        glEnable( GL_DEPTH_TEST );
-
-        glUniformMatrix4fv( P_uni, 1, GL_FALSE, value_ptr( proj ) );
-        glUniformMatrix4fv( V_uni, 1, GL_FALSE, value_ptr( view ) );
-        glUniformMatrix4fv( M_uni, 1, GL_FALSE, value_ptr( W ) );
-
-        // Just draw the grid for now.
-        glBindVertexArray( m_grid_vao );
-        glUniform3f( col_uni, 1, 1, 1 );
-        glDrawArrays( GL_LINES, 0, (3+DIM)*4 );
-
-        // Draw the cubes
-        // Highlight the active square.
-    m_shader.disable();
-
-    // Restore defaults
-    glBindVertexArray( 0 );
+    m_scene->draw(m_projection, m_camera->getView(), m_model);
 
     CHECK_GL_ERRORS;
-    */
 }
 
 void Window::cleanup() {}

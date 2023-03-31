@@ -6,11 +6,11 @@
 
 class Texture {
 public:
-    Texture(const std::string & file_name);
+    Texture(const std::string & filename);
 
     void bind(GLenum texture_unit);
 
 private:
-    std::string m_file_name;
+    std::string m_filename;
     GLuint m_tex;
 };

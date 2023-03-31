@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Geometry.h"
-#include "Texture.h"
 #include "ShaderHandler.h"
+#include "Texture.h"
 
+#include <glm/glm.hpp>
 #include <memory>
+#include <vector>
 
 namespace tile_constants {
     static const GLuint NUM_VERTICES = 4;
@@ -25,15 +26,40 @@ namespace tile_constants {
     };
 }
 
-class Tile : public Geometry {
+class Tile;
+class Tiles {
 public:
-    Tile(const std::shared_ptr<ShaderHandler> & shader_handler);
-    ~Tile() override;
+    Tiles();
+    Tiles(const glm::mat4 & world_trans,
+          unsigned int num_x,
+          unsigned int num_z,
+          const std::shared_ptr<ShaderHandler> & shader_handler,
+          // const glm::mat4 & tile_trans,
+          const std::string & tex_filename);
 
-    void draw() override;
+    void draw();
 
 private:
-    void init() override;
+    glm::mat4 m_trans;
+    std::vector<std::unique_ptr<Tile>> m_tiles;
+};
+
+class Tile {
+public:
+    friend class Tiles;
+
+    Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::string & tex_filename);
+
+    void draw(const glm::mat4 & world_trans = glm::mat4(1.0f));
+
+private:
+    void init(const std::string & tex_filename);
+
+    GLuint m_vao;
+    GLuint m_vbo;
+    GLuint m_ebo;
+
+    glm::mat4 m_trans;
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
     std::unique_ptr<Texture> m_texture;

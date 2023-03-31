@@ -4,10 +4,8 @@
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
 #include "Camera.h"
-#include "Geometry.h"
 #include "InputHandler.h"
-#include "ShaderHandler.h"
-#include "Tile.h"
+#include "Scene.h"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -38,33 +36,20 @@ protected:
 
 private:
     void initBackgroundColor();
-    void initShaderHandler();
-    void initFloor();
-    void initProjectionMatrix();
     void initCamera();
+    void initProjectionMatrix();
+    void initScene();
 
     void calculateDeltaTime();
 
-    std::shared_ptr<ShaderHandler> m_shader_handler;
-
+    std::shared_ptr<Camera> m_camera; // encapsulates the view matrix
     glm::mat4 m_projection;
-    // glm::mat4 m_view;
-    glm::mat4 m_model;
-
-    std::shared_ptr<Camera> m_camera;
+    glm::mat4 m_model; // TODO delete?
 
     InputHandler m_input_handler;
 
-    // Fields related to grid geometry.
-    GLuint m_grid_vao; // Vertex Array Object
-    GLuint m_grid_vbo; // Vertex Buffer Object
-
-    // Matrices controlling the camera and projection.
-    glm::mat4 proj;
-    glm::mat4 view;
-
-    // std::vector<std::shared_ptr<Geometry>> m_geos;
-    std::shared_ptr<Tile> m_floor;
+    // std::shared_ptr<Tile> m_floor;
+    std::unique_ptr<Scene> m_scene;
 
     float m_delta_time;
     float m_last_frame_time;

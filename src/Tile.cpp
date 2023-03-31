@@ -3,36 +3,28 @@
 #include "GL/glcorearb.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include <memory>
 
+#include <glm/glm.hpp>
+#include <memory>
 #include <stdexcept>
 
-Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler) : m_shader_handler(shader_handler) {
+Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::string & tex_filename) :
+    m_shader_handler(shader_handler), m_trans(trans) {
     if (m_shader_handler == nullptr) {
         throw std::runtime_error("Shader handler must not be null");
     }
 
-    init();
+    init(tex_filename);
 }
 
-Tile::~Tile() {}
-
-void Tile::draw() {
+void Tile::draw(const glm::mat4 & world_trans) {
     m_texture->bind(GL_TEXTURE0);
+    m_shader_handler->uploadModelUniform(m_trans * world_trans);
     glBindVertexArray(m_vao);
-
-    glm::mat4 world = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.0f, 0.5f));
-
-    for (unsigned int x = 0; x < 10; ++x) {
-        for (unsigned int z = 0; z < 10; ++z) {
-            glm::mat4 trans = glm::translate(world, glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
-            m_shader_handler->uploadModelUniform(trans);
-            glDrawElements(GL_TRIANGLES, tile_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
-        }
-    }
+    glDrawElements(GL_TRIANGLES, tile_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
 }
 
-void Tile::init() {
+void Tile::init(const std::string & tex_filename) {
     using namespace tile_constants;
 
     glGenVertexArrays(1, &m_vao);
@@ -46,18 +38,41 @@ void Tile::init() {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(VERTICES_INDEXES), VERTICES_INDEXES, GL_STATIC_DRAW);
 
-    // GLint position_attribute = m_shader_handler->getPositionAttribute();
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
     glEnableVertexAttribArray(0);
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    m_texture = std::make_unique<Texture>("./assets/textures/Grass_02.png");
+    m_texture = std::make_unique<Texture>(tex_filename);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS;
+}
+
+
+Tiles::Tiles() {}
+
+Tiles::Tiles(const glm::mat4 & world_trans,
+             unsigned int num_x,
+             unsigned int num_z,
+             const std::shared_ptr<ShaderHandler> & shader_handler,
+             // const glm::mat4 & tile_trans,
+             const std::string & tex_filename) :
+    m_trans(world_trans) {
+    for (unsigned int x = 0; x < num_x; ++x) {
+        for (unsigned int z = 0; z < num_z; ++z) {
+            const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
+            m_tiles.push_back(std::make_unique<Tile>(shader_handler, tile_trans, tex_filename));
+        }
+    }
+}
+
+void Tiles::draw() {
+    for (const auto & tile : m_tiles) {
+        tile->draw(m_trans);
+    }
 }
 
