@@ -15,6 +15,7 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_pos(pos),
     m_front(front),
     m_up(up),
+    m_initial_y(pos.y),
     m_yaw(DEFAULT_YAW),
     m_pitch(DEFAULT_PITCH),
     m_prev_direction(MovementDirection::forward),
@@ -121,8 +122,8 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
         m_velocity_y += GRAVITY * delta_time;
         m_pos.y += m_velocity_y * delta_time;
 
-        if (m_pos.y <= 1.0f) {
-            m_pos.y = 1.0f;
+        if (m_pos.y <= m_initial_y) {
+            m_pos.y = m_initial_y;
             m_jumping = false;
         }
     }

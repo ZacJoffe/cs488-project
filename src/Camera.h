@@ -52,6 +52,8 @@ private:
     glm::vec3 m_front;
     glm::vec3 m_up;
 
+    float m_initial_y;
+
     float m_yaw;
     float m_pitch;
 
