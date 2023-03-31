@@ -24,23 +24,23 @@ Scene::Scene() {
 
     glm::mat4 trans = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, -50.0f));
-    m_walls[0] = Tiles(
-        trans,
-        50,
-        50,
-        m_shader_handler,
-        m_wall_texture
-    );
-
-    // trans = glm::translate(trans, glm::vec3(50.f, 0.0f, 0.0f));
-    // trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-    // m_walls[1] = Tiles(
+    // m_walls[0] = Tiles(
     //     trans,
     //     50,
     //     50,
     //     m_shader_handler,
     //     m_wall_texture
     // );
+
+    trans = glm::translate(trans, glm::vec3(50.f, 0.0f, 0.0f));
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_walls[1] = Tiles(
+        trans,
+        50,
+        50,
+        m_shader_handler,
+        m_wall_texture
+    );
 }
 
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) {

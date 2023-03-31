@@ -21,7 +21,8 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_prev_direction(MovementDirection::forward),
     m_speed_xz(0.0f),
     m_velocity_y(0.0f),
-    m_jumping(false) {}
+    m_jumping(false),
+    m_sprinting(false) {}
 
 Camera::~Camera() {}
 
@@ -49,7 +50,9 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
-    std::cout << glm::to_string(m_pos) << std::endl;
+    // std::cout << glm::to_string(m_pos) << std::endl;
+    std::cout << m_speed_xz << std::endl;
+
 
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
@@ -91,23 +94,43 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
         throw std::domain_error("Should never reach outside of exhaustive switch");
     };
 
+    // approximate integral in movement equations in the rest of this method with semi-implicit euler integrator
+    // https://gafferongames.com/post/integration_basics/
     if (direction) {
-        // approximate integral in movement equation with semi-implicit euler integrator
-        // https://gafferongames.com/post/integration_basics/
-        if (m_speed_xz < MAX_SPEED) {
-            m_speed_xz += ACCELERATION * delta_time;
-        }
+        if (m_sprinting) {
+            if (m_speed_xz < MAX_SPRINT_SPEED) {
+                m_speed_xz += ACCELERATION * delta_time;
+            }
 
-        const glm::vec3 velocity = calculateVelocityXZ(*direction);
-        m_pos += velocity;
+            const glm::vec3 velocity = calculateVelocityXZ(*direction);
+            m_pos += velocity;
+
+            // clamp speed
+            if (m_speed_xz > MAX_SPRINT_SPEED) {
+                m_speed_xz = MAX_SPRINT_SPEED;
+            }
+        } else if (m_speed_xz > MAX_WALK_SPEED && m_speed_xz <= MAX_SPRINT_SPEED) {
+            // slow player down from sprint to normal walking speed
+            m_speed_xz += -1 * ACCELERATION * delta_time;
+            const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
+            m_pos += velocity;
+        } else {
+            if (m_speed_xz < MAX_WALK_SPEED) {
+                m_speed_xz += ACCELERATION * delta_time;
+            }
+
+            const glm::vec3 velocity = calculateVelocityXZ(*direction);
+            m_pos += velocity;
+
+            if (m_speed_xz > MAX_WALK_SPEED) {
+                m_speed_xz = MAX_WALK_SPEED;
+            }
+        }
 
         m_prev_direction = *direction;
     } else if (m_speed_xz > MIN_SPEED) {
         // no keys are being pressed and player is moving, slow player down to stop
-
-        // approximate integral in movement equation with semi-implicit euler integrator
         m_speed_xz += -1 * ACCELERATION * delta_time;
-
         const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
         m_pos += velocity;
 
@@ -118,7 +141,6 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
     }
 
     if (m_jumping) {
-        // approximate integral in movement equation with semi-implicit euler integrator
         m_velocity_y += GRAVITY * delta_time;
         m_pos.y += m_velocity_y * delta_time;
 
@@ -134,4 +156,12 @@ void Camera::initiateJump() {
         m_jumping = true;
         m_velocity_y = INITIAL_JUMP_VELOCITY;
     }
+}
+
+void Camera::startSprint() {
+    m_sprinting = true;
+}
+
+void Camera::stopSprint() {
+    m_sprinting = false;
 }

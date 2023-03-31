@@ -27,6 +27,7 @@ private:
         A = GLFW_KEY_A,
         D = GLFW_KEY_D,
         Space = GLFW_KEY_SPACE,
+        Shift = GLFW_KEY_LEFT_SHIFT,
     };
 
     void setKeyHelper(int key, bool is_pressed);

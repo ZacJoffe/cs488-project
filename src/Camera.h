@@ -14,7 +14,8 @@ namespace camera_constants {
     // TODO change this for the demo?
     // TODO put in physics namespace?
     static const float ACCELERATION = 50.0f;
-    static const float MAX_SPEED = 5.0f;
+    static const float MAX_WALK_SPEED = 5.0f;
+    static const float MAX_SPRINT_SPEED = 15.0f;
     static const float MIN_SPEED = 0.0f;
 
     static const float INITIAL_JUMP_VELOCITY = 5.0f;
@@ -46,6 +47,8 @@ public:
     // also update the view uniform in this class for now I'll do it in window?
     void move(std::optional<MovementDirection> direction, float delta_time);
     void initiateJump();
+    void startSprint();
+    void stopSprint();
 
 private:
     glm::vec3 m_pos;
@@ -64,4 +67,6 @@ private:
     // the direction is represented with their signs
     float m_velocity_y;
     bool m_jumping;
+
+    bool m_sprinting;
 };

@@ -26,6 +26,12 @@ void InputHandler::performActions(float delta_time) {
         m_camera->initiateJump();
     }
 
+    if (m_key_states[Key::Shift]) {
+        m_camera->startSprint();
+    } else {
+        m_camera->stopSprint();
+    }
+
     std::optional<MovementDirection> direction = {};
 
     // NOTE this works since a kvp that doesn't exist will be inserted with a
@@ -109,6 +115,15 @@ void InputHandler::setKeyHelper(int key, bool is_pressed) {
                 std::cout << "space key released" << std::endl;
             }
             m_key_states[Key::Space] = is_pressed;
+            return;
+        }
+        case GLFW_KEY_LEFT_SHIFT: {
+            if (is_pressed) {
+                std::cout << "shift key pressed" << std::endl;
+            } else {
+                std::cout << "shift key released" << std::endl;
+            }
+            m_key_states[Key::Shift] = is_pressed;
             return;
         }
     }
