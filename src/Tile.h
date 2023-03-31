@@ -13,10 +13,10 @@ namespace tile_constants {
     // this tile covers the entire plane
     static const float VERTICES[NUM_VERTICES * 5] = {
         // x     y      z       texture coords
-        -1.0f, -1.0f,  1.0f,    0.0f, 0.0f,  // front left
-        -1.0f, -1.0f, -1.0f,    0.0f, 1.0f,  // back left
-         1.0f, -1.0f, -1.0f,    1.0f, 1.0f,  // back right
-         1.0f, -1.0f,  1.0f,    1.0f, 0.0f   // front right
+        -0.5f, -0.5f,  0.5f,    0.0f, 0.0f,  // front left
+        -0.5f, -0.5f, -0.5f,    0.0f, 1.0f,  // back left
+         0.5f, -0.5f, -0.5f,    1.0f, 1.0f,  // back right
+         0.5f, -0.5f,  0.5f,    1.0f, 0.0f   // front right
     };
 
     static const GLuint NUM_INDEXES = 6;

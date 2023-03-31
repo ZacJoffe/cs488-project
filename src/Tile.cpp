@@ -64,7 +64,7 @@ Tiles::Tiles(const glm::mat4 & world_trans,
     m_trans(world_trans) {
     for (unsigned int x = 0; x < num_x; ++x) {
         for (unsigned int z = 0; z < num_z; ++z) {
-            const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
+            const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
             m_tiles.push_back(std::make_unique<Tile>(shader_handler, tile_trans, tex_filename));
         }
     }
