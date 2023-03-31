@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Geometry.h"
+#include "Texture.h"
 #include "ShaderHandler.h"
 
 #include <memory>
@@ -33,8 +34,8 @@ public:
 
 private:
     void init() override;
-    void initTexture();
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
+    std::unique_ptr<Texture> m_texture;
 };
 

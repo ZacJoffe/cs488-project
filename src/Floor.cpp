@@ -3,9 +3,7 @@
 #include "GL/glcorearb.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "include/stb/stb_image.h"
+#include <memory>
 
 #include <stdexcept>
 
@@ -20,12 +18,14 @@ Floor::Floor(const std::shared_ptr<ShaderHandler> & shader_handler) : m_shader_h
 Floor::~Floor() {}
 
 void Floor::draw() {
-    glBindTexture(GL_TEXTURE_2D, m_tex);
+    m_texture->bind(GL_TEXTURE0);
     glBindVertexArray(m_vao);
+
+    glm::mat4 world = glm::translate(glm::mat4(1.0f), glm::vec3(0.5f, 0.0f, 0.5f));
 
     for (unsigned int x = 0; x < 10; ++x) {
         for (unsigned int z = 0; z < 10; ++z) {
-            glm::mat4 trans = glm::translate(glm::mat4(1.0f), glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
+            glm::mat4 trans = glm::translate(world, glm::vec3(x * 2.0f, 0.0f, z * 2.0f));
             m_shader_handler->uploadModelUniform(trans);
             glDrawElements(GL_TRIANGLES, floor_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
         }
@@ -53,39 +53,11 @@ void Floor::init() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    initTexture();
+    m_texture = std::make_unique<Texture>("./assets/textures/Grass_02.png");
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS;
-}
-
-void Floor::initTexture() {
-    glGenTextures(1, &m_tex);
-    glBindTexture(GL_TEXTURE_2D, m_tex);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    int x, y, n;
-    unsigned char * data = stbi_load("./assets/textures/Grass_02.png", &x, &y, &n, 0);
-    if (data == nullptr) {
-        throw std::runtime_error("Unable to load texture");
-    }
-
-    // glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    if (n == 3) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, x, y, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-    } else if (n == 4) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    } else {
-        throw std::runtime_error(&"Unexpected number of components per pixel: " [ n]);
-    }
-
-    glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(data);
 }
 

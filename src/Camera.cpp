@@ -2,8 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <stdexcept>
-// #include "glm/gtx/string_cast.hpp"
-// #include <iostream>
+#include "glm/gtx/string_cast.hpp"
+#include <iostream>
 
 using namespace camera_constants;
 
