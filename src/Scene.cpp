@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <memory>
+#include <utility>
 
 using namespace scene_constants;
 
@@ -46,8 +47,26 @@ void Scene::initFloor() {
 void Scene::initWalls() {
     m_wall_texture = std::make_shared<Texture>("./assets/textures/stone wall 4.png");
 
+    /*
+    2D (x-z plane) diagram of scene
+               top
+    ^    tl +--------+ tr
+    |       +        +
+    |       +        +
+    |       +        +
+    |  left +        + right
+    |       +        +
+    |       +        +
+    |       +        +
+    |       +        +
+    |    bl +--------+ br
+    |         bottom
+    x
+     z-------------------->
+    */
+
     // this is pretty messy, but it seems to work!
-    // left wall (0, 0, 0 -> x, y, z)
+    // left wall bl -> tl (0, 0 -> N, 0)
     glm::mat4 trans = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, -N));
     m_walls[0] = Tiles(
@@ -55,9 +74,11 @@ void Scene::initWalls() {
         WORLD_BOUNDARY_MAX.x,
         WORLD_BOUNDARY_MAX.y,
         m_shader_handler,
-        m_wall_texture
+        m_wall_texture,
+        std::make_pair(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
     );
 
+    // top wall tl -> tr (N, 0 -> N, N)
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[1] = Tiles(
@@ -65,9 +86,11 @@ void Scene::initWalls() {
         50,
         10,
         m_shader_handler,
-        m_wall_texture
+        m_wall_texture,
+        std::make_pair(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
+    // right wall br -> tr (0, N -> N, N)
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[2] = Tiles(
@@ -75,9 +98,11 @@ void Scene::initWalls() {
         50,
         10,
         m_shader_handler,
-        m_wall_texture
+        m_wall_texture,
+        std::make_pair(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
+    // bottom wall bl -> br (0, 0 -> 0, N)
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[3] = Tiles(
@@ -85,6 +110,7 @@ void Scene::initWalls() {
         50,
         10,
         m_shader_handler,
-        m_wall_texture
+        m_wall_texture,
+        std::make_pair(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
     );
 }

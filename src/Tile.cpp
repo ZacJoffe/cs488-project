@@ -60,8 +60,9 @@ Tiles::Tiles(const glm::mat4 & world_trans,
              unsigned int num_x,
              unsigned int num_z,
              const std::shared_ptr<ShaderHandler> & shader_handler,
-             const std::shared_ptr<Texture> & texture) :
-    m_trans(world_trans) {
+             const std::shared_ptr<Texture> & texture,
+             const std::optional<std::pair<glm::vec2, glm::vec2>> & bounding_box_xy) :
+    m_trans(world_trans), m_bounding_box_xy(bounding_box_xy) {
     for (unsigned int x = 0; x < num_x; ++x) {
         for (unsigned int z = 0; z < num_z; ++z) {
             const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
