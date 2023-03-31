@@ -58,8 +58,8 @@ Tiles::Tiles(const glm::mat4 & world_trans,
              unsigned int num_z,
              const std::shared_ptr<ShaderHandler> & shader_handler,
              const std::shared_ptr<Texture> & texture,
-             std::unique_ptr<BoundingBox> bounding_box_xy) :
-    m_trans(world_trans), m_bounding_box_xy(std::move(bounding_box_xy)) {
+             std::shared_ptr<BoundingBox> bounding_box_xy) :
+    m_trans(world_trans), m_bounding_box_xy(bounding_box_xy) {
     for (unsigned int x = 0; x < num_x; ++x) {
         for (unsigned int z = 0; z < num_z; ++z) {
             const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
@@ -74,3 +74,6 @@ void Tiles::draw() const {
     }
 }
 
+std::shared_ptr<BoundingBox> Tiles::getBoundingBox() const {
+    return m_bounding_box_xy;
+}

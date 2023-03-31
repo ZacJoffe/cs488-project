@@ -2,6 +2,7 @@
 
 #include "BoundingBox.h"
 
+#include "Actions.h"
 #include <glm/glm.hpp>
 #include <memory>
 #include <optional>
@@ -28,18 +29,6 @@ namespace physics_constants {
     static const float GRAVITY = -10.0f;
 }
 
-// 8-directional movement
-enum class MovementDirection {
-    forward,
-    forward_right,
-    right,
-    back_right,
-    back,
-    back_left,
-    left,
-    forward_left,
-};
-
 class Camera {
 public:
     Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up);
@@ -50,15 +39,14 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(std::optional<MovementDirection> direction, float delta_time);
-    void initiateJump();
-    void startSprint();
-    void stopSprint();
+    void move(const Actions & actions, float delta_time);
 
     void debugCameraPrint() const;
-    void updateBoundingBoxXZ();
 
 private:
+    void updateBoundingBoxXZ();
+    void initiateJump();
+
     glm::vec3 m_pos;
     glm::vec3 m_front;
     glm::vec3 m_up;

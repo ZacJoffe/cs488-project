@@ -50,8 +50,14 @@ void Camera::updateDirection(float dx, float dy) {
         ));
 }
 
-void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
+void Camera::move(const Actions & actions, float delta_time) {
     updateBoundingBoxXZ();
+
+    if (actions.initiateJump) {
+        initiateJump();
+    }
+
+    m_sprinting = actions.sprint;
 
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
@@ -93,7 +99,9 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
         throw std::domain_error("Should never reach outside of exhaustive switch");
     };
 
-    // approximate integral in movement equations in the rest of this method with semi-implicit euler integrator
+    auto direction = actions.direction;
+
+    // approximate integrals in movement equations throughout this method with semi-implicit euler integrator
     // https://gafferongames.com/post/integration_basics/
     if (direction) {
         if (m_sprinting) {
@@ -152,21 +160,6 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
     debugCameraPrint();
 }
 
-void Camera::initiateJump() {
-    if (!m_jumping) {
-        m_jumping = true;
-        m_velocity_y = INITIAL_JUMP_VELOCITY;
-    }
-}
-
-void Camera::startSprint() {
-    m_sprinting = true;
-}
-
-void Camera::stopSprint() {
-    m_sprinting = false;
-}
-
 void Camera::debugCameraPrint() const {
     std::cout << "Position: " << glm::to_string(m_pos)
               // << ", Front: " << glm::to_string(m_front)
@@ -179,3 +172,11 @@ void Camera::updateBoundingBoxXZ() {
     m_bounding_box_xy->min = glm::vec2(m_pos.x - BOUNDING_BOX_OFFSET, m_pos.z - BOUNDING_BOX_OFFSET);
     m_bounding_box_xy->max = glm::vec2(m_pos.x + BOUNDING_BOX_OFFSET, m_pos.z + BOUNDING_BOX_OFFSET);
 }
+
+void Camera::initiateJump() {
+    if (!m_jumping) {
+        m_jumping = true;
+        m_velocity_y = INITIAL_JUMP_VELOCITY;
+    }
+}
+

@@ -15,7 +15,7 @@ Scene::Scene() {
     initWalls();
 }
 
-void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) {
+void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
     m_shader_handler->enable();
 
     m_shader_handler->uploadProjectionUniform(projection);
@@ -30,6 +30,15 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
 
     m_shader_handler->disable();
     glBindVertexArray(0);
+}
+
+std::list<BoundingBox> Scene::getCollidableObjects() const {
+    return {
+        *m_walls[0].getBoundingBox(),
+        *m_walls[1].getBoundingBox(),
+        *m_walls[2].getBoundingBox(),
+        *m_walls[3].getBoundingBox()
+    };
 }
 
 void Scene::initFloor() {
@@ -76,7 +85,7 @@ void Scene::initWalls() {
         WORLD_BOUNDARY_MAX.y,
         m_shader_handler,
         m_wall_texture,
-        std::make_unique<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
     );
 
     // top wall tl -> tr (N, 0 -> N, N)
@@ -88,7 +97,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_unique<BoundingBox>(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
     // right wall br -> tr (0, N -> N, N)
@@ -100,7 +109,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_unique<BoundingBox>(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
     // bottom wall bl -> br (0, 0 -> 0, N)
@@ -112,6 +121,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_unique<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
     );
 }
+

@@ -1,11 +1,13 @@
 #pragma once
 
+#include "BoundingBox.h"
 #include "ShaderHandler.h"
 #include "Texture.h"
 #include "Tile.h"
 
 #include <array>
 #include <glm/glm.hpp>
+#include <list>
 #include <memory>
 #include <vector>
 
@@ -21,7 +23,8 @@ class Scene {
 public:
     Scene();
 
-    void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model);
+    void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const;
+    std::list<BoundingBox> getCollidableObjects() const;
 
 private:
     void initFloor();

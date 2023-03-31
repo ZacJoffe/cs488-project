@@ -21,15 +21,15 @@ void InputHandler::releaseKey(int key) {
     setKeyHelper(key, false);
 }
 
-void InputHandler::performActions(float delta_time) {
+Actions InputHandler::getActions() {
+    bool initiateJump = false, sprint = false;
+
     if (m_key_states[Key::Space]) {
-        m_camera->initiateJump();
+        initiateJump = true;
     }
 
     if (m_key_states[Key::Shift]) {
-        m_camera->startSprint();
-    } else {
-        m_camera->stopSprint();
+        sprint = true;
     }
 
     std::optional<MovementDirection> direction = {};
@@ -58,7 +58,7 @@ void InputHandler::performActions(float delta_time) {
         direction = MovementDirection::right;
     }
 
-    m_camera->move(direction, delta_time);
+    return Actions(direction, initiateJump, sprint);
 }
 
 
@@ -67,6 +67,7 @@ void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
     const float dy = (m_prev_cursor_pos.second - cursor_pos.second) * camera_constants::SENSITIVITY;
     m_prev_cursor_pos = cursor_pos;
 
+    // TODO refactor camera out of this class
     m_camera->updateDirection(dx, dy);
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GLFW/glfw3.h"
+#include "Actions.h"
 #include "Camera.h"
 
 #include <memory>
@@ -16,7 +17,8 @@ public:
     void pressKey(int key);
     void releaseKey(int key);
 
-    void performActions(float delta_time);
+    // cannot be const since this technically modifies m_key_states
+    Actions getActions();
 
     void updateCursorPos(const std::pair<float, float> & cursor_pos);
 

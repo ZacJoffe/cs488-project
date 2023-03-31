@@ -71,7 +71,8 @@ void Window::calculateDeltaTime() {
 void Window::appLogic() {
     calculateDeltaTime();
 
-    m_input_handler.performActions(m_delta_time);
+    const Actions actions = m_input_handler.getActions();
+    m_camera->move(actions, m_delta_time);
 }
 
 void Window::guiLogic() {

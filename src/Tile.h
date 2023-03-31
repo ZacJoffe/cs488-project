@@ -36,15 +36,16 @@ public:
           unsigned int num_z,
           const std::shared_ptr<ShaderHandler> & shader_handler,
           const std::shared_ptr<Texture> & texture,
-          std::unique_ptr<BoundingBox> bounding_box_xy);
+          std::shared_ptr<BoundingBox> bounding_box_xy);
 
     void draw() const;
+    std::shared_ptr<BoundingBox> getBoundingBox() const;
 
 private:
     glm::mat4 m_trans;
     std::vector<std::unique_ptr<Tile>> m_tiles;
     // if the bounding box is nullptr, then the object represented by the tiles is uncollidable
-    std::unique_ptr<BoundingBox> m_bounding_box_xy; // min, max
+    std::shared_ptr<BoundingBox> m_bounding_box_xy; // min, max
 };
 
 class Tile {
