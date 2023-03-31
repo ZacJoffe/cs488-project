@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ShaderHandler.h"
+#include "Texture.h"
 #include "Tile.h"
 
 #include <glm/glm.hpp>
@@ -16,5 +17,6 @@ public:
 private:
     std::shared_ptr<ShaderHandler> m_shader_handler;
 
+    std::shared_ptr<Texture> m_floor_texture;
     Tiles m_floor;
 };

@@ -8,13 +8,13 @@
 #include <memory>
 #include <stdexcept>
 
-Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::string & tex_filename) :
-    m_shader_handler(shader_handler), m_trans(trans) {
+Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::shared_ptr<Texture> & texture) :
+    m_shader_handler(shader_handler), m_trans(trans), m_texture(texture) {
     if (m_shader_handler == nullptr) {
         throw std::runtime_error("Shader handler must not be null");
     }
 
-    init(tex_filename);
+    init();
 }
 
 void Tile::draw(const glm::mat4 & world_trans) {
@@ -24,7 +24,7 @@ void Tile::draw(const glm::mat4 & world_trans) {
     glDrawElements(GL_TRIANGLES, tile_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
 }
 
-void Tile::init(const std::string & tex_filename) {
+void Tile::init() {
     using namespace tile_constants;
 
     glGenVertexArrays(1, &m_vao);
@@ -44,7 +44,7 @@ void Tile::init(const std::string & tex_filename) {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    m_texture = std::make_unique<Texture>(tex_filename);
+    // m_texture = std::make_unique<Texture>(tex_filename);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -59,13 +59,12 @@ Tiles::Tiles(const glm::mat4 & world_trans,
              unsigned int num_x,
              unsigned int num_z,
              const std::shared_ptr<ShaderHandler> & shader_handler,
-             // const glm::mat4 & tile_trans,
-             const std::string & tex_filename) :
+             const std::shared_ptr<Texture> & texture) :
     m_trans(world_trans) {
     for (unsigned int x = 0; x < num_x; ++x) {
         for (unsigned int z = 0; z < num_z; ++z) {
             const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
-            m_tiles.push_back(std::make_unique<Tile>(shader_handler, tile_trans, tex_filename));
+            m_tiles.push_back(std::make_unique<Tile>(shader_handler, tile_trans, texture));
         }
     }
 }

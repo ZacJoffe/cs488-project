@@ -34,8 +34,7 @@ public:
           unsigned int num_x,
           unsigned int num_z,
           const std::shared_ptr<ShaderHandler> & shader_handler,
-          // const glm::mat4 & tile_trans,
-          const std::string & tex_filename);
+          const std::shared_ptr<Texture> & texture);
 
     void draw();
 
@@ -48,12 +47,14 @@ class Tile {
 public:
     friend class Tiles;
 
-    Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::string & tex_filename);
+    Tile(const std::shared_ptr<ShaderHandler> & shader_handler,
+         const glm::mat4 & trans,
+         const std::shared_ptr<Texture> & texture);
 
     void draw(const glm::mat4 & world_trans = glm::mat4(1.0f));
 
 private:
-    void init(const std::string & tex_filename);
+    void init();
 
     GLuint m_vao;
     GLuint m_vbo;
@@ -62,6 +63,6 @@ private:
     glm::mat4 m_trans;
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
-    std::unique_ptr<Texture> m_texture;
+    std::shared_ptr<Texture> m_texture;
 };
 
