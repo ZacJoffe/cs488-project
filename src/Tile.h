@@ -1,12 +1,11 @@
 #pragma once
 
+#include "BoundingBox.h"
 #include "ShaderHandler.h"
 #include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <memory>
-#include <optional>
-#include <utility>
 #include <vector>
 
 namespace tile_constants {
@@ -37,14 +36,15 @@ public:
           unsigned int num_z,
           const std::shared_ptr<ShaderHandler> & shader_handler,
           const std::shared_ptr<Texture> & texture,
-          const std::optional<std::pair<glm::vec2, glm::vec2>> & bounding_box_xy = {});
+          std::unique_ptr<BoundingBox> bounding_box_xy);
 
     void draw() const;
 
 private:
     glm::mat4 m_trans;
     std::vector<std::unique_ptr<Tile>> m_tiles;
-    std::optional<std::pair<glm::vec2, glm::vec2>> m_bounding_box_xy; // min, max
+    // if the bounding box is nullptr, then the object represented by the tiles is uncollidable
+    std::unique_ptr<BoundingBox> m_bounding_box_xy; // min, max
 };
 
 class Tile {

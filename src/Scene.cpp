@@ -39,7 +39,8 @@ void Scene::initFloor() {
         WORLD_BOUNDARY_MAX.x,
         WORLD_BOUNDARY_MAX.z,
         m_shader_handler,
-        m_floor_texture
+        m_floor_texture,
+        nullptr
     );
 
 }
@@ -75,7 +76,7 @@ void Scene::initWalls() {
         WORLD_BOUNDARY_MAX.y,
         m_shader_handler,
         m_wall_texture,
-        std::make_pair(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
+        std::make_unique<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
     );
 
     // top wall tl -> tr (N, 0 -> N, N)
@@ -87,7 +88,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_pair(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_unique<BoundingBox>(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
     // right wall br -> tr (0, N -> N, N)
@@ -99,7 +100,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_pair(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_unique<BoundingBox>(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
     );
 
     // bottom wall bl -> br (0, 0 -> 0, N)
@@ -111,6 +112,6 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_pair(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
+        std::make_unique<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
     );
 }

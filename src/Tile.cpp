@@ -19,7 +19,6 @@ Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat
 
 void Tile::draw(const glm::mat4 & world_trans) const {
     m_texture->bind(GL_TEXTURE0);
-    // m_shader_handler->uploadModelUniform(m_trans * world_trans);
     m_shader_handler->uploadModelUniform(world_trans * m_trans);
     glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, tile_constants::NUM_INDEXES, GL_UNSIGNED_INT, 0);
@@ -45,8 +44,6 @@ void Tile::init() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    // m_texture = std::make_unique<Texture>(tex_filename);
-
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -61,8 +58,8 @@ Tiles::Tiles(const glm::mat4 & world_trans,
              unsigned int num_z,
              const std::shared_ptr<ShaderHandler> & shader_handler,
              const std::shared_ptr<Texture> & texture,
-             const std::optional<std::pair<glm::vec2, glm::vec2>> & bounding_box_xy) :
-    m_trans(world_trans), m_bounding_box_xy(bounding_box_xy) {
+             std::unique_ptr<BoundingBox> bounding_box_xy) :
+    m_trans(world_trans), m_bounding_box_xy(std::move(bounding_box_xy)) {
     for (unsigned int x = 0; x < num_x; ++x) {
         for (unsigned int z = 0; z < num_z; ++z) {
             const glm::mat4 tile_trans = glm::translate(glm::mat4(1.0f), glm::vec3(x, 0.0f, z));
