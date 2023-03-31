@@ -1,7 +1,11 @@
 #pragma once
 
+#include "BoundingBox.h"
+
 #include <glm/glm.hpp>
+#include <memory>
 #include <optional>
+#include <utility>
 
 namespace camera_constants {
     static const float DEFAULT_YAW = -45.0f;
@@ -10,6 +14,7 @@ namespace camera_constants {
 
     static const float MIN_PITCH = -80.0f;
     static const float MAX_PITCH = 80.0f;
+    static const float BOUNDING_BOX_OFFSET = 0.2f;
 }
 
 namespace physics_constants {
@@ -37,7 +42,6 @@ enum class MovementDirection {
 
 class Camera {
 public:
-    Camera();
     Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up);
     ~Camera();
 
@@ -52,6 +56,7 @@ public:
     void stopSprint();
 
     void debugCameraPrint() const;
+    void updateBoundingBoxXZ();
 
 private:
     glm::vec3 m_pos;
@@ -72,4 +77,6 @@ private:
     bool m_jumping;
 
     bool m_sprinting;
+
+    std::unique_ptr<BoundingBox> m_bounding_box_xy; // min, max
 };

@@ -1,16 +1,13 @@
 #include "Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-#include <stdexcept>
-#include "glm/gtx/string_cast.hpp"
+#include <glm/gtx/string_cast.hpp>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
 
 using namespace camera_constants;
 using namespace physics_constants;
-
-Camera::Camera() :
-    m_yaw(DEFAULT_YAW),
-    m_pitch(DEFAULT_PITCH) {}
 
 Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up) :
     m_pos(pos),
@@ -23,7 +20,10 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_speed_xz(0.0f),
     m_velocity_y(0.0f),
     m_jumping(false),
-    m_sprinting(false) {}
+    m_sprinting(false)
+{
+    m_bounding_box_xy = std::make_unique<BoundingBox>(glm::vec2(), glm::vec2());
+}
 
 Camera::~Camera() {}
 
@@ -51,7 +51,7 @@ void Camera::updateDirection(float dx, float dy) {
 }
 
 void Camera::move(std::optional<MovementDirection> direction, float delta_time) {
-    debugCameraPrint();
+    updateBoundingBoxXZ();
 
     const glm::vec3 right_axis = glm::normalize(glm::cross(m_front, m_up));
     const glm::vec3 forward_axis = glm::normalize(glm::cross(m_up, right_axis));
@@ -148,6 +148,8 @@ void Camera::move(std::optional<MovementDirection> direction, float delta_time) 
             m_jumping = false;
         }
     }
+
+    debugCameraPrint();
 }
 
 void Camera::initiateJump() {
@@ -166,5 +168,14 @@ void Camera::stopSprint() {
 }
 
 void Camera::debugCameraPrint() const {
-    std::cout << "Position: " << glm::to_string(m_pos) << ", Front: " << glm::to_string(m_front) << ", Speed " << m_speed_xz << std::endl;
+    std::cout << "Position: " << glm::to_string(m_pos)
+              // << ", Front: " << glm::to_string(m_front)
+              // << ", Speed " << m_speed_xz
+              << ", Bounding Box: (" << glm::to_string(m_bounding_box_xy->min) << ", " << glm::to_string(m_bounding_box_xy->max) << ")"
+              << std::endl;
+}
+
+void Camera::updateBoundingBoxXZ() {
+    m_bounding_box_xy->min = glm::vec2(m_pos.x - BOUNDING_BOX_OFFSET, m_pos.z - BOUNDING_BOX_OFFSET);
+    m_bounding_box_xy->max = glm::vec2(m_pos.x + BOUNDING_BOX_OFFSET, m_pos.z + BOUNDING_BOX_OFFSET);
 }
