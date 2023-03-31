@@ -40,8 +40,6 @@ void Window::initCamera() {
         glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
-
-    m_input_handler.setCamera(m_camera);
 }
 
 void Window::initProjectionMatrix() {
@@ -71,8 +69,7 @@ void Window::calculateDeltaTime() {
 void Window::appLogic() {
     calculateDeltaTime();
 
-    const Actions actions = m_input_handler.getActions();
-    m_camera->move(actions, m_delta_time);
+    m_camera->move(m_input_handler, m_delta_time);
 }
 
 void Window::guiLogic() {
@@ -107,6 +104,7 @@ bool Window::mouseMoveEvent(double xPos, double yPos) {
     float y_pos = static_cast<float>(yPos);
     // std::cout << x_pos << ", " << y_pos << std::endl;
     m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
+    m_camera->updateDirection(m_input_handler);
 
     // this value is not used by the caller in the cs488 framework
     return false;

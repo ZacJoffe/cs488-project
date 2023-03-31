@@ -35,24 +35,10 @@ glm::mat4 Camera::getView() const {
     );
 }
 
-void Camera::updateDirection(float dx, float dy) {
-    m_yaw += dx;
-    m_pitch += dy;
-
-    // std::cout << m_pitch << std::endl;
-    m_pitch = glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
-
-    m_front = glm::normalize(
-        glm::vec3(
-            glm::cos(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch)),
-            glm::sin(glm::radians(m_pitch)),
-            glm::sin(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch))
-        ));
-}
-
-void Camera::move(const Actions & actions, float delta_time) {
+void Camera::move(InputHandler & input_handler, float delta_time) {
     updateBoundingBoxXZ();
 
+    const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
         initiateJump();
     }
@@ -158,6 +144,22 @@ void Camera::move(const Actions & actions, float delta_time) {
     }
 
     debugCameraPrint();
+}
+
+void Camera::updateDirection(const InputHandler & input_handler) {
+    const auto [dx, dy] = input_handler.getCursorDeltas();
+    m_yaw += dx;
+    m_pitch += dy;
+
+    // std::cout << m_pitch << std::endl;
+    m_pitch = glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
+
+    m_front = glm::normalize(
+        glm::vec3(
+            glm::cos(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch)),
+            glm::sin(glm::radians(m_pitch)),
+            glm::sin(glm::radians(m_yaw)) * glm::cos(glm::radians(m_pitch))
+        ));
 }
 
 void Camera::debugCameraPrint() const {

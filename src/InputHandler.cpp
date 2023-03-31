@@ -7,11 +7,8 @@
 #include <utility>
 
 InputHandler::InputHandler(float window_width, float window_height) :
-    m_prev_cursor_pos(window_width / 2.0f, window_height / 2.0f) {}
-
-void InputHandler::setCamera(const std::shared_ptr<Camera> & camera) {
-    m_camera = camera;
-}
+    m_prev_cursor_pos(window_width / 2.0f, window_height / 2.0f),
+    m_cursor_pos_deltas(0.0f, 0.0f) {}
 
 void InputHandler::pressKey(int key) {
     setKeyHelper(key, true);
@@ -19,6 +16,16 @@ void InputHandler::pressKey(int key) {
 
 void InputHandler::releaseKey(int key) {
     setKeyHelper(key, false);
+}
+
+void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
+    m_cursor_pos_deltas.first = (cursor_pos.first - m_prev_cursor_pos.first) * camera_constants::SENSITIVITY;
+    m_cursor_pos_deltas.second = (m_prev_cursor_pos.second - cursor_pos.second) * camera_constants::SENSITIVITY;
+    m_prev_cursor_pos = cursor_pos;
+}
+
+std::pair<float, float> InputHandler::getCursorDeltas() const {
+    return m_cursor_pos_deltas;
 }
 
 Actions InputHandler::getActions() {
@@ -59,16 +66,6 @@ Actions InputHandler::getActions() {
     }
 
     return Actions(direction, initiateJump, sprint);
-}
-
-
-void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
-    const float dx = (cursor_pos.first - m_prev_cursor_pos.first) * camera_constants::SENSITIVITY;
-    const float dy = (m_prev_cursor_pos.second - cursor_pos.second) * camera_constants::SENSITIVITY;
-    m_prev_cursor_pos = cursor_pos;
-
-    // TODO refactor camera out of this class
-    m_camera->updateDirection(dx, dy);
 }
 
 void InputHandler::setKeyHelper(int key, bool is_pressed) {
@@ -129,3 +126,4 @@ void InputHandler::setKeyHelper(int key, bool is_pressed) {
         }
     }
 }
+

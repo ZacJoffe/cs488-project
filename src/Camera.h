@@ -3,6 +3,7 @@
 #include "BoundingBox.h"
 
 #include "Actions.h"
+#include "InputHandler.h"
 #include <glm/glm.hpp>
 #include <memory>
 #include <optional>
@@ -29,17 +30,20 @@ namespace physics_constants {
     static const float GRAVITY = -10.0f;
 }
 
+class InputHandler;
+
 class Camera {
 public:
     Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 & up);
     ~Camera();
 
     glm::mat4 getView() const;
-    void updateDirection(float dx, float dy);
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(const Actions & actions, float delta_time);
+    void move(InputHandler & input_handler, float delta_time);
+    // void updateDirection(float dx, float dy);
+    void updateDirection(const InputHandler & input_handler);
 
     void debugCameraPrint() const;
 
