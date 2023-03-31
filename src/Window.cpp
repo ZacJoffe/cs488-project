@@ -2,7 +2,7 @@
 #include "Camera.h"
 #include "GLFW/glfw3.h"
 #include "cs488-framework/GlErrorCheck.hpp"
-#include "Floor.h"
+#include "Tile.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -41,7 +41,7 @@ void Window::initShaderHandler() {
 
 void Window::initFloor() {
     // m_geos.push_back(std::make_shared<Floor>(m_shader_handler));
-    m_floor = std::make_shared<Floor>(m_shader_handler);
+    m_floor = std::make_shared<Tile>(m_shader_handler);
 }
 
 void Window::initProjectionMatrix() {

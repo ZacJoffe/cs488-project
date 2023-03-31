@@ -6,10 +6,10 @@
 
 #include <memory>
 
-namespace floor_constants {
+namespace tile_constants {
     static const GLuint NUM_VERTICES = 4;
 
-    // this floor covers the entire plane
+    // this tile covers the entire plane
     static const float VERTICES[NUM_VERTICES * 5] = {
         // x     y      z       texture coords
         -1.0f, -1.0f,  1.0f,    0.0f, 0.0f,  // front left
@@ -25,10 +25,10 @@ namespace floor_constants {
     };
 }
 
-class Floor : public Geometry {
+class Tile : public Geometry {
 public:
-    Floor(const std::shared_ptr<ShaderHandler> & shader_handler);
-    ~Floor() override;
+    Tile(const std::shared_ptr<ShaderHandler> & shader_handler);
+    ~Tile() override;
 
     void draw() override;
 

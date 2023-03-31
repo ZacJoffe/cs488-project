@@ -4,10 +4,10 @@
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
 #include "Camera.h"
-#include "Floor.h"
 #include "Geometry.h"
 #include "InputHandler.h"
 #include "ShaderHandler.h"
+#include "Tile.h"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -64,7 +64,7 @@ private:
     glm::mat4 view;
 
     // std::vector<std::shared_ptr<Geometry>> m_geos;
-    std::shared_ptr<Floor> m_floor;
+    std::shared_ptr<Tile> m_floor;
 
     float m_delta_time;
     float m_last_frame_time;
