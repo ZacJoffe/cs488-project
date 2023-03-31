@@ -16,6 +16,9 @@ public:
     void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model);
 
 private:
+    void initFloor();
+    void initWalls();
+
     std::shared_ptr<ShaderHandler> m_shader_handler;
 
     std::shared_ptr<Texture> m_floor_texture;
