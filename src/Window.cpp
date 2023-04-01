@@ -44,15 +44,14 @@ void Window::initCamera() {
 
 void Window::initProjectionMatrix() {
     const float aspect = static_cast<float>(m_framebufferWidth) / static_cast<float>(m_framebufferHeight);
-    // TODO these values probably need tweaking (including fovy)
     const float near_plane = 0.2f;
     const float far_plane = 100.0f;
 
     m_projection = glm::perspective(
         glm::radians(DEFAULT_FOVY),
         aspect,
-        near_plane,
-        far_plane
+        NEAR_PLANE,
+        FAR_PLANE
     );
 }
 

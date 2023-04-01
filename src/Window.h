@@ -12,7 +12,10 @@
 #include <vector>
 
 namespace window_constants {
+    // TODO these values probably need tweaking
     static const float DEFAULT_FOVY = 60.0f;
+    static const float NEAR_PLANE = 0.2f;
+    static const float FAR_PLANE = 100.0f;
 }
 
 class Window : public CS488Window {
