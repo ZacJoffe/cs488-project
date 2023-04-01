@@ -4,6 +4,7 @@
 
 #include "BoundingBox.h"
 #include "Ray.h"
+#include "Rng.h"
 #include "ShaderHandler.h"
 
 #include <glm/glm.hpp>
@@ -62,5 +63,6 @@ private:
 
     glm::vec3 m_move_direction;
     unsigned int m_ticks;
+    Rng m_rng;
 };
 

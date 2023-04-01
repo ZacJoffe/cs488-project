@@ -24,11 +24,6 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
 
-    // only seed rng on first invocation
-    if (s_enemy_count == 1) {
-        std::srand(std::time(nullptr));
-    }
-
     m_move_direction = getRandomDirection();
 }
 
@@ -124,7 +119,7 @@ void Enemy::updateBoundingBoxXZ() {
 }
 
 glm::vec3 Enemy::getRandomDirection() const {
-    const double x = std::rand() / static_cast<double>(RAND_MAX) * 2.0 * glm::pi<double>();
+    const double x = m_rng() * 2.0 * glm::pi<double>();
     return glm::normalize(
         glm::vec3(
             glm::sin(x),
