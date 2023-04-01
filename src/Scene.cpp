@@ -10,6 +10,11 @@ using namespace scene_constants;
 Scene::Scene() {
     // init shader handler
     m_shader_handler = std::make_shared<ShaderHandler>();
+    m_enemy = std::make_unique<Enemy>(
+        m_shader_handler,
+        glm::vec3(N / 2.0f, 0.0f, N / 2.0f),
+        "./assets/meshes/ellipse.obj"
+    );
 
     initFloor();
     initWalls();
@@ -27,6 +32,8 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
     for (const auto & wall : m_walls) {
         wall.draw();
     }
+
+    m_enemy->draw();
 
     m_shader_handler->disable();
     glBindVertexArray(0);

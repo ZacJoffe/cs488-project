@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BoundingBox.h"
+#include "Enemy.h"
 #include "ShaderHandler.h"
 #include "Texture.h"
 #include "Tile.h"
@@ -39,4 +40,6 @@ private:
 
     std::shared_ptr<Texture> m_wall_texture;
     std::array<Tiles, 4> m_walls;
+
+    std::unique_ptr<Enemy> m_enemy;
 };
