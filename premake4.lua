@@ -90,28 +90,30 @@ solution "BuildStaticLibs"
         targetdir "lib"
         includedirs (includeDirList)
         includedirs {
-            "shared/imgui/examples/opengl3_example",
-            "shared/imgui/examples/libs/gl3w/",
+            "shared/imgui/examples/example_glfw_opengl3",
+            "shared/imgui/examples/libs/glfw/",
         }
         files {
             "shared/imgui/*.cpp",
-            "shared/gl3w/GL/gl3w.c"
+            "shared/imgui/backends/imgui_impl_glfw.cpp",
+            "shared/imgui/backends/imgui_impl_opengl3.cpp",
+            "shared/gl3w/GL/gl3w.c",
         }
 
     -- Build lodepng static library
-    project "lodepng"
-        kind "StaticLib"
-        language "C++"
-        location "build"
-        objdir "build"
-        targetdir "lib"
-        includedirs (includeDirList)
-        includedirs {
-            "shared/lodepng"
-        }
-        files {
-            "shared/lodepng/lodepng.cpp"
-        }
+    -- project "lodepng"
+    --     kind "StaticLib"
+    --     language "C++"
+    --     location "build"
+    --     objdir "build"
+    --     targetdir "lib"
+    --     includedirs (includeDirList)
+    --     includedirs {
+    --         "shared/lodepng"
+    --     }
+    --     files {
+    --         "shared/lodepng/lodepng.cpp"
+    --     }
 
     project "fps"
         kind "ConsoleApp"

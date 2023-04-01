@@ -3,6 +3,7 @@
 #include "GLFW/glfw3.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "Tile.h"
+#include "imgui.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -73,8 +74,11 @@ void Window::appLogic() {
 
 void Window::guiLogic() {
     // DELETEME after doing the ui objective
-    // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // std::cout << glfwGetInputMode(m_window, GLFW_CURSOR) << std::endl;
+
+    ImGuiIO& io = ImGui::GetIO();
+    // io.ConfigFlags |= ImGuiConfigFlags_NoMouse;
 }
 
 void Window::draw()

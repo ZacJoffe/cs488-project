@@ -7,7 +7,9 @@
 #include <cstdio>
 
 #include <imgui/imgui.h>
-#include <imgui_impl_glfw_gl3.h>
+// #include <imgui_impl_glfw_gl3.h>
+#include <imgui/backends/imgui_impl_glfw.h>
+#include <imgui/backends/imgui_impl_opengl3.h>
 
 using namespace std;
 
@@ -167,6 +169,7 @@ bool CS488Window::keyInputEvent (
 ) {
 	bool eventHandled(false);
 
+    /*
 	if (action == GLFW_PRESS) {
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(m_window, GL_TRUE);
@@ -190,6 +193,7 @@ bool CS488Window::keyInputEvent (
 			eventHandled = true;
 		}
 	}
+    */
 
 	return eventHandled;
 }
@@ -377,9 +381,18 @@ void CS488Window::run (
 
     registerGlfwCallBacks();
 
-	// Setup ImGui binding.  Tell the ImGui subsystem not to
-	// bother setting up its callbacks -- ours will do just fine here.
-	ImGui_ImplGlfwGL3_Init( m_window, false );
+
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup ImGui binding.  Tell the ImGui subsystem not to
+    // bother setting up its callbacks -- ours will do just fine here.
+    ImGui_ImplGlfw_InitForOpenGL(m_window, false);
+    ImGui_ImplOpenGL3_Init("#version 130");
 
     // Make sure resize is run on initialization to get consistent results across platforms
     getInstance()->windowResizeEvent(width, height);
@@ -400,7 +413,11 @@ void CS488Window::run (
         // Main Program Loop:
         while (!glfwWindowShouldClose(m_window)) {
             glfwPollEvents();
-			// ImGui_ImplGlfwGL3_NewFrame();
+
+            // Start the Dear ImGui frame
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
 
             if (!m_paused) {
 				// Apply application-specific logic
@@ -417,7 +434,7 @@ void CS488Window::run (
 			            &m_framebufferHeight);
 
 	            // Draw any UI controls specified in guiLogic() by derived class.
-	            // renderImGui(m_framebufferWidth, m_framebufferHeight);
+	            renderImGui(m_framebufferWidth, m_framebufferHeight);
 
 				// Finally, blast everything to the screen.
                 glfwSwapBuffers(m_window);
