@@ -11,7 +11,8 @@ compile_commands.json
 /.cache
 
 .projectile
+.dir-locals.el
+
+imgui.ini
 
 fps
-
-.dir-locals.el
