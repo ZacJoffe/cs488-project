@@ -1,4 +1,3 @@
-#include "Scene.h"
 #include "Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -36,7 +35,7 @@ glm::mat4 Camera::getView() const {
     );
 }
 
-void Camera::move(InputHandler & input_handler, const Scene & scene, float delta_time) {
+void Camera::move(InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, float delta_time) {
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
         initiateJump();
@@ -85,7 +84,6 @@ void Camera::move(InputHandler & input_handler, const Scene & scene, float delta
     };
 
     auto direction = actions.direction;
-    auto objs = scene.getCollidableObjects();
 
     // approximate integrals in movement equations throughout this method with semi-implicit euler integrator
     // https://gafferongames.com/post/integration_basics/
@@ -96,7 +94,7 @@ void Camera::move(InputHandler & input_handler, const Scene & scene, float delta
             }
 
             const glm::vec3 velocity = calculateVelocityXZ(*direction);
-            updatePosition(velocity, objs);
+            updatePosition(velocity, collidable_objects);
 
             // clamp speed
             if (m_speed_xz > MAX_SPRINT_SPEED) {
@@ -106,14 +104,14 @@ void Camera::move(InputHandler & input_handler, const Scene & scene, float delta
             // slow player down from sprint to normal walking speed
             m_speed_xz += -1 * ACCELERATION * delta_time;
             const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
-            updatePosition(velocity, objs);
+            updatePosition(velocity, collidable_objects);
         } else {
             if (m_speed_xz < MAX_WALK_SPEED) {
                 m_speed_xz += ACCELERATION * delta_time;
             }
 
             const glm::vec3 velocity = calculateVelocityXZ(*direction);
-            updatePosition(velocity, objs);
+            updatePosition(velocity, collidable_objects);
 
             if (m_speed_xz > MAX_WALK_SPEED) {
                 m_speed_xz = MAX_WALK_SPEED;
@@ -125,7 +123,7 @@ void Camera::move(InputHandler & input_handler, const Scene & scene, float delta
         // no keys are being pressed and player is moving, slow player down to stop
         m_speed_xz += -1 * ACCELERATION * delta_time;
         const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
-        updatePosition(velocity, objs);
+        updatePosition(velocity, collidable_objects);
 
         // explicitly clamp speed to 0 to avoid numerical headaches
         if (m_speed_xz < MIN_SPEED) {
