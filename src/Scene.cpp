@@ -66,6 +66,12 @@ void Scene::handleShot(const Ray & ray) {
     }
 }
 
+void Scene::tick(float delta_time) {
+    for (auto & enemy : m_enemies) {
+        enemy.move(getCollidableObjects(), delta_time);
+    }
+}
+
 void Scene::initFloor() {
     m_floor_texture = std::make_shared<Texture>("./assets/textures/Grass_02.png");
     m_floor = Tiles(

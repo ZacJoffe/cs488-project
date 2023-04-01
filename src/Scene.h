@@ -30,6 +30,7 @@ public:
     void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const;
     std::list<BoundingBox> getCollidableObjects() const;
     void handleShot(const Ray & ray);
+    void tick(float delta_time);
 
 private:
     void initFloor();

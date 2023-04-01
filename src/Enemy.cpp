@@ -3,7 +3,10 @@
 #include "cs488-framework/ObjFileDecoder.hpp"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/constants.hpp"
 
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 using namespace enemy_constants;
@@ -11,7 +14,7 @@ using namespace enemy_constants;
 unsigned int Enemy::s_enemy_count = 0;
 
 Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::vec3 & pos, const std::string & mesh_filename) :
-    m_shader_handler(shader_handler), m_pos(pos), m_alive(true)
+    m_shader_handler(shader_handler), m_pos(pos), m_alive(true), m_ticks(0)
 {
     m_id = "enemy" + std::to_string(s_enemy_count);
     ++s_enemy_count;
@@ -20,6 +23,13 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
     initBuffers();
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
+
+    // only seed rng on first invocation
+    if (s_enemy_count == 1) {
+        std::srand(std::time(nullptr));
+    }
+
+    m_move_direction = getRandomDirection();
 }
 
 void Enemy::draw(const glm::mat4 & world_trans) const {
@@ -46,6 +56,27 @@ void Enemy::kill() {
 
 std::string Enemy::getId() const {
     return m_id;
+}
+
+void Enemy::move(const std::list<BoundingBox> & collidable_objects, float delta_time) {
+    if (!m_alive) {
+        return;
+    }
+
+    // get new random direction vector every MAX_TICKS ticks
+    if (m_ticks == MAX_TICKS) {
+        m_ticks = 0;
+        m_move_direction = getRandomDirection();
+    }
+
+    const float speed = SPEED * delta_time;
+    while (!tryUpdatePosition(speed * m_move_direction, collidable_objects)) {
+        // if we fail to update our position due to a collision, get another
+        // direction vector and try again
+        m_move_direction = getRandomDirection();
+    }
+
+    ++m_ticks;
 }
 
 void Enemy::initBuffers() {
@@ -85,5 +116,31 @@ BoundingBox Enemy::updateBoundingBoxHelper(const glm::vec3 & pos) const {
 
 void Enemy::updateBoundingBoxXZ() {
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
+}
+
+glm::vec3 Enemy::getRandomDirection() const {
+    const double x = std::rand() / static_cast<double>(RAND_MAX) * 2.0 * glm::pi<double>();
+    return glm::normalize(
+        glm::vec3(
+            glm::sin(x),
+            0.0f,
+            glm::cos(x)
+        )
+    );
+}
+
+bool Enemy::tryUpdatePosition(const glm::vec3 & velocity, std::list<BoundingBox> collidable_objects) {
+    const glm::vec3 new_pos = m_pos + velocity;
+    const BoundingBox new_bounding_box = updateBoundingBoxHelper(new_pos);
+
+    for (const auto & obj : collidable_objects) {
+        if (new_bounding_box.collisionTest(obj)) {
+            return false;
+        }
+    }
+
+    m_pos = new_pos;
+    m_bounding_box_xz = new_bounding_box;
+    return true;
 }
 

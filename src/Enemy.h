@@ -8,11 +8,14 @@
 
 #include <glm/glm.hpp>
 #include <memory>
+#include <random>
 #include <string>
 #include <vector>
 
 namespace enemy_constants {
     static const float BOUNDING_BOX_OFFSET = 0.5f;
+    static const unsigned int MAX_TICKS = 100;
+    static const float SPEED = 5.0f;
 }
 
 class Enemy {
@@ -23,11 +26,15 @@ public:
     bool collisionTestXZ(const Ray & ray) const;
     void kill();
     std::string getId() const;
+    void move(const std::list<BoundingBox> & collidable_objects, float delta_time);
 
 private:
     void initBuffers();
     BoundingBox updateBoundingBoxHelper(const glm::vec3 & pos) const;
     void updateBoundingBoxXZ();
+    glm::vec3 getRandomDirection() const;
+    bool tryUpdatePosition(const glm::vec3 & velocity, std::list<BoundingBox> collidable_objects);
+
 
     static unsigned int s_enemy_count;
 
@@ -50,6 +57,8 @@ private:
     BoundingBox m_bounding_box_xz;
 
     bool m_alive;
-    // TODO movement with (very basic) ai and static collision detection
+
+    glm::vec3 m_move_direction;
+    unsigned int m_ticks;
 };
 
