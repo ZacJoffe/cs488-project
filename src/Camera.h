@@ -4,7 +4,10 @@
 
 #include "Actions.h"
 #include "InputHandler.h"
+#include "Scene.h"
+
 #include <glm/glm.hpp>
+#include <list>
 #include <memory>
 #include <optional>
 #include <utility>
@@ -41,15 +44,17 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(InputHandler & input_handler, float delta_time);
+    void move(InputHandler & input_handler, const Scene & scene, float delta_time);
     // void updateDirection(float dx, float dy);
     void updateDirection(const InputHandler & input_handler);
 
     void debugCameraPrint() const;
 
 private:
+    BoundingBox updateBoundingBoxHelper(const glm::vec3 & pos) const;
     void updateBoundingBoxXZ();
     void initiateJump();
+    void updatePosition(const glm::vec3 & velocity, std::list<BoundingBox> collidable_objects);
 
     glm::vec3 m_pos;
     glm::vec3 m_front;
@@ -70,5 +75,6 @@ private:
 
     bool m_sprinting;
 
-    std::unique_ptr<BoundingBox> m_bounding_box_xy; // min, max
+    BoundingBox m_bounding_box_xz; // min, max
 };
+

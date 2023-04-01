@@ -1,5 +1,4 @@
 #include "InputHandler.h"
-#include "Camera.h"
 #include "GLFW/glfw3.h"
 
 #include <iostream>
@@ -19,8 +18,8 @@ void InputHandler::releaseKey(int key) {
 }
 
 void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
-    m_cursor_pos_deltas.first = (cursor_pos.first - m_prev_cursor_pos.first) * camera_constants::SENSITIVITY;
-    m_cursor_pos_deltas.second = (m_prev_cursor_pos.second - cursor_pos.second) * camera_constants::SENSITIVITY;
+    m_cursor_pos_deltas.first = (cursor_pos.first - m_prev_cursor_pos.first);
+    m_cursor_pos_deltas.second = (m_prev_cursor_pos.second - cursor_pos.second);
     m_prev_cursor_pos = cursor_pos;
 }
 

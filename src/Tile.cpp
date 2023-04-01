@@ -1,10 +1,11 @@
 #include "Tile.h"
-#include "GL/gl3w.h"
-#include "GL/glcorearb.h"
+
+#include <gl3w/GL/gl3w.h>
+#include <gl3w/GL/glcorearb.h>
 #include "cs488-framework/GlErrorCheck.hpp"
-#include "glm/gtc/matrix_transform.hpp"
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <memory>
 #include <stdexcept>
 

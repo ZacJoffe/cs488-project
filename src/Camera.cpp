@@ -1,3 +1,4 @@
+#include "Scene.h"
 #include "Camera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -22,7 +23,7 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_jumping(false),
     m_sprinting(false)
 {
-    m_bounding_box_xy = std::make_unique<BoundingBox>(glm::vec2(), glm::vec2());
+    m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
 }
 
 Camera::~Camera() {}
@@ -35,8 +36,8 @@ glm::mat4 Camera::getView() const {
     );
 }
 
-void Camera::move(InputHandler & input_handler, float delta_time) {
-    updateBoundingBoxXZ();
+void Camera::move(InputHandler & input_handler, const Scene & scene, float delta_time) {
+    // updateBoundingBoxXZ();
 
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
@@ -86,6 +87,7 @@ void Camera::move(InputHandler & input_handler, float delta_time) {
     };
 
     auto direction = actions.direction;
+    auto objs = scene.getCollidableObjects();
 
     // approximate integrals in movement equations throughout this method with semi-implicit euler integrator
     // https://gafferongames.com/post/integration_basics/
@@ -96,7 +98,7 @@ void Camera::move(InputHandler & input_handler, float delta_time) {
             }
 
             const glm::vec3 velocity = calculateVelocityXZ(*direction);
-            m_pos += velocity;
+            updatePosition(velocity, objs);
 
             // clamp speed
             if (m_speed_xz > MAX_SPRINT_SPEED) {
@@ -106,14 +108,14 @@ void Camera::move(InputHandler & input_handler, float delta_time) {
             // slow player down from sprint to normal walking speed
             m_speed_xz += -1 * ACCELERATION * delta_time;
             const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
-            m_pos += velocity;
+            updatePosition(velocity, objs);
         } else {
             if (m_speed_xz < MAX_WALK_SPEED) {
                 m_speed_xz += ACCELERATION * delta_time;
             }
 
             const glm::vec3 velocity = calculateVelocityXZ(*direction);
-            m_pos += velocity;
+            updatePosition(velocity, objs);
 
             if (m_speed_xz > MAX_WALK_SPEED) {
                 m_speed_xz = MAX_WALK_SPEED;
@@ -125,7 +127,7 @@ void Camera::move(InputHandler & input_handler, float delta_time) {
         // no keys are being pressed and player is moving, slow player down to stop
         m_speed_xz += -1 * ACCELERATION * delta_time;
         const glm::vec3 velocity = calculateVelocityXZ(m_prev_direction);
-        m_pos += velocity;
+        updatePosition(velocity, objs);
 
         // explicitly clamp speed to 0 to avoid numerical headaches
         if (m_speed_xz < MIN_SPEED) {
@@ -148,8 +150,9 @@ void Camera::move(InputHandler & input_handler, float delta_time) {
 
 void Camera::updateDirection(const InputHandler & input_handler) {
     const auto [dx, dy] = input_handler.getCursorDeltas();
-    m_yaw += dx;
-    m_pitch += dy;
+
+    m_yaw += dx * SENSITIVITY;
+    m_pitch += dy * SENSITIVITY;
 
     // std::cout << m_pitch << std::endl;
     m_pitch = glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
@@ -166,13 +169,19 @@ void Camera::debugCameraPrint() const {
     std::cout << "Position: " << glm::to_string(m_pos)
               // << ", Front: " << glm::to_string(m_front)
               // << ", Speed " << m_speed_xz
-              << ", Bounding Box: " << m_bounding_box_xy->toString()
+              << ", Bounding Box: " << m_bounding_box_xz.toString()
               << std::endl;
 }
 
+BoundingBox Camera::updateBoundingBoxHelper(const glm::vec3 & pos) const {
+    return BoundingBox(
+        glm::vec2(pos.x - BOUNDING_BOX_OFFSET, pos.z - BOUNDING_BOX_OFFSET),
+        glm::vec2(pos.x + BOUNDING_BOX_OFFSET, pos.z + BOUNDING_BOX_OFFSET)
+    );
+}
+
 void Camera::updateBoundingBoxXZ() {
-    m_bounding_box_xy->min = glm::vec2(m_pos.x - BOUNDING_BOX_OFFSET, m_pos.z - BOUNDING_BOX_OFFSET);
-    m_bounding_box_xy->max = glm::vec2(m_pos.x + BOUNDING_BOX_OFFSET, m_pos.z + BOUNDING_BOX_OFFSET);
+    m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
 }
 
 void Camera::initiateJump() {
@@ -180,5 +189,19 @@ void Camera::initiateJump() {
         m_jumping = true;
         m_velocity_y = INITIAL_JUMP_VELOCITY;
     }
+}
+
+void Camera::updatePosition(const glm::vec3 & velocity, std::list<BoundingBox> collidable_objects) {
+    const glm::vec3 new_pos = m_pos + velocity;
+    const BoundingBox new_bounding_box = updateBoundingBoxHelper(new_pos);
+
+    for (const auto & obj : collidable_objects) {
+        if (new_bounding_box.collisionTest(obj)) {
+            return;
+        }
+    }
+
+    m_pos = new_pos;
+    m_bounding_box_xz = new_bounding_box;
 }
 

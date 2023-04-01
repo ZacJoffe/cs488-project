@@ -6,6 +6,7 @@
 struct BoundingBox {
     glm::vec2 min;
     glm::vec2 max;
+    BoundingBox();
     BoundingBox(glm::vec2 min, glm::vec2 max);
 
     bool collisionTest(const BoundingBox & other) const;

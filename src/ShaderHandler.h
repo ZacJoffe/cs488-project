@@ -1,8 +1,6 @@
 #pragma once
 
-#include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/ShaderProgram.hpp"
-
 #include <glm/glm.hpp>
 
 // composition-based wrapper of the ShaderProgram class

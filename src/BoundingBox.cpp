@@ -2,6 +2,8 @@
 
 #include <glm/gtx/string_cast.hpp>
 
+BoundingBox::BoundingBox() {}
+
 BoundingBox::BoundingBox(glm::vec2 min, glm::vec2 max) : min(min), max(max) {}
 
 bool BoundingBox::collisionTest(const BoundingBox & other) const {

@@ -2,7 +2,6 @@
 
 #include "GLFW/glfw3.h"
 #include "Actions.h"
-#include "Camera.h"
 
 #include <memory>
 #include <unordered_map>

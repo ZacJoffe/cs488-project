@@ -45,7 +45,7 @@ void Window::initCamera() {
 void Window::initProjectionMatrix() {
     const float aspect = static_cast<float>(m_framebufferWidth) / static_cast<float>(m_framebufferHeight);
     // TODO these values probably need tweaking (including fovy)
-    const float near_plane = 1.0f;
+    const float near_plane = 0.2f;
     const float far_plane = 100.0f;
 
     m_projection = glm::perspective(
@@ -69,7 +69,7 @@ void Window::calculateDeltaTime() {
 void Window::appLogic() {
     calculateDeltaTime();
 
-    m_camera->move(m_input_handler, m_delta_time);
+    m_camera->move(m_input_handler, *m_scene, m_delta_time);
 }
 
 void Window::guiLogic() {

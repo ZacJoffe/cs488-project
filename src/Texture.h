@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GL/gl3w.h"
-#include "GL/glcorearb.h"
+#include <gl3w/GL/gl3w.h>
+#include <gl3w/GL/glcorearb.h>
 #include <string>
 
 class Texture {
