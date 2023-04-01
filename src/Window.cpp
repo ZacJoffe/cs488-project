@@ -56,7 +56,8 @@ void Window::initProjectionMatrix() {
 }
 
 void Window::initScene() {
-    m_scene = std::make_unique<Scene>();
+    // TODO let the number of enemies be a parameter in the UI
+    m_scene = std::make_unique<Scene>(5);
 }
 
 void Window::calculateDeltaTime() {

@@ -8,14 +8,18 @@
 
 using namespace scene_constants;
 
-Scene::Scene() {
+Scene::Scene(unsigned int num_enemies) {
     // init shader handler
     m_shader_handler = std::make_shared<ShaderHandler>();
-    m_enemies.emplace_back(
-        m_shader_handler,
-        glm::vec3(N / 2.0f, 2.0f, N / 2.0f),
-        "./assets/meshes/sphere.obj"
-    );
+    for (unsigned int i = 0; i < num_enemies; ++i) {
+        m_enemies.emplace_back(
+            m_shader_handler,
+            // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
+            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
+            "./assets/meshes/sphere.obj"
+        );
+    }
+
 
     initFloor();
     initWalls();

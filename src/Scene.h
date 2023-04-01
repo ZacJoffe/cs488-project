@@ -3,6 +3,7 @@
 #include "BoundingBox.h"
 #include "Enemy.h"
 #include "Ray.h"
+#include "Rng.h"
 #include "ShaderHandler.h"
 #include "Texture.h"
 #include "Tile.h"
@@ -25,7 +26,7 @@ namespace scene_constants {
 
 class Scene {
 public:
-    Scene();
+    Scene(unsigned int num_enemies);
 
     void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const;
     std::list<BoundingBox> getStaticCollidableObjects() const;
@@ -47,4 +48,6 @@ private:
 
     // TODO make this a vector of enemies with (random) spawning logic?
     std::list<Enemy> m_enemies;
+
+    Rng m_rng;
 };
