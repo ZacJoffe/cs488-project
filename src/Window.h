@@ -51,7 +51,6 @@ private:
 
     InputHandler m_input_handler;
 
-    // std::shared_ptr<Tile> m_floor;
     std::unique_ptr<Scene> m_scene;
 
     float m_delta_time;

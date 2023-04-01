@@ -45,7 +45,6 @@ public:
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
     void move(InputHandler & input_handler, const Scene & scene, float delta_time);
-    // void updateDirection(float dx, float dy);
     void updateDirection(const InputHandler & input_handler);
 
     void debugCameraPrint() const;

@@ -37,8 +37,6 @@ glm::mat4 Camera::getView() const {
 }
 
 void Camera::move(InputHandler & input_handler, const Scene & scene, float delta_time) {
-    // updateBoundingBoxXZ();
-
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
         initiateJump();

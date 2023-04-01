@@ -17,6 +17,8 @@ namespace scene_constants {
     static const float Y = 5.0f;
     static const glm::vec3 WORLD_BOUNDARY_MIN = glm::vec3(0.0f, 2.0f, 0.0f);
     static const glm::vec3 WORLD_BOUNDARY_MAX = glm::vec3(N, Y, N);
+
+    static const float BOUNDING_BOX_OFFSET = 0.2f;
 }
 
 class Scene {

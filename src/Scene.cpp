@@ -85,7 +85,7 @@ void Scene::initWalls() {
         WORLD_BOUNDARY_MAX.y,
         m_shader_handler,
         m_wall_texture,
-        std::make_shared<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(N + 0.2f, 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, BOUNDING_BOX_OFFSET))
     );
 
     // top wall tl -> tr (N, 0 -> N, N)
@@ -97,7 +97,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_shared<BoundingBox>(glm::vec2(N - 0.2f, -0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(N - BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
     );
 
     // right wall br -> tr (0, N -> N, N)
@@ -109,7 +109,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_shared<BoundingBox>(glm::vec2(-0.2f, N - 0.2f), glm::vec2(N + 0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, N - BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
     );
 
     // bottom wall bl -> br (0, 0 -> 0, N)
@@ -121,7 +121,7 @@ void Scene::initWalls() {
         10,
         m_shader_handler,
         m_wall_texture,
-        std::make_shared<BoundingBox>(glm::vec2(-0.2f, -0.2f), glm::vec2(0.2f, N + 0.2f))
+        std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
     );
 }
 
