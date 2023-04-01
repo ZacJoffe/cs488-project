@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 #include <memory>
 #include <utility>
 
@@ -10,10 +11,10 @@ using namespace scene_constants;
 Scene::Scene() {
     // init shader handler
     m_shader_handler = std::make_shared<ShaderHandler>();
-    m_enemy = std::make_unique<Enemy>(
+    m_enemies.emplace_back(
         m_shader_handler,
-        glm::vec3(N / 2.0f, 0.0f, N / 2.0f),
-        "./assets/meshes/ellipse.obj"
+        glm::vec3(N / 2.0f, 2.0f, N / 2.0f),
+        "./assets/meshes/sphere.obj"
     );
 
     initFloor();
@@ -33,7 +34,9 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
         wall.draw();
     }
 
-    m_enemy->draw();
+    for (const auto & enemy : m_enemies) {
+        enemy.draw();
+    }
 
     m_shader_handler->disable();
     glBindVertexArray(0);
@@ -46,6 +49,21 @@ std::list<BoundingBox> Scene::getCollidableObjects() const {
         *m_walls[2].getBoundingBox(),
         *m_walls[3].getBoundingBox()
     };
+}
+
+void Scene::handleShot(const Ray & ray) {
+    // the ray can shoot through enemies and kill multiple of them, thus we
+    // don't need intersection points (t values) and must iterate through each
+    // alive enemy
+    for (auto & enemy : m_enemies) {
+        const bool hit = enemy.collisionTestXZ(ray);
+        if (hit) {
+            // NOTE this tests dead enemies, but the kill method does nothing if
+            // the enemy is already dead
+            std::cout << "hit enemy " + enemy.getId() << std::endl;
+            enemy.kill();
+        }
+    }
 }
 
 void Scene::initFloor() {

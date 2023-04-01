@@ -1,13 +1,11 @@
 #include "Window.h"
-#include "Camera.h"
-#include "GLFW/glfw3.h"
+
 #include "cs488-framework/GlErrorCheck.hpp"
-#include "Tile.h"
 #include "imgui.h"
+#include "Ray.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-// #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <utility>
 
@@ -16,7 +14,8 @@ using namespace window_constants;
 Window::Window() :
     m_input_handler(m_windowHeight, m_windowWidth),
     m_delta_time(0.0f),
-    m_last_frame_time(0.0f) {}
+    m_last_frame_time(0.0f),
+    m_shooting(false) {}
 
 Window::~Window() {}
 
@@ -69,6 +68,13 @@ void Window::calculateDeltaTime() {
 void Window::appLogic() {
     calculateDeltaTime();
 
+    if (m_shooting) {
+        const Ray ray = m_camera->shootRay();
+        m_scene->handleShot(ray);
+
+        m_shooting = false;
+    }
+
     m_camera->move(m_input_handler, *m_scene, m_delta_time);
 }
 
@@ -114,6 +120,11 @@ bool Window::mouseMoveEvent(double xPos, double yPos) {
 }
 
 bool Window::mouseButtonInputEvent(int button, int actions, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_LEFT && actions == GLFW_PRESS) {
+        std::cout << "shooting ray" << std::endl;
+        m_shooting = true;
+    }
+
     return false;
 }
 

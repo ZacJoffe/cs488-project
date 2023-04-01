@@ -5,6 +5,7 @@
 #include "Actions.h"
 #include "InputHandler.h"
 #include "Scene.h"
+#include "Ray.h"
 
 #include <glm/glm.hpp>
 #include <list>
@@ -49,6 +50,8 @@ public:
 
     void debugCameraPrint() const;
 
+    Ray shootRay() const;
+
 private:
     BoundingBox updateBoundingBoxHelper(const glm::vec3 & pos) const;
     void updateBoundingBoxXZ();
@@ -74,6 +77,6 @@ private:
 
     bool m_sprinting;
 
-    BoundingBox m_bounding_box_xz; // min, max
+    BoundingBox m_bounding_box_xz;
 };
 

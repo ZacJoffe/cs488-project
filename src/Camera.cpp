@@ -143,7 +143,7 @@ void Camera::move(InputHandler & input_handler, const Scene & scene, float delta
         }
     }
 
-    debugCameraPrint();
+    // debugCameraPrint();
 }
 
 void Camera::updateDirection(const InputHandler & input_handler) {
@@ -169,6 +169,10 @@ void Camera::debugCameraPrint() const {
               // << ", Speed " << m_speed_xz
               << ", Bounding Box: " << m_bounding_box_xz.toString()
               << std::endl;
+}
+
+Ray Camera::shootRay() const {
+    return Ray(m_pos, m_front);
 }
 
 BoundingBox Camera::updateBoundingBoxHelper(const glm::vec3 & pos) const {

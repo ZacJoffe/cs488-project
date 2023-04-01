@@ -55,4 +55,6 @@ private:
 
     float m_delta_time;
     float m_last_frame_time;
+
+    bool m_shooting;
 };
