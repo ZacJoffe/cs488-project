@@ -75,7 +75,7 @@ void Window::appLogic() {
         m_shooting = false;
     }
 
-    m_camera->move(m_input_handler, m_scene->getCollidableObjects(), m_delta_time);
+    m_camera->move(m_input_handler, m_scene->getAllCollidableObjects(), m_delta_time);
     m_scene->tick(m_delta_time);
 }
 

@@ -42,13 +42,23 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
     glBindVertexArray(0);
 }
 
-std::list<BoundingBox> Scene::getCollidableObjects() const {
+std::list<BoundingBox> Scene::getStaticCollidableObjects() const {
     return {
         *m_walls[0].getBoundingBox(),
         *m_walls[1].getBoundingBox(),
         *m_walls[2].getBoundingBox(),
         *m_walls[3].getBoundingBox()
     };
+}
+
+std::list<BoundingBox> Scene::getAllCollidableObjects() const {
+    // walls + enemies
+    std::list<BoundingBox> bounding_boxes = getStaticCollidableObjects();
+    for (const auto & enemy : m_enemies) {
+        bounding_boxes.push_back(enemy.getBoundingBox());
+    }
+
+    return bounding_boxes;
 }
 
 void Scene::handleShot(const Ray & ray) {
@@ -68,7 +78,7 @@ void Scene::handleShot(const Ray & ray) {
 
 void Scene::tick(float delta_time) {
     for (auto & enemy : m_enemies) {
-        enemy.move(getCollidableObjects(), delta_time);
+        enemy.move(getStaticCollidableObjects(), delta_time);
     }
 }
 

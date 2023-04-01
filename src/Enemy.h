@@ -13,7 +13,7 @@
 #include <vector>
 
 namespace enemy_constants {
-    static const float BOUNDING_BOX_OFFSET = 0.5f;
+    static const float BOUNDING_BOX_OFFSET = 1.0f;
     static const unsigned int MAX_TICKS = 100;
     static const float SPEED = 5.0f;
 }
@@ -25,8 +25,10 @@ public:
     void draw(const glm::mat4 & world_trans = glm::mat4(1.0f)) const;
     bool collisionTestXZ(const Ray & ray) const;
     void kill();
-    std::string getId() const;
     void move(const std::list<BoundingBox> & collidable_objects, float delta_time);
+
+    std::string getId() const;
+    BoundingBox getBoundingBox() const;
 
 private:
     void initBuffers();

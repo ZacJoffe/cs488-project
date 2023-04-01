@@ -54,10 +54,6 @@ void Enemy::kill() {
     }
 }
 
-std::string Enemy::getId() const {
-    return m_id;
-}
-
 void Enemy::move(const std::list<BoundingBox> & collidable_objects, float delta_time) {
     if (!m_alive) {
         return;
@@ -78,6 +74,15 @@ void Enemy::move(const std::list<BoundingBox> & collidable_objects, float delta_
 
     ++m_ticks;
 }
+
+std::string Enemy::getId() const {
+    return m_id;
+}
+
+BoundingBox Enemy::getBoundingBox() const {
+    return m_bounding_box_xz;
+}
+
 
 void Enemy::initBuffers() {
     glGenVertexArrays(1, &m_vao);
