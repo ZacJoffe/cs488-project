@@ -24,7 +24,6 @@ void Window::init() {
     initCamera();
     initProjectionMatrix();
     initScene();
-    initParticleEmitter();
 
     // DELETEME after doing the ui objective
     // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -61,10 +60,6 @@ void Window::initScene() {
     m_scene = std::make_unique<Scene>(5);
 }
 
-void Window::initParticleEmitter() {
-    m_particle_emitter = std::make_unique<ParticleEmitter>(500);
-}
-
 void Window::calculateDeltaTime() {
     const float current_frame_time = glfwGetTime();
     m_delta_time = current_frame_time - m_last_frame_time;
@@ -81,7 +76,7 @@ void Window::appLogic() {
         m_shooting = false;
     }
 
-    m_camera->move(m_delta_time, m_input_handler, m_scene->getAllCollidableObjects(), m_particle_emitter);
+    m_camera->move(m_delta_time, m_input_handler, m_scene->getAllCollidableObjects());
     m_scene->tick(m_delta_time);
     // std::cout << m_delta_time << std::endl;
 }
@@ -104,7 +99,6 @@ void Window::draw()
     glm::mat4 trans = world;
 
     m_scene->draw(m_projection, m_camera->getView(), m_model);
-    // m_particle_emitter->draw(m_projection, m_camera->getView());
 
     CHECK_GL_ERRORS;
 }
@@ -132,7 +126,6 @@ bool Window::mouseButtonInputEvent(int button, int actions, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && actions == GLFW_PRESS) {
         std::cout << "shooting ray" << std::endl;
         m_shooting = true;
-        m_particle_emitter->emit(3, m_camera->getGunPosition());
     }
 
     return false;

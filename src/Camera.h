@@ -2,7 +2,6 @@
 
 #include "BoundingBox.h"
 
-#include "ParticleEmitter.h"
 #include "Actions.h"
 #include "InputHandler.h"
 #include "Ray.h"
@@ -47,7 +46,7 @@ public:
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, const std::unique_ptr<ParticleEmitter> & particle_emitter);
+    void move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects);
     void updateDirection(const InputHandler & input_handler);
 
     void debugCameraPrint() const;

@@ -43,7 +43,7 @@ glm::vec3 Camera::getDirection() const {
     return m_front;
 }
 
-void Camera::move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, const std::unique_ptr<ParticleEmitter> & particle_emitter) {
+void Camera::move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects) {
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
         initiateJump();
@@ -151,8 +151,6 @@ void Camera::move(float delta_time, InputHandler & input_handler, const std::lis
         }
     }
 
-    // std::cout << glm::to_string(getGunPosition()) << ", " << glm::to_string(m_pos) << std::endl;
-    particle_emitter->tick(delta_time, getGunPosition(), 2);
     // debugCameraPrint();
 }
 
