@@ -35,19 +35,21 @@ glm::mat4 Camera::getView() const {
     );
 }
 
-glm::vec3 Camera::getPosition() const {
-    return m_pos;
+glm::vec3 Camera::getGunPosition() const {
+    return m_pos + m_front;
 }
 
 glm::vec3 Camera::getDirection() const {
     return m_front;
 }
 
-void Camera::move(InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, float delta_time) {
+void Camera::move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, const std::unique_ptr<ParticleEmitter> & particle_emitter) {
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {
         initiateJump();
     }
+
+    const glm::vec3 prev_pos = m_pos;
 
     m_sprinting = actions.sprint;
 
@@ -149,6 +151,8 @@ void Camera::move(InputHandler & input_handler, const std::list<BoundingBox> & c
         }
     }
 
+    std::cout << glm::to_string(getGunPosition()) << ", " << glm::to_string(m_pos) << std::endl;
+    particle_emitter->tick(delta_time, getGunPosition(), getDirection(), 2);
     // debugCameraPrint();
 }
 

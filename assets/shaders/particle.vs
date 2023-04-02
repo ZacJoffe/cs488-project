@@ -1,8 +1,9 @@
 #version 330
 
 uniform mat4 projection;
+uniform mat4 view;
+uniform mat4 model;
 uniform vec4 color;
-uniform vec3 offset;
 
 layout (location = 0) in vec3 in_vertex;
 layout (location = 1) in vec3 in_normal;
@@ -12,8 +13,8 @@ out vec2 tex_coords;
 out vec4 particle_color;
 
 void main() {
-    float scale = 10.0f;
+    float scale = 0.01f;
     tex_coords = in_tex_coords;
     particle_color = color;
-    gl_Position = projection * vec4((in_vertex * scale) + offset, 1.0);
+    gl_Position = projection * view * model * vec4((in_vertex * scale), 1.0);
 }

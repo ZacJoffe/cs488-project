@@ -79,15 +79,18 @@ struct Particle {
     glm::vec3 velocity;
     glm::vec4 color;
     float life;
-    Particle() : pos(0.0f), velocity(0.0f), color(1.0f), life(0.0f) {}
+    Particle() : pos(0.0f), velocity(0.0f), color(1.0f), life(1.0f) {}
 };
 
 class ParticleEmitter {
 public:
     ParticleEmitter(unsigned int num_particles);
 
-    void draw(const glm::mat4 & projection) const;
-    void tick(float delta_time, const glm::vec3 & position, const glm::vec3 & direction, unsigned int new_particles);
+    void draw(const glm::mat4 & projection, const glm::mat4 & view) const;
+    void tick(float delta_time,
+              const glm::vec3 & position,
+              const glm::vec3 & direction,
+              unsigned int new_particles);
 
 private:
     void initBuffers();
@@ -108,6 +111,9 @@ private:
     std::unique_ptr<ShaderHandler> m_shader_handler;
     std::unique_ptr<Texture> m_texture;
     unsigned int m_num_particles;
+
+    glm::vec3 m_prev_pos;
+
     Rng m_rng;
 };
 

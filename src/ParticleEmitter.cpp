@@ -2,9 +2,12 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
-
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "cs488-framework/ObjFileDecoder.hpp"
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+
+#include <iostream>
 
 using namespace particle_constants;
 
@@ -24,9 +27,10 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
     }
 }
 
-void ParticleEmitter::draw(const glm::mat4 & projection) const {
+void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
+    m_shader_handler->uploadMat4Uniform("view", view);
 
     m_texture->bind(GL_TEXTURE0);
 
@@ -37,7 +41,10 @@ void ParticleEmitter::draw(const glm::mat4 & projection) const {
         }
 
         m_shader_handler->uploadVec4Uniform("color", particle.color);
-        m_shader_handler->uploadVec3Uniform("offset", particle.pos);
+
+        glm::mat4 trans = glm::translate(glm::mat4(1.0f), particle.pos);
+        m_shader_handler->uploadMat4Uniform("model", trans);
+        // std::cout << glm::to_string(particle.pos) << std::endl;
 
         glBindVertexArray(m_vao);
         glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
@@ -46,27 +53,42 @@ void ParticleEmitter::draw(const glm::mat4 & projection) const {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void ParticleEmitter::tick(float delta_time, const glm::vec3 & position, const glm::vec3 & direction, unsigned int new_particles) {
+void ParticleEmitter::tick(float delta_time,
+                           const glm::vec3 & position,
+                           const glm::vec3 & direction,
+                           unsigned int new_particles)
+{
     for (size_t i = 0; i < new_particles; ++i) {
         const size_t dead_idx = findFirstDeadParticle();
         Particle & particle = m_particles[dead_idx];
 
         const double random_color = 0.5 + m_rng();
-        const double rand = (m_rng() - 0.5) * 10.0;
+        // const double rand = (m_rng() - 0.5) * 10.0;
+        const double rand = (m_rng() - 0.5) * 0.1f;
+        // std::cout << rand << std::endl;
         particle.life = 1.0f;
-        // particle.pos = position + offset + glm::vec3(rand, rand, rand);
-        particle.pos = position + glm::vec3(rand, rand, rand);
+        // particle.pos = position + glm::vec3(rand, rand, rand);
+        particle.pos = position + glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
+        // particle.pos = position;
         particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
-        particle.velocity = direction * 0.1f;
+        // particle.velocity = direction * 0.1f;
+        particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
     }
 
     for (auto & particle : m_particles) {
         particle.life -= delta_time;
+        // update position
+        glm::mat4 trans = glm::translate(glm::mat4(1.0f), position - m_prev_pos);
+        particle.pos = glm::vec3(trans * glm::vec4(particle.pos, 1.0f));
+        // particle.pos += position - m_prev_pos;
+
         if (particle.life > 0.0f) {
             particle.pos -= particle.velocity * delta_time;
             particle.color.a -= 2.5f * delta_time;
         }
     }
+
+    m_prev_pos = position;
 }
 
 void ParticleEmitter::initBuffers() {

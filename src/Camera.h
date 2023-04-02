@@ -2,6 +2,7 @@
 
 #include "BoundingBox.h"
 
+#include "ParticleEmitter.h"
 #include "Actions.h"
 #include "InputHandler.h"
 #include "Ray.h"
@@ -41,12 +42,12 @@ public:
     ~Camera();
 
     glm::mat4 getView() const;
-    glm::vec3 getPosition() const;
+    glm::vec3 getGunPosition() const;
     glm::vec3 getDirection() const;
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?
-    void move(InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, float delta_time);
+    void move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, const std::unique_ptr<ParticleEmitter> & particle_emitter);
     void updateDirection(const InputHandler & input_handler);
 
     void debugCameraPrint() const;
