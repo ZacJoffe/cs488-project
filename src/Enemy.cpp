@@ -53,16 +53,16 @@ void Enemy::kill() {
     if (m_alive) {
         std::cout << "killing enemy " + m_id << std::endl;
         m_pos += glm::vec3(0.0f, -1.0f, 0.0f); // TODO maybe rotate it too? this would be a good place for animation
-        m_particle_emitter->emit(3, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
+        m_particle_emitter->emit(5, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
 
         m_alive = false;
     } else {
-        m_particle_emitter->emit(3, m_pos + glm::vec3(0.0f, -2.0f, 0.0f));
+        m_particle_emitter->emit(5, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
     }
 }
 
 void Enemy::move(const std::list<BoundingBox> & collidable_objects, float delta_time) {
-    m_particle_emitter->tick(delta_time, m_pos, 2);
+    m_particle_emitter->tick(delta_time, m_pos + glm::vec3(0.0f, -1.0f, 0.0f), 2);
     if (!m_alive) {
         return;
     }

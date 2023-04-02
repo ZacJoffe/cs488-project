@@ -63,22 +63,16 @@ void ParticleEmitter::tick(float delta_time,
                            const glm::vec3 & position,
                            unsigned int new_particles)
 {
-    // for (size_t i = 0; i < new_particles; ++i) {
-    //     const size_t dead_idx = findFirstDeadParticle();
-    //     Particle & particle = m_particles[dead_idx];
+    for (size_t i = 0; i < new_particles; ++i) {
+        const size_t dead_idx = findFirstDeadParticle();
+        Particle & particle = m_particles[dead_idx];
 
-    //     if (particle.lives == 0) {
-    //         continue;
-    //     }
+        if (particle.lives == 0) {
+            continue;
+        }
 
-
-    //     const double random_color = 0.5 + m_rng();
-    //     const double rand = (m_rng() - 0.5) * 0.1f;
-    //     particle.life = DEFAULT_LIFE;
-    //     particle.pos = position + glm::normalize(glm::vec3(m_rng() - 0.5, m_rng() - 0.5, m_rng() - 0.5)) * 0.1f;
-    //     particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
-    //     particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
-    // }
+        initParticle(particle, position);
+    }
 
     for (auto & particle : m_particles) {
         if (particle.life > 0.0f && particle.life - delta_time <= 0.0f) {
@@ -130,13 +124,22 @@ void ParticleEmitter::initParticle(Particle & particle, const glm::vec3 & positi
     const double random_color = 0.5 + m_rng();
     // const double rand = (m_rng() - 0.5) * 0.1f;
     particle.life = DEFAULT_LIFE + (m_rng() - 0.5);
-    particle.pos = position + glm::normalize(
+
+    const float angle = rand() * glm::pi<float>() * 2;
+    particle.pos = position;
+    particle.pos += glm::vec3(glm::cos(angle), 0.0f, glm::sin(angle));
+
+    glm::vec3 random_offset = glm::normalize(
         glm::vec3(
             m_rng() - 0.5,
             m_rng(),
             m_rng() - 0.5
         )
-    ) * 2.0f;
+    );
+    random_offset.x *= 0.2;
+    random_offset.y *= 0.5;
+    random_offset.z *= 0.2;
+    particle.pos += random_offset;
     // particle.pos.y = m_rng() / 10.0f;
     particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
     particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;

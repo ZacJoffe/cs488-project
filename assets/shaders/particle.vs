@@ -13,7 +13,7 @@ out vec2 tex_coords;
 out vec4 particle_color;
 
 void main() {
-    float scale = 0.03f;
+    float scale = 0.02f;
     tex_coords = in_tex_coords;
     particle_color = color;
     gl_Position = projection * view * model * vec4((in_vertex * scale), 1.0);
