@@ -5,8 +5,8 @@ in vec4 particle_color;
 
 out vec4 color;
 
-uniform sampler2D sprite;
+uniform sampler2D tex;
 
 void main() {
-    color = texture(sprite, tex_coords) * particle_color;
+    color = texture(tex, tex_coords) * particle_color;
 }
