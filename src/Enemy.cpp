@@ -1,5 +1,6 @@
 #include "Enemy.h"
-#include "GL/gl3w.h"
+
+#include <gl3w/GL/gl3w.h>
 #include "cs488-framework/ObjFileDecoder.hpp"
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "glm/gtc/matrix_transform.hpp"
@@ -23,7 +24,6 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
     initBuffers();
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
-
     m_move_direction = getRandomDirection();
 }
 
@@ -79,7 +79,6 @@ BoundingBox Enemy::getBoundingBox() const {
     return m_bounding_box_xz;
 }
 
-
 void Enemy::initBuffers() {
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
@@ -106,7 +105,6 @@ void Enemy::initBuffers() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS;
 }
-
 
 BoundingBox Enemy::updateBoundingBoxHelper(const glm::vec3 & pos) const {
     return BoundingBox(
