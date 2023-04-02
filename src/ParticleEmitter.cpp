@@ -1,8 +1,10 @@
 #include "ParticleEmitter.h"
 
 #include <gl3w/GL/gl3w.h>
-#include "GL/glcorearb.h"
+#include <gl3w/GL/glcorearb.h>
+
 #include "cs488-framework/GlErrorCheck.hpp"
+#include "cs488-framework/ObjFileDecoder.hpp"
 
 using namespace particle_constants;
 
@@ -13,19 +15,9 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
     );
     m_texture = std::make_unique<Texture>("./assets/textures/fire.png");
 
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
-
-    glGenBuffers(1, &m_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, NUM_VERTICES * sizeof(glm::vec4), &QUAD[0], GL_STATIC_DRAW);
-    // glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    CHECK_GL_ERRORS;
+    std::string id = "particle_cube";
+    ObjFileDecoder::decode("./assets/meshes/cube.obj", id, m_positions, m_normals, m_uv_coords);
+    initBuffers();
 
     for (size_t i = 0; i < m_num_particles; ++i) {
         m_particles.emplace_back();
@@ -48,7 +40,7 @@ void ParticleEmitter::draw(const glm::mat4 & projection) const {
         m_shader_handler->uploadVec3Uniform("offset", particle.pos);
 
         glBindVertexArray(m_vao);
-        glDrawArrays(GL_TRIANGLES, 0, NUM_VERTICES);
+        glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -75,6 +67,33 @@ void ParticleEmitter::tick(float delta_time, const glm::vec3 & position, const g
             particle.color.a -= 2.5f * delta_time;
         }
     }
+}
+
+void ParticleEmitter::initBuffers() {
+    glGenVertexArrays(1, &m_vao);
+    glBindVertexArray(m_vao);
+
+    glGenBuffers(1, &m_vbo_vertices);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo_vertices);
+    glBufferData(GL_ARRAY_BUFFER, m_positions.size() * sizeof(glm::vec3), &m_positions[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(0);
+
+    glGenBuffers(1, &m_vbo_normals);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo_normals);
+    glBufferData(GL_ARRAY_BUFFER, m_normals.size() * sizeof(glm::vec3), &m_normals[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(1);
+
+    glGenBuffers(1, &m_vbo_uvs);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo_uvs);
+    glBufferData(GL_ARRAY_BUFFER, m_uv_coords.size() * sizeof(glm::vec2), &m_uv_coords[0], GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, nullptr);
+    glEnableVertexAttribArray(2);
+
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    CHECK_GL_ERRORS;
 }
 
 size_t ParticleEmitter::findFirstDeadParticle() const {

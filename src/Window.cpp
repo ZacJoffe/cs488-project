@@ -24,6 +24,7 @@ void Window::init() {
     initCamera();
     initProjectionMatrix();
     initScene();
+    initParticleEmitter();
 
     // DELETEME after doing the ui objective
     // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
