@@ -151,8 +151,8 @@ void Camera::move(float delta_time, InputHandler & input_handler, const std::lis
         }
     }
 
-    std::cout << glm::to_string(getGunPosition()) << ", " << glm::to_string(m_pos) << std::endl;
-    particle_emitter->tick(delta_time, getGunPosition(), getDirection(), 2);
+    // std::cout << glm::to_string(getGunPosition()) << ", " << glm::to_string(m_pos) << std::endl;
+    particle_emitter->tick(delta_time, getGunPosition(), 2);
     // debugCameraPrint();
 }
 

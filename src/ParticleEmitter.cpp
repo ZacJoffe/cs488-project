@@ -61,7 +61,6 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
 
 void ParticleEmitter::tick(float delta_time,
                            const glm::vec3 & position,
-                           const glm::vec3 & direction,
                            unsigned int new_particles)
 {
     // for (size_t i = 0; i < new_particles; ++i) {
@@ -129,15 +128,16 @@ void ParticleEmitter::initBuffers() {
 
 void ParticleEmitter::initParticle(Particle & particle, const glm::vec3 & position) {
     const double random_color = 0.5 + m_rng();
-    const double rand = (m_rng() - 0.5) * 0.1f;
+    // const double rand = (m_rng() - 0.5) * 0.1f;
     particle.life = DEFAULT_LIFE + (m_rng() - 0.5);
     particle.pos = position + glm::normalize(
         glm::vec3(
             m_rng() - 0.5,
-            m_rng() - 0.5,
+            m_rng(),
             m_rng() - 0.5
         )
-    ) * 0.01f;
+    ) * 2.0f;
+    // particle.pos.y = m_rng() / 10.0f;
     particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
     particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
 }

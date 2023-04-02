@@ -5,6 +5,7 @@
 #include "cs488-framework/GlErrorCheck.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "glm/gtc/constants.hpp"
+#include <glm/gtx/string_cast.hpp>
 
 #include <cstdlib>
 #include <ctime>
@@ -25,15 +26,20 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
     m_move_direction = getRandomDirection();
+
+    m_particle_emitter = std::make_unique<ParticleEmitter>(500);
 }
 
-void Enemy::draw() const {
+void Enemy::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
     m_shader_handler->enable();
     // m_texture->bind(GL_TEXTURE0); // TODO
     glm::mat4 trans = glm::translate(glm::mat4(1.0f), m_pos);
     m_shader_handler->uploadMat4Uniform("model", trans);
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
+
+    m_particle_emitter->draw(projection, view);
+    m_shader_handler->enable();
 }
 
 bool Enemy::collisionTestXZ(const Ray & ray) const {
@@ -45,12 +51,16 @@ void Enemy::kill() {
     if (m_alive) {
         std::cout << "killing enemy " + m_id << std::endl;
         m_pos += glm::vec3(0.0f, -1.0f, 0.0f); // TODO maybe rotate it too? this would be a good place for animation
+        m_particle_emitter->emit(3, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
 
         m_alive = false;
+    } else {
+        m_particle_emitter->emit(3, m_pos + glm::vec3(0.0f, -2.0f, 0.0f));
     }
 }
 
 void Enemy::move(const std::list<BoundingBox> & collidable_objects, float delta_time) {
+    m_particle_emitter->tick(delta_time, m_pos, 2);
     if (!m_alive) {
         return;
     }

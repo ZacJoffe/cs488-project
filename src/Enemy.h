@@ -3,6 +3,7 @@
 #include <gl3w/GL/gl3w.h>
 
 #include "BoundingBox.h"
+#include "ParticleEmitter.h"
 #include "Ray.h"
 #include "Rng.h"
 #include "ShaderHandler.h"
@@ -23,7 +24,7 @@ class Enemy {
 public:
     Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::vec3 & pos, const std::string & mesh_filename);
 
-    void draw() const;
+    void draw(const glm::mat4 & projection, const glm::mat4 & view) const;
     bool collisionTestXZ(const Ray & ray) const;
     void kill();
     void move(const std::list<BoundingBox> & collidable_objects, float delta_time);
@@ -60,6 +61,8 @@ private:
     BoundingBox m_bounding_box_xz;
 
     bool m_alive;
+
+    std::unique_ptr<ParticleEmitter> m_particle_emitter;
 
     glm::vec3 m_move_direction;
     unsigned int m_ticks;

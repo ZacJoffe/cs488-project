@@ -83,7 +83,6 @@ void Window::appLogic() {
 
     m_camera->move(m_delta_time, m_input_handler, m_scene->getAllCollidableObjects(), m_particle_emitter);
     m_scene->tick(m_delta_time);
-    // m_particle_emitter->tick(m_delta_time, m_camera->getGunPosition(), m_camera->getDirection(), 2);
     // std::cout << m_delta_time << std::endl;
 }
 
@@ -105,7 +104,7 @@ void Window::draw()
     glm::mat4 trans = world;
 
     m_scene->draw(m_projection, m_camera->getView(), m_model);
-    m_particle_emitter->draw(m_projection, m_camera->getView());
+    // m_particle_emitter->draw(m_projection, m_camera->getView());
 
     CHECK_GL_ERRORS;
 }

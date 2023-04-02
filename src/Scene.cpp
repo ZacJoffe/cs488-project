@@ -40,7 +40,7 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
     }
 
     for (const auto & enemy : m_enemies) {
-        enemy.draw();
+        enemy.draw(projection, view);
     }
 
     m_shader_handler->disable();

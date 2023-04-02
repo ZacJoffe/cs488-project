@@ -29,7 +29,6 @@ public:
     void draw(const glm::mat4 & projection, const glm::mat4 & view) const;
     void tick(float delta_time,
               const glm::vec3 & position,
-              const glm::vec3 & direction,
               unsigned int new_particles);
 
 private:
