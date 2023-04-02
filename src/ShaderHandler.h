@@ -6,26 +6,15 @@
 // composition-based wrapper of the ShaderProgram class
 class ShaderHandler {
 public:
-    ShaderHandler();
+    ShaderHandler(const std::string & vertex_filename, const std::string & fragment_filename);
     ~ShaderHandler();
-
-    GLint getPositionAttribute() const;
 
     void enable();
     void disable();
 
-    void uploadProjectionUniform(const glm::mat4 & projection);
-    void uploadViewUniform(const glm::mat4 & view);
-    void uploadModelUniform(const glm::mat4 & model);
-    // void uploadColorUniform(const glm::vec3 & color);
+    void uploadMat4Uniform(const std::string & name, const glm::mat4 & m) const;
+    void uploadVec3Uniform(const std::string & name, const glm::vec3 & v) const;
 
 private:
-    void init();
-
     ShaderProgram m_shader;
-
-    GLint m_projection_uni;
-    GLint m_view_uni;
-    GLint m_model_uni;
-    GLint m_color_uni;
 };

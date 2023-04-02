@@ -10,7 +10,10 @@ using namespace scene_constants;
 
 Scene::Scene(unsigned int num_enemies) {
     // init shader handler
-    m_shader_handler = std::make_shared<ShaderHandler>();
+    m_shader_handler = std::make_shared<ShaderHandler>(
+        "./assets/shaders/VertexShader.vs",
+        "./assets/shaders/FragmentShader.fs"
+    );
     for (unsigned int i = 0; i < num_enemies; ++i) {
         m_enemies.emplace_back(
             m_shader_handler,
@@ -28,9 +31,9 @@ Scene::Scene(unsigned int num_enemies) {
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
     m_shader_handler->enable();
 
-    m_shader_handler->uploadProjectionUniform(projection);
-    m_shader_handler->uploadViewUniform(view);
-    m_shader_handler->uploadModelUniform(model);
+    m_shader_handler->uploadMat4Uniform("projection", projection);
+    m_shader_handler->uploadMat4Uniform("view", view);
+    m_shader_handler->uploadMat4Uniform("model", model);
 
     m_floor.draw();
 
