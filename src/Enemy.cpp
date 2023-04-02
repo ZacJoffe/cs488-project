@@ -28,7 +28,7 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
     m_move_direction = getRandomDirection();
 
-    m_particle_emitter = std::make_unique<ParticleEmitter>(500);
+    m_particle_emitter = std::make_unique<ParticleEmitter>(1000);
     std::cout << "created enemy: " << m_id << std::endl;
 }
 
@@ -53,11 +53,11 @@ void Enemy::kill() {
     if (m_alive) {
         std::cout << "killing enemy " + m_id << std::endl;
         m_pos += glm::vec3(0.0f, -1.0f, 0.0f); // TODO maybe rotate it too? this would be a good place for animation
-        m_particle_emitter->emit(5, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
+        m_particle_emitter->emit(m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
 
         m_alive = false;
     } else {
-        m_particle_emitter->emit(5, m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
+        m_particle_emitter->emit(m_pos + glm::vec3(0.0f, -1.0f, 0.0f));
     }
 }
 

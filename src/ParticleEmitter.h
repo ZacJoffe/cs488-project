@@ -10,6 +10,7 @@
 
 namespace particle_constants {
     static const float DEFAULT_LIFE = 1.0f;
+    static const unsigned int DEFAULT_MAX_LIVES = 5;
 }
 
 struct Particle {
@@ -17,15 +18,15 @@ struct Particle {
     glm::vec3 velocity;
     glm::vec4 color;
     float life;
-    unsigned int lives;
-    Particle() : pos(0.0f), velocity(0.0f), color(1.0f), life(0.0f), lives(0) {}
+    unsigned int times_lived;
+    Particle() : pos(0.0f), velocity(0.0f), color(1.0f), life(0.0f), times_lived(0) {}
 };
 
 class ParticleEmitter {
 public:
     ParticleEmitter(unsigned int num_particles);
 
-    void emit(unsigned int lives, const glm::vec3 & position);
+    void emit(const glm::vec3 & position);
     void draw(const glm::mat4 & projection, const glm::mat4 & view) const;
     void tick(float delta_time,
               const glm::vec3 & position,

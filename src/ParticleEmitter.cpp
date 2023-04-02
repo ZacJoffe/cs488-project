@@ -21,20 +21,22 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
     std::string id = "particle_cube";
     ObjFileDecoder::decode("./assets/meshes/cube.obj", id, m_positions, m_normals, m_uv_coords);
     initBuffers();
-
-    for (size_t i = 0; i < m_num_particles; ++i) {
-        m_particles.emplace_back();
-    }
 }
 
-void ParticleEmitter::emit(unsigned int lives, const glm::vec3 & position) {
-    for (auto & particle : m_particles) {
-        particle.lives = lives;
-        initParticle(particle, position);
+void ParticleEmitter::emit(const glm::vec3 & position) {
+    for (size_t i = 0; i < m_num_particles; ++i) {
+        Particle p;
+        initParticle(p, position);
+
+        m_particles.push_back(p);
     }
 }
 
 void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
+    if (m_particles.empty()) {
+        return;
+    }
+
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
     m_shader_handler->uploadMat4Uniform("view", view);
@@ -43,7 +45,7 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (const auto & particle : m_particles) {
-        if (particle.life <= 0.0f || particle.lives == 0) {
+        if (particle.life <= 0.0f) {
             continue;
         }
 
@@ -63,34 +65,40 @@ void ParticleEmitter::tick(float delta_time,
                            const glm::vec3 & position,
                            unsigned int new_particles)
 {
+    if (m_particles.empty()) {
+        return;
+    }
+
     for (size_t i = 0; i < new_particles; ++i) {
         const size_t dead_idx = findFirstDeadParticle();
         Particle & particle = m_particles[dead_idx];
 
-        if (particle.lives == 0) {
+        if (particle.times_lived >= DEFAULT_MAX_LIVES) {
             continue;
         }
 
         initParticle(particle, position);
     }
 
+    bool any_alive = false;
     for (auto & particle : m_particles) {
-        if (particle.life > 0.0f && particle.life - delta_time <= 0.0f) {
-            particle.life = 0.0f;
-            --particle.lives;
-            continue;
+        if (particle.life > 0.0f) {
+            if (particle.life - delta_time <= 0.0f) {
+                particle.life = 0.0f;
+                continue;
+            }
+
+            particle.life -= delta_time;
+            particle.pos -= particle.velocity * delta_time;
+            particle.color.a -= 2.5f * delta_time;
+
+            any_alive = true;
         }
-
-        particle.life -= delta_time;
-
-        // update position of particle to follow camera
-        glm::mat4 trans = glm::translate(glm::mat4(1.0f), position - m_prev_pos);
-        particle.pos = glm::vec3(trans * glm::vec4(particle.pos, 1.0f));
-        particle.pos -= particle.velocity * delta_time;
-        particle.color.a -= 2.5f * delta_time;
     }
 
-    m_prev_pos = position;
+    if (!any_alive) {
+        m_particles.clear();
+    }
 }
 
 void ParticleEmitter::initBuffers() {
@@ -121,8 +129,6 @@ void ParticleEmitter::initBuffers() {
 }
 
 void ParticleEmitter::initParticle(Particle & particle, const glm::vec3 & position) {
-    const double random_color = 0.5 + m_rng();
-    // const double rand = (m_rng() - 0.5) * 0.1f;
     particle.life = DEFAULT_LIFE + (m_rng() - 0.5);
 
     const float angle = rand() * glm::pi<float>() * 2;
@@ -140,9 +146,11 @@ void ParticleEmitter::initParticle(Particle & particle, const glm::vec3 & positi
     random_offset.y *= 0.5;
     random_offset.z *= 0.2;
     particle.pos += random_offset;
-    // particle.pos.y = m_rng() / 10.0f;
+
+    const double random_color = 0.5 + m_rng();
     particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
     particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
+    ++particle.times_lived;
 }
 
 size_t ParticleEmitter::findFirstDeadParticle() const {
