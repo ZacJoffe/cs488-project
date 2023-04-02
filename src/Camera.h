@@ -41,6 +41,8 @@ public:
     ~Camera();
 
     glm::mat4 getView() const;
+    glm::vec3 getPosition() const;
+    glm::vec3 getDirection() const;
 
     // TODO move around, look around
     // also update the view uniform in this class for now I'll do it in window?

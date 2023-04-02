@@ -5,6 +5,7 @@
 #include "cs488-framework/ShaderProgram.hpp"
 #include "Camera.h"
 #include "InputHandler.h"
+#include "ParticleEmitter.h"
 #include "Scene.h"
 
 #include <glm/glm.hpp>
@@ -42,6 +43,7 @@ private:
     void initCamera();
     void initProjectionMatrix();
     void initScene();
+    void initParticleEmitter();
 
     void calculateDeltaTime();
 
@@ -52,6 +54,7 @@ private:
     InputHandler m_input_handler;
 
     std::unique_ptr<Scene> m_scene;
+    std::unique_ptr<ParticleEmitter> m_particle_emitter;
 
     float m_delta_time;
     float m_last_frame_time;

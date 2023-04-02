@@ -22,3 +22,9 @@ $ ./fps
 
 - textures - https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
   - CC0 1.0 Universal
+
+- gun - https://opengameart.org/content/high-poly-ak-47
+  - CC0 1.0 Universal
+
+- textures - https://www.manytextures.com/texture/260/red+hot+fire+flames/
+  - CC0 BY 4.0

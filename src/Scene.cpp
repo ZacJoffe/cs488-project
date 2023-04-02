@@ -23,14 +23,12 @@ Scene::Scene(unsigned int num_enemies) {
         );
     }
 
-
     initFloor();
     initWalls();
 }
 
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
     m_shader_handler->enable();
-
     m_shader_handler->uploadMat4Uniform("projection", projection);
     m_shader_handler->uploadMat4Uniform("view", view);
     m_shader_handler->uploadMat4Uniform("model", model);

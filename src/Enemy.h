@@ -23,7 +23,7 @@ class Enemy {
 public:
     Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::vec3 & pos, const std::string & mesh_filename);
 
-    void draw(const glm::mat4 & world_trans = glm::mat4(1.0f)) const;
+    void draw() const;
     bool collisionTestXZ(const Ray & ray) const;
     void kill();
     void move(const std::list<BoundingBox> & collidable_objects, float delta_time);

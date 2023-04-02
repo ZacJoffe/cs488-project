@@ -13,7 +13,9 @@ public:
     void disable();
 
     void uploadMat4Uniform(const std::string & name, const glm::mat4 & m) const;
+    void uploadVec2Uniform(const std::string & name, const glm::vec2 & v) const;
     void uploadVec3Uniform(const std::string & name, const glm::vec3 & v) const;
+    void uploadVec4Uniform(const std::string & name, const glm::vec4 & v) const;
 
 private:
     ShaderProgram m_shader;

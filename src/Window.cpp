@@ -60,6 +60,10 @@ void Window::initScene() {
     m_scene = std::make_unique<Scene>(5);
 }
 
+void Window::initParticleEmitter() {
+    m_particle_emitter = std::make_unique<ParticleEmitter>(500);
+}
+
 void Window::calculateDeltaTime() {
     const float current_frame_time = glfwGetTime();
     m_delta_time = current_frame_time - m_last_frame_time;
@@ -78,6 +82,7 @@ void Window::appLogic() {
 
     m_camera->move(m_input_handler, m_scene->getAllCollidableObjects(), m_delta_time);
     m_scene->tick(m_delta_time);
+    m_particle_emitter->tick(m_delta_time, m_camera->getPosition(), m_camera->getDirection(), 2);
 }
 
 void Window::guiLogic() {
@@ -98,6 +103,7 @@ void Window::draw()
     glm::mat4 trans = world;
 
     m_scene->draw(m_projection, m_camera->getView(), m_model);
+    m_particle_emitter->draw(m_projection);
 
     CHECK_GL_ERRORS;
 }

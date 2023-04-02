@@ -35,6 +35,14 @@ glm::mat4 Camera::getView() const {
     );
 }
 
+glm::vec3 Camera::getPosition() const {
+    return m_pos;
+}
+
+glm::vec3 Camera::getDirection() const {
+    return m_front;
+}
+
 void Camera::move(InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects, float delta_time) {
     const Actions actions = input_handler.getActions();
     if (actions.initiateJump) {

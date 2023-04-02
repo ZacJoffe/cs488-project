@@ -9,6 +9,8 @@
 #include <memory>
 #include <stdexcept>
 
+using namespace tile_constants;
+
 Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::shared_ptr<Texture> & texture) :
     m_shader_handler(shader_handler), m_trans(trans), m_texture(texture)
 {
@@ -27,8 +29,6 @@ void Tile::draw(const glm::mat4 & world_trans) const {
 }
 
 void Tile::init() {
-    using namespace tile_constants;
-
     glGenVertexArrays(1, &m_vao);
     glBindVertexArray(m_vao);
 
@@ -81,6 +81,7 @@ Tiles::Tiles(const glm::mat4 & world_trans,
 
 void Tiles::draw() const {
     for (const auto & tile : m_tiles) {
+        tile->m_shader_handler->enable();
         tile->draw(m_trans);
     }
 }

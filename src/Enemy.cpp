@@ -27,10 +27,11 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
     m_move_direction = getRandomDirection();
 }
 
-void Enemy::draw(const glm::mat4 & world_trans) const {
-    // m_texture->bind(GL_TEXTURE0);
+void Enemy::draw() const {
+    m_shader_handler->enable();
+    // m_texture->bind(GL_TEXTURE0); // TODO
     glm::mat4 trans = glm::translate(glm::mat4(1.0f), m_pos);
-    m_shader_handler->uploadMat4Uniform("model", world_trans * trans);
+    m_shader_handler->uploadMat4Uniform("model", trans);
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
 }
