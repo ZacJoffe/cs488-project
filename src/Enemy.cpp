@@ -21,13 +21,15 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
     m_id = "enemy" + std::to_string(s_enemy_count);
     ++s_enemy_count;
 
-    ObjFileDecoder::decode(mesh_filename.c_str(), m_id, m_positions, m_normals, m_uv_coords);
+    std::string obj_name = ""; // unused
+    ObjFileDecoder::decode(mesh_filename.c_str(), obj_name, m_positions, m_normals, m_uv_coords);
     initBuffers();
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
     m_move_direction = getRandomDirection();
 
     m_particle_emitter = std::make_unique<ParticleEmitter>(500);
+    std::cout << "created enemy: " << m_id << std::endl;
 }
 
 void Enemy::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
