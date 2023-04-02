@@ -16,5 +16,13 @@ void main() {
     float scale = 0.01f;
     tex_coords = in_tex_coords;
     particle_color = color;
-    gl_Position = projection * view * model * vec4((in_vertex * scale), 1.0);
+
+    // billboarding (make particle meshes always face camera)
+    // https://www.reddit.com/r/opengl/comments/bi7fc8/glsl_rotating_a_billboards_xaxis_towards_camera/em0p3mk/
+    mat4 mv = view * model;
+    mv[0].xzy = vec3(1, 0, 0);
+    mv[1].xzy = vec3(0, 1, 0);
+    mv[2].xzy = vec3(0, 0, 1);
+
+    gl_Position = projection * mv * vec4((in_vertex * scale), 1.0);
 }

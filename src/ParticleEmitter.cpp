@@ -44,7 +44,6 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
 
         glm::mat4 trans = glm::translate(glm::mat4(1.0f), particle.pos);
         m_shader_handler->uploadMat4Uniform("model", trans);
-        // std::cout << glm::to_string(particle.pos) << std::endl;
 
         glBindVertexArray(m_vao);
         glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
@@ -63,24 +62,19 @@ void ParticleEmitter::tick(float delta_time,
         Particle & particle = m_particles[dead_idx];
 
         const double random_color = 0.5 + m_rng();
-        // const double rand = (m_rng() - 0.5) * 10.0;
         const double rand = (m_rng() - 0.5) * 0.1f;
-        // std::cout << rand << std::endl;
         particle.life = 1.0f;
-        // particle.pos = position + glm::vec3(rand, rand, rand);
         particle.pos = position + glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
-        // particle.pos = position;
         particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
-        // particle.velocity = direction * 0.1f;
         particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
     }
 
     for (auto & particle : m_particles) {
         particle.life -= delta_time;
-        // update position
+
+        // update position of particle to follow camera
         glm::mat4 trans = glm::translate(glm::mat4(1.0f), position - m_prev_pos);
         particle.pos = glm::vec3(trans * glm::vec4(particle.pos, 1.0f));
-        // particle.pos += position - m_prev_pos;
 
         if (particle.life > 0.0f) {
             particle.pos -= particle.velocity * delta_time;
