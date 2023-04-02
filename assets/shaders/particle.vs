@@ -13,7 +13,7 @@ out vec2 tex_coords;
 out vec4 particle_color;
 
 void main() {
-    float scale = 0.01f;
+    float scale = 0.005f;
     tex_coords = in_tex_coords;
     particle_color = color;
 

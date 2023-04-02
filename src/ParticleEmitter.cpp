@@ -27,6 +27,13 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
     }
 }
 
+void ParticleEmitter::emit(unsigned int lives, const glm::vec3 & position) {
+    for (auto & particle : m_particles) {
+        particle.lives = lives;
+        initParticle(particle, position);
+    }
+}
+
 void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
@@ -36,7 +43,7 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
     for (const auto & particle : m_particles) {
-        if (particle.life <= 0.0f) {
+        if (particle.life <= 0.0f || particle.lives == 0) {
             continue;
         }
 
@@ -57,29 +64,37 @@ void ParticleEmitter::tick(float delta_time,
                            const glm::vec3 & direction,
                            unsigned int new_particles)
 {
-    for (size_t i = 0; i < new_particles; ++i) {
-        const size_t dead_idx = findFirstDeadParticle();
-        Particle & particle = m_particles[dead_idx];
+    // for (size_t i = 0; i < new_particles; ++i) {
+    //     const size_t dead_idx = findFirstDeadParticle();
+    //     Particle & particle = m_particles[dead_idx];
 
-        const double random_color = 0.5 + m_rng();
-        const double rand = (m_rng() - 0.5) * 0.1f;
-        particle.life = 1.0f;
-        particle.pos = position + glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
-        particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
-        particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
-    }
+    //     if (particle.lives == 0) {
+    //         continue;
+    //     }
+
+
+    //     const double random_color = 0.5 + m_rng();
+    //     const double rand = (m_rng() - 0.5) * 0.1f;
+    //     particle.life = DEFAULT_LIFE;
+    //     particle.pos = position + glm::normalize(glm::vec3(m_rng() - 0.5, m_rng() - 0.5, m_rng() - 0.5)) * 0.1f;
+    //     particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
+    //     particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
+    // }
 
     for (auto & particle : m_particles) {
+        if (particle.life > 0.0f && particle.life - delta_time <= 0.0f) {
+            particle.life = 0.0f;
+            --particle.lives;
+            continue;
+        }
+
         particle.life -= delta_time;
 
         // update position of particle to follow camera
         glm::mat4 trans = glm::translate(glm::mat4(1.0f), position - m_prev_pos);
         particle.pos = glm::vec3(trans * glm::vec4(particle.pos, 1.0f));
-
-        if (particle.life > 0.0f) {
-            particle.pos -= particle.velocity * delta_time;
-            particle.color.a -= 2.5f * delta_time;
-        }
+        particle.pos -= particle.velocity * delta_time;
+        particle.color.a -= 2.5f * delta_time;
     }
 
     m_prev_pos = position;
@@ -110,6 +125,21 @@ void ParticleEmitter::initBuffers() {
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS;
+}
+
+void ParticleEmitter::initParticle(Particle & particle, const glm::vec3 & position) {
+    const double random_color = 0.5 + m_rng();
+    const double rand = (m_rng() - 0.5) * 0.1f;
+    particle.life = DEFAULT_LIFE + (m_rng() - 0.5);
+    particle.pos = position + glm::normalize(
+        glm::vec3(
+            m_rng() - 0.5,
+            m_rng() - 0.5,
+            m_rng() - 0.5
+        )
+    ) * 0.01f;
+    particle.color = glm::vec4(random_color, random_color, random_color, 1.0f);
+    particle.velocity = glm::normalize(glm::vec3(m_rng(), m_rng(), m_rng())) * 0.1f;
 }
 
 size_t ParticleEmitter::findFirstDeadParticle() const {

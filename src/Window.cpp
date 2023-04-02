@@ -133,6 +133,7 @@ bool Window::mouseButtonInputEvent(int button, int actions, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && actions == GLFW_PRESS) {
         std::cout << "shooting ray" << std::endl;
         m_shooting = true;
+        m_particle_emitter->emit(3, m_camera->getGunPosition());
     }
 
     return false;
