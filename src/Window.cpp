@@ -16,7 +16,7 @@ Window::~Window() {}
 
 void Window::init() {
     // always start in menu state
-    m_state = std::make_unique<MenuState>();
+    m_state = std::make_unique<MenuState>(m_framebufferWidth, m_framebufferHeight);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 

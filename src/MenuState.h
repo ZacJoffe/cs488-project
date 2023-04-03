@@ -5,7 +5,7 @@
 
 class MenuState : public State {
 public:
-    MenuState();
+    MenuState(int framebuffer_width, int framebuffer_height);
     ~MenuState() override;
 
     void appLogic(float delta_time) override;
@@ -22,5 +22,7 @@ private:
     ImFont * m_font_normal;
 
     bool m_switch_states;
+    int m_framebuffer_width;
+    int m_framebuffer_height;
 };
 

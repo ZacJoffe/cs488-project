@@ -5,10 +5,15 @@
 
 #include <iostream>
 
-MenuState::MenuState() : m_show_root(true), m_switch_states(false) {
+MenuState::MenuState(int framebuffer_width, int framebuffer_height) :
+    m_show_root(true),
+    m_switch_states(false),
+    m_framebuffer_width(framebuffer_width),
+    m_framebuffer_height(framebuffer_height)
+{
     ImGuiIO & io = ImGui::GetIO();
-    m_font_title = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 36);
-    m_font_normal = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 12);
+    m_font_title = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 48);
+    m_font_normal = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 16);
 
     glClearColor(0.3, 0.5, 0.7, 1.0);
 }
@@ -19,13 +24,28 @@ void MenuState::appLogic(float delta_time) {}
 
 void MenuState::guiLogic() {
     if (m_show_root) {
-        ImGui::Begin("Root", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+        ImGui::Begin("Root", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
+        ImGui::SetWindowSize(ImVec2(0, 0));
+        // center on screen
+        ImGui::SetWindowPos(
+            ImVec2(
+                m_framebuffer_width * 0.5f - ImGui::GetWindowWidth() * 0.5f,
+                m_framebuffer_height * 0.5f - ImGui::GetWindowHeight() * 0.5f
+            )
+        );
         ImGui::PushFont(m_font_title);
-        ImGui::Text("Codename: Kefka");
+        ImGui::Text("Kefka: CS488 Project");
         ImGui::PopFont();
 
         ImGui::PushFont(m_font_normal);
         if (ImGui::Button("Start Game")) {
+            std::cout << "start game button pressed" << std::endl;
+            m_switch_states = true;
+        }
+        ImGui::PopFont();
+
+        ImGui::PushFont(m_font_normal);
+        if (ImGui::Button("Options")) {
             std::cout << "start game button pressed" << std::endl;
             m_switch_states = true;
         }
