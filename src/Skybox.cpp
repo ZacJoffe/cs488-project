@@ -17,7 +17,14 @@ Skybox::Skybox(const std::vector<std::string> & filenames, const std::shared_ptr
 }
 
 void Skybox::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
-    glDepthMask(GL_FALSE);
+    GLint old_cull_face_mode;
+    glGetIntegerv(GL_CULL_FACE_MODE, &old_cull_face_mode);
+    GLint old_depth_func_mode;
+    glGetIntegerv(GL_DEPTH_FUNC, &old_depth_func_mode);
+
+    glCullFace(GL_FRONT);
+    glDepthFunc(GL_LEQUAL);
+
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
 
@@ -25,9 +32,12 @@ void Skybox::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
     m_shader_handler->uploadMat4Uniform("view", view_stripped);
 
     glBindVertexArray(m_vao);
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_tex);
     glDrawArrays(GL_TRIANGLES, 0, NUM_VERTICES);
-    glDepthMask(GL_TRUE);
+
+    glCullFace(old_cull_face_mode);
+    glDepthFunc(old_depth_func_mode);
 }
 
 void Skybox::initBuffers() {
@@ -36,7 +46,7 @@ void Skybox::initBuffers() {
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, NUM_VERTICES, VERTICES, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VERTICES), VERTICES, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
     glEnableVertexAttribArray(0);
 
@@ -44,7 +54,6 @@ void Skybox::initBuffers() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     CHECK_GL_ERRORS;
-
 }
 
 void Skybox::initTextures() {
@@ -78,9 +87,4 @@ void Skybox::initTextures() {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
-
-// void Skybox::bind(GLenum texture_unit) const {
-//     glActiveTexture(texture_unit);
-//     glBindTexture(GL_TEXTURE_2D, m_tex);
-// }
 

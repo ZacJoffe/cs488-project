@@ -100,14 +100,31 @@ void Scene::tick(float delta_time) {
 
 void Scene::initSkybox() {
     std::vector<std::string> filenames = {
-        // TODO rename assets appropriately
-        "./assets/textures/skybox/stormydays_rt.tga", // right
-        "./assets/textures/skybox/stormydays_lf.tga", // left
-        "./assets/textures/skybox/stormydays_up.tga", // top
-        "./assets/textures/skybox/stormydays_dn.tga", // bottom
-        "./assets/textures/skybox/stormydays_ft.tga", // front
-        "./assets/textures/skybox/stormydays_bk.tga"  // back
+        "./assets/textures/skybox/stormydays/stormydays_ft.tga", // right
+        "./assets/textures/skybox/stormydays/stormydays_bk.tga", // left
+        "./assets/textures/skybox/stormydays/stormydays_up.tga", // top
+        "./assets/textures/skybox/stormydays/stormydays_dn.tga", // bottom
+        "./assets/textures/skybox/stormydays/stormydays_rt.tga", // back
+        "./assets/textures/skybox/stormydays/stormydays_lf.tga"  // front
     };
+
+    // std::vector<std::string> filenames = {
+    //     "./assets/textures/skybox/teal1/0003.jpg", // right
+    //     "./assets/textures/skybox/teal1/0005.jpg", // left
+    //     "./assets/textures/skybox/teal1/0006.jpg", // top
+    //     "./assets/textures/skybox/teal1/0001.jpg", // bottom
+    //     "./assets/textures/skybox/teal1/0002.jpg", // front
+    //     "./assets/textures/skybox/teal1/0004.jpg"  // back
+    // };
+
+    // std::vector<std::string> filenames = {
+    //     "./assets/textures/skybox/miramar/miramar_ft.tga", // right
+    //     "./assets/textures/skybox/miramar/miramar_bk.tga", // left
+    //     "./assets/textures/skybox/miramar/miramar_up.tga", // top
+    //     "./assets/textures/skybox/miramar/miramar_dn.tga", // bottom
+    //     "./assets/textures/skybox/miramar/miramar_rt.tga", // back
+    //     "./assets/textures/skybox/miramar/miramar_lf.tga" // front
+    // };
 
     m_skybox_shader_handler = std::make_shared<ShaderHandler>(
         "./assets/shaders/skybox.vs",
@@ -126,7 +143,6 @@ void Scene::initFloor() {
         m_floor_texture,
         nullptr
     );
-
 }
 
 void Scene::initWalls() {

@@ -66,8 +66,6 @@ private:
     void initBuffers();
     void initTextures();
 
-    // void bind(GLenum texture_unit) const;
-
     GLuint m_vao;
     GLuint m_vbo;
     GLuint m_ebo;

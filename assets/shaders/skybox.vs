@@ -8,6 +8,8 @@ layout (location = 0) in vec3 in_position;
 out vec3 tex_coords;
 
 void main() {
-    tex_coords = in_tex_coords;
-    gl_Position = projection * view * vec4(in_position, 1.0);
+    tex_coords = in_position;
+    vec4 position = projection * view * vec4(in_position, 1.0);
+    gl_Position = position.xyww;
 }
+

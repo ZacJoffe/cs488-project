@@ -9,3 +9,4 @@ uniform samplerCube skybox;
 void main() {
     color = texture(skybox, tex_coords);
 }
+
