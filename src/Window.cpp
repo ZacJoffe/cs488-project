@@ -1,6 +1,7 @@
 #include "Window.h"
 
 #include "GameState.h"
+#include "MenuState.h"
 #include "imgui.h"
 
 #include <iostream>
@@ -13,7 +14,10 @@ Window::Window() :
 Window::~Window() {}
 
 void Window::init() {
-    m_state = std::make_unique<GameState>(m_framebufferWidth, m_framebufferHeight);
+    // m_state = std::make_unique<GameState>(m_framebufferWidth, m_framebufferHeight);
+    // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    m_state = std::make_unique<MenuState>();
+    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
     // DELETEME after doing the ui objective
     // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -22,14 +26,13 @@ void Window::init() {
 
 void Window::appLogic() {
     calculateDeltaTime();
+    // std::cout << m_delta_time << std::endl;
 
     m_state->appLogic(m_delta_time);
-    // std::cout << m_delta_time << std::endl;
 }
 
 void Window::guiLogic() {
     // DELETEME after doing the ui objective
-    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     // std::cout << glfwGetInputMode(m_window, GLFW_CURSOR) << std::endl;
 
     ImGuiIO& io = ImGui::GetIO();

@@ -320,6 +320,7 @@ static void renderImGui (
 	// Set viewport to full window size.
 	glViewport(0, 0, framebufferWidth, framebufferHeight);
 	ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
 //----------------------------------------------------------------------------------------
@@ -389,9 +390,15 @@ void CS488Window::run (
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsLight();
+
+
     // Setup ImGui binding.  Tell the ImGui subsystem not to
     // bother setting up its callbacks -- ours will do just fine here.
-    ImGui_ImplGlfw_InitForOpenGL(m_window, false);
+    // ImGui_ImplGlfw_InitForOpenGL(m_window, false);
+    ImGui_ImplGlfw_InitForOpenGL(m_window, true);
     ImGui_ImplOpenGL3_Init("#version 130");
 
     // Make sure resize is run on initialization to get consistent results across platforms
@@ -441,7 +448,7 @@ void CS488Window::run (
             }
 
         }
-        
+
     } catch (const  std::exception & e) {
         std::cerr << "Exception Thrown: ";
         std::cerr << e.what() << endl;
