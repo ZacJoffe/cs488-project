@@ -24,7 +24,10 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_sprinting(false)
 {
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
+
     m_footstep_wav.load("./assets/sounds/footsteps/0.ogg");
+    m_jump_wav1.load("./assets/sounds/screams/slightscream-11.flac");
+    m_jump_wav2.load("./assets/sounds/screams/slightscream-01.flac");
 }
 
 Camera::~Camera() {}
@@ -205,6 +208,14 @@ void Camera::initiateJump() {
     if (!m_jumping) {
         m_jumping = true;
         m_velocity_y = INITIAL_JUMP_VELOCITY;
+
+
+        SoundEngine & sound_engine = SoundEngine::getInstance();
+        if (m_rng() < 0.5) {
+            sound_engine.play(m_jump_wav1);
+        } else {
+            sound_engine.play(m_jump_wav2);
+        }
     }
 }
 

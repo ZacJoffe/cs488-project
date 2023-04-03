@@ -43,3 +43,7 @@ $ ./fps
 
 - footstep sound effects - https://opengameart.org/content/footsteps-on-different-surfaces
   - CC BY-SA 3.0
+
+- jump sound effects - https://opengameart.org/content/15-vocal-male-strainhurtpainjump-sounds
+  - CC BY-SA 3.0
+

@@ -5,6 +5,7 @@
 #include "Actions.h"
 #include "InputHandler.h"
 #include "Ray.h"
+#include "Rng.h"
 
 #include <glm/glm.hpp>
 #include <list>
@@ -83,6 +84,10 @@ private:
 
     BoundingBox m_bounding_box_xz;
 
+    Rng m_rng;
+
     SoLoud::Wav m_footstep_wav;
+    SoLoud::Wav m_jump_wav1;
+    SoLoud::Wav m_jump_wav2;
 };
 
