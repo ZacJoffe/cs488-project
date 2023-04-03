@@ -15,8 +15,11 @@ using namespace enemy_constants;
 
 unsigned int Enemy::s_enemy_count = 0;
 
-Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::vec3 & pos, const std::string & mesh_filename) :
-    m_shader_handler(shader_handler), m_pos(pos), m_alive(true), m_ticks(0)
+Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler,
+             const glm::vec3 & pos,
+             const std::shared_ptr<Texture> & texture,
+             const std::string & mesh_filename) :
+    m_shader_handler(shader_handler), m_pos(pos), m_texture(texture), m_alive(true), m_ticks(0)
 {
     m_id = "enemy" + std::to_string(s_enemy_count);
     ++s_enemy_count;
@@ -34,14 +37,16 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::v
 
 void Enemy::draw(const glm::mat4 & projection, const glm::mat4 & view) const {
     m_shader_handler->enable();
-    // m_texture->bind(GL_TEXTURE0); // TODO
+    m_texture->bind(GL_TEXTURE0);
+
     glm::mat4 trans = glm::translate(glm::mat4(1.0f), m_pos);
     m_shader_handler->uploadMat4Uniform("model", trans);
     glBindVertexArray(m_vao);
     glDrawArrays(GL_TRIANGLES, 0, m_positions.size());
 
     m_particle_emitter->draw(projection, view);
-    m_shader_handler->enable();
+
+    m_shader_handler->disable();
 }
 
 bool Enemy::collisionTestXZ(const Ray & ray) const {

@@ -11,7 +11,9 @@
 
 using namespace tile_constants;
 
-Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::mat4 & trans, const std::shared_ptr<Texture> & texture) :
+Tile::Tile(const std::shared_ptr<ShaderHandler> & shader_handler,
+           const glm::mat4 & trans,
+           const std::shared_ptr<Texture> & texture) :
     m_shader_handler(shader_handler), m_trans(trans), m_texture(texture)
 {
     if (m_shader_handler == nullptr) {

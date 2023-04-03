@@ -14,3 +14,4 @@ private:
     std::string m_filename;
     GLuint m_tex;
 };
+

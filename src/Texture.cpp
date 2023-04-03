@@ -37,8 +37,8 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     stbi_image_free(data);
 }
 
-
 void Texture::bind(GLenum texture_unit) {
     glActiveTexture(texture_unit);
     glBindTexture(GL_TEXTURE_2D, m_tex);
 }
+

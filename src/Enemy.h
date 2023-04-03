@@ -7,6 +7,7 @@
 #include "Ray.h"
 #include "Rng.h"
 #include "ShaderHandler.h"
+#include "Texture.h"
 
 #include <glm/glm.hpp>
 #include <memory>
@@ -22,7 +23,10 @@ namespace enemy_constants {
 
 class Enemy {
 public:
-    Enemy(const std::shared_ptr<ShaderHandler> & shader_handler, const glm::vec3 & pos, const std::string & mesh_filename);
+    Enemy(const std::shared_ptr<ShaderHandler> & shader_handler,
+          const glm::vec3 & pos,
+          const std::shared_ptr<Texture> & texture,
+          const std::string & mesh_filename);
 
     void draw(const glm::mat4 & projection, const glm::mat4 & view) const;
     bool collisionTestXZ(const Ray & ray) const;
@@ -50,7 +54,7 @@ private:
     // GLuint m_ebo;
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
-    // std::shared_ptr<Texture> m_texture;
+    std::shared_ptr<Texture> m_texture;
 
     // mesh data
     std::vector<glm::vec3> m_positions;

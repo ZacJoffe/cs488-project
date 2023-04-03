@@ -1,5 +1,7 @@
 #include "Scene.h"
 
+#include <gl3w/GL/gl3w.h>
+#include <gl3w/GL/glcorearb.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
@@ -14,11 +16,14 @@ Scene::Scene(unsigned int num_enemies) {
         "./assets/shaders/VertexShader.vs",
         "./assets/shaders/FragmentShader.fs"
     );
+
+    const auto enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
     for (unsigned int i = 0; i < num_enemies; ++i) {
         m_enemies.emplace_back(
             m_shader_handler,
             // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
             glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
+            enemy_texture,
             "./assets/meshes/sphere.obj"
         );
     }
@@ -33,13 +38,16 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
     m_shader_handler->uploadMat4Uniform("view", view);
     m_shader_handler->uploadMat4Uniform("model", model);
 
+    glActiveTexture(GL_TEXTURE0);
     m_floor.draw();
 
     for (const auto & wall : m_walls) {
+        glActiveTexture(GL_TEXTURE1);
         wall.draw();
     }
 
     for (const auto & enemy : m_enemies) {
+        glActiveTexture(GL_TEXTURE1);
         enemy.draw(projection, view);
     }
 

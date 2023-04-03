@@ -40,7 +40,6 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
     m_shader_handler->uploadMat4Uniform("view", view);
-
     m_texture->bind(GL_TEXTURE0);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -59,6 +58,8 @@ void ParticleEmitter::draw(const glm::mat4 & projection, const glm::mat4 & view)
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    m_shader_handler->disable();
 }
 
 void ParticleEmitter::tick(float delta_time,
