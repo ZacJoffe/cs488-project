@@ -47,6 +47,11 @@ bool MenuState::handleKeyInput(int key, int action, int mods) {
             std::cout << "quitting game..." << std::endl;
             return true;
         }
+
+        // this is mostly here for quicker debugging/testing
+        if (key == GLFW_KEY_S) {
+            m_switch_states = true;
+        }
     }
 
     return false;

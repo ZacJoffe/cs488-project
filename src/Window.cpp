@@ -76,6 +76,8 @@ bool Window::keyInputEvent(int key, int action, int mods) {
 }
 
 void Window::switchToGameState() {
+    std::cout << "switching to game state" << std::endl;
+
     m_state_value = StateValue::Game;
     m_state = std::make_unique<GameState>(m_framebufferWidth, m_framebufferHeight);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
