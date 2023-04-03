@@ -17,20 +17,10 @@ Scene::Scene(unsigned int num_enemies) : m_num_enemies(num_enemies) {
         "./assets/shaders/FragmentShader.fs"
     );
 
-    m_enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
-    for (unsigned int i = 0; i < m_num_enemies; ++i) {
-        m_enemies.emplace_back(
-            m_shader_handler,
-            // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
-            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
-            m_enemy_texture,
-            "./assets/meshes/sphere.obj"
-        );
-    }
-
     initSkybox();
     initFloor();
     initWalls();
+    initEnemies();
 }
 
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
@@ -99,16 +89,7 @@ void Scene::tick(float delta_time) {
 }
 
 void Scene::respawnEnemies() {
-    m_enemies.clear();
-    for (unsigned int i = 0; i < m_num_enemies; ++i) {
-        m_enemies.emplace_back(
-            m_shader_handler,
-            // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
-            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
-            m_enemy_texture,
-            "./assets/meshes/sphere.obj"
-        );
-    }
+    initEnemies();
 }
 
 void Scene::initSkybox() {
@@ -227,5 +208,22 @@ void Scene::initWalls() {
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
     );
+}
+
+void Scene::initEnemies() {
+    if (m_enemy_texture == nullptr) {
+        m_enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
+    }
+
+    m_enemies.clear();
+    for (unsigned int i = 0; i < m_num_enemies; ++i) {
+        m_enemies.emplace_back(
+            m_shader_handler,
+            // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
+            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
+            m_enemy_texture,
+            "./assets/meshes/sphere.obj"
+        );
+    }
 }
 

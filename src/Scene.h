@@ -40,6 +40,7 @@ private:
     void initSkybox();
     void initFloor();
     void initWalls();
+    void initEnemies();
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
 
