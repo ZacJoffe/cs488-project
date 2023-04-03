@@ -14,7 +14,6 @@
 using namespace window_constants;
 
 Window::Window() :
-    m_input_handler(m_windowHeight, m_windowWidth),
     m_delta_time(0.0f),
     m_last_frame_time(0.0f),
     m_shooting(false) {}

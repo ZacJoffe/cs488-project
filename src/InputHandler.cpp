@@ -5,8 +5,8 @@
 #include <optional>
 #include <utility>
 
-InputHandler::InputHandler(float window_width, float window_height) :
-    m_prev_cursor_pos(window_width / 2.0f, window_height / 2.0f),
+InputHandler::InputHandler() :
+    m_prev_cursor_pos(0.0f, 0.0f),
     m_cursor_pos_deltas(0.0f, 0.0f) {}
 
 void InputHandler::pressKey(int key) {

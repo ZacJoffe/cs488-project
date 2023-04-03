@@ -9,7 +9,7 @@
 
 class InputHandler {
 public:
-    InputHandler(float window_width, float window_height);
+    InputHandler();
 
     void pressKey(int key);
     void releaseKey(int key);
