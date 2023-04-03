@@ -1,4 +1,7 @@
 # CS488 Project
+A first-person shooter game engine written for the [CS488](https://student.cs.uwaterloo.ca/~cs488/Winter2023/a5.html) final project.
+
+The name "Kefka" comes from the main antagonist of my favorite game, [Final Fantasy VI](https://en.wikipedia.org/wiki/Final_Fantasy_VI). I've thought of this project as the "final boss" of my degree, so this name felt appropriate.
 
 ## Building and Running
 A single `premake4` script is used to build the source and libraries:
@@ -10,6 +13,18 @@ Run the binary in the root directory (or else assets will fail to load):
 ```sh
 $ ./fps
 ```
+
+## Controls
+The game is controlled using the mouse and keyboard. If you've played a first-person shooter on PC in the last 25 years, the controls should feel intuitive. In case you haven't:
+- `w`: move foward
+- `a`: move left
+- `s`: move back
+- `d`: move right
+- `space`: jump
+- `left shift`: hold to sprint
+- `r`: respawn enemies
+
+The mouse is used to look around the world, and the left mouse button shoots.
 
 ## Libraries and Assets
 Credit for all libraries and assets used in this repo go to their respective owners. The list of libraries and assets used are detailed in the following subsections.
