@@ -7,6 +7,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
 #include <utility>
 
 using namespace window_constants;
@@ -24,6 +26,7 @@ void Window::init() {
     initCamera();
     initProjectionMatrix();
     initScene();
+    initSoundEngine();
 
     // DELETEME after doing the ui objective
     // glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -58,6 +61,12 @@ void Window::initProjectionMatrix() {
 void Window::initScene() {
     // TODO let the number of enemies be a parameter in the UI
     m_scene = std::make_unique<Scene>(5);
+}
+
+void Window::initSoundEngine() {
+    m_soloud_engine.init();
+    const auto moss = m_gunshot_wav.load("./assets/sounds/gunshot.wav");
+    std::cout << moss << std::endl;
 }
 
 void Window::calculateDeltaTime() {
@@ -103,7 +112,9 @@ void Window::draw()
     CHECK_GL_ERRORS;
 }
 
-void Window::cleanup() {}
+void Window::cleanup() {
+    m_soloud_engine.deinit();
+}
 
 
 // EVENT HANDLERS
@@ -126,6 +137,7 @@ bool Window::mouseButtonInputEvent(int button, int actions, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && actions == GLFW_PRESS) {
         std::cout << "shooting ray" << std::endl;
         m_shooting = true;
+        m_soloud_engine.play(m_gunshot_wav);
     }
 
     return false;

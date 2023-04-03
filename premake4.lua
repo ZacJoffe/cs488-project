@@ -4,6 +4,7 @@ includeDirList = {
     "shared",
     "shared/gl3w",
     "shared/imgui",
+    "shared/soloud/include",
     "shared/include"
 }
 
@@ -42,9 +43,15 @@ if not os.isfile("lib/liblua.a") then
     os.execute("cp shared/lua-5.3.1/src/liblua.a lib/")
 end
 
+-- if not os.isfile("lib/libIrrKlang.so") then
+--    os.execute("cp shared/irrKlang/bin/linux-gcc-64/libIrrKlang.so lib/")
+-- end
+
 linkLibs = {
     "cs488-framework",
     "imgui",
+    "soloud",
+    "asound",
     "glfw3",
     "GL",
     "Xinerama",
@@ -55,7 +62,7 @@ linkLibs = {
     "X11",
     "stdc++",
     "dl",
-    "pthread"
+    "pthread",
 }
 
 
@@ -100,6 +107,24 @@ solution "BuildStaticLibs"
             "shared/gl3w/GL/gl3w.c",
         }
 
+    project "soloud"
+        kind "StaticLib"
+        language "C++"
+        location "build"
+        objdir "build"
+        targetdir "lib"
+        includedirs (includeDirList)
+        -- includedirs {
+        --    "shared/soloud/src/audiosource/wav",
+        -- }
+        defines {"WITH_ALSA"}
+        files {
+           "shared/soloud/src/core/*.cpp",
+           "shared/soloud/src/audiosource/wav/*.cpp",
+           "shared/soloud/src/audiosource/wav/*.c",
+           -- "shared/soloud/src/backend/oss/soloud_oss.cpp",
+           "shared/soloud/src/backend/alsa/soloud_alsa.cpp",
+        }
 
     project "fps"
         kind "ConsoleApp"
@@ -112,4 +137,8 @@ solution "BuildStaticLibs"
         links (linkLibs)
         linkoptions (linkOptionList)
         includedirs (includeDirList)
-        files { "src/*.cpp" }
+        files {
+           -- "libIrrKlang.so",
+           "src/*.cpp",
+        }
+

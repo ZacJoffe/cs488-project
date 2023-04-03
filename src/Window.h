@@ -11,6 +11,9 @@
 #include <memory>
 #include <vector>
 
+#include <soloud.h>
+#include <soloud_wav.h>
+
 namespace window_constants {
     // TODO these values probably need tweaking
     static const float DEFAULT_FOVY = 60.0f;
@@ -42,6 +45,7 @@ private:
     void initCamera();
     void initProjectionMatrix();
     void initScene();
+    void initSoundEngine();
 
     void calculateDeltaTime();
 
@@ -57,4 +61,7 @@ private:
     float m_last_frame_time;
 
     bool m_shooting;
+
+    SoLoud::Soloud m_soloud_engine;
+    SoLoud::Wav m_gunshot_wav;
 };

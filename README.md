@@ -16,6 +16,9 @@ $ ./fps
 - stb image loader - https://github.com/nothings/stb/blob/master/stb_image.h
   - MIT
 
+- SoLoud - https://github.com/jarikomppa/soloud
+  - zlib/libpng
+
 ### Assets
 - textures - https://opengameart.org/content/tileable-grass-textures-set-1
   - CC0 1.0 Universal
@@ -28,3 +31,6 @@ $ ./fps
 
 - textures - https://www.manytextures.com/texture/260/red+hot+fire+flames/
   - CC0 BY 4.0
+
+- gun sound effect - https://opengameart.org/content/futuristic-shotgun
+  - CC BY-SA 3.0
