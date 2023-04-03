@@ -28,11 +28,14 @@ Scene::Scene(unsigned int num_enemies) {
         );
     }
 
+    initSkybox();
     initFloor();
     initWalls();
 }
 
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
+    m_skybox->draw(projection, view);
+
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
     m_shader_handler->uploadMat4Uniform("view", view);
@@ -93,6 +96,24 @@ void Scene::tick(float delta_time) {
     for (auto & enemy : m_enemies) {
         enemy.move(getStaticCollidableObjects(), delta_time);
     }
+}
+
+void Scene::initSkybox() {
+    std::vector<std::string> filenames = {
+        // TODO rename assets appropriately
+        "./assets/textures/skybox/stormydays_rt.tga", // right
+        "./assets/textures/skybox/stormydays_lf.tga", // left
+        "./assets/textures/skybox/stormydays_up.tga", // top
+        "./assets/textures/skybox/stormydays_dn.tga", // bottom
+        "./assets/textures/skybox/stormydays_ft.tga", // front
+        "./assets/textures/skybox/stormydays_bk.tga"  // back
+    };
+
+    m_skybox_shader_handler = std::make_shared<ShaderHandler>(
+        "./assets/shaders/skybox.vs",
+        "./assets/shaders/skybox.fs"
+    );
+    m_skybox = std::make_unique<Skybox>(filenames, m_skybox_shader_handler);
 }
 
 void Scene::initFloor() {

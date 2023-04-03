@@ -5,6 +5,7 @@
 #include "Ray.h"
 #include "Rng.h"
 #include "ShaderHandler.h"
+#include "Skybox.h"
 #include "Texture.h"
 #include "Tile.h"
 
@@ -35,6 +36,7 @@ public:
     void tick(float delta_time);
 
 private:
+    void initSkybox();
     void initFloor();
     void initWalls();
 
@@ -46,8 +48,11 @@ private:
     std::shared_ptr<Texture> m_wall_texture;
     std::array<Tiles, 4> m_walls;
 
-    // TODO make this a vector of enemies with (random) spawning logic?
     std::list<Enemy> m_enemies;
+
+    std::shared_ptr<ShaderHandler> m_skybox_shader_handler;
+    std::unique_ptr<Skybox> m_skybox;
 
     Rng m_rng;
 };
+

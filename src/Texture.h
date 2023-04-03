@@ -8,7 +8,7 @@ class Texture {
 public:
     Texture(const std::string & filename);
 
-    void bind(GLenum texture_unit);
+    void bind(GLenum texture_unit) const;
 
 private:
     std::string m_filename;

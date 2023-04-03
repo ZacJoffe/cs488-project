@@ -2,7 +2,9 @@
 
 #include <gl3w/GL/gl3w.h>
 
-#define STB_IMAGE_IMPLEMENTATION
+#ifndef STB_IMAGE_IMPLEMENTATION
+    #define STB_IMAGE_IMPLEMENTATION
+#endif
 #include "include/stb/stb_image.h"
 
 #include <stdexcept>
@@ -37,7 +39,7 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     stbi_image_free(data);
 }
 
-void Texture::bind(GLenum texture_unit) {
+void Texture::bind(GLenum texture_unit) const {
     glActiveTexture(texture_unit);
     glBindTexture(GL_TEXTURE_2D, m_tex);
 }
