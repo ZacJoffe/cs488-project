@@ -4,11 +4,6 @@
 #include "GL/glcorearb.h"
 #include "cs488-framework/GlErrorCheck.hpp"
 
-#ifndef STB_IMAGE_IMPLEMENTATION
-    #define STB_IMAGE_IMPLEMENTATION
-#endif
-#include "include/stb/stb_image.h"
-
 #include <stdexcept>
 
 using namespace skybox_constants;
@@ -55,12 +50,9 @@ void Skybox::initTextures() {
     glGenTextures(1, &m_tex);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_tex);
 
-    // force stbi to load image with origin coordinate being on bottom left of image
-    stbi_set_flip_vertically_on_load(1);
-
     int x, y, n;
     for (size_t i = 0; i < m_filenames.size(); ++i) {
-        unsigned char * data = stbi_load(m_filenames[i].c_str(), &x, &y, &n, 0);
+        unsigned char * data = m_image_loader.load(m_filenames[i], &x, &y, &n);
         if (data == nullptr) {
             throw std::runtime_error("Unable to load texture");
         }
@@ -73,7 +65,7 @@ void Skybox::initTextures() {
             throw std::runtime_error(&"Unexpected number of components per pixel: " [ n]);
         }
 
-        stbi_image_free(data);
+        m_image_loader.free(data);
     }
 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

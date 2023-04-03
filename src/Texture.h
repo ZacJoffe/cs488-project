@@ -2,6 +2,8 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
+
+#include "ImageLoader.h"
 #include <string>
 
 class Texture {
@@ -13,5 +15,6 @@ public:
 private:
     std::string m_filename;
     GLuint m_tex;
+    ImageLoader m_image_loader;
 };
 

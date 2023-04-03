@@ -2,11 +2,6 @@
 
 #include <gl3w/GL/gl3w.h>
 
-#ifndef STB_IMAGE_IMPLEMENTATION
-    #define STB_IMAGE_IMPLEMENTATION
-#endif
-#include "include/stb/stb_image.h"
-
 #include <stdexcept>
 
 Texture::Texture(const std::string & filename) : m_filename(filename) {
@@ -18,10 +13,8 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    // force stbi to load image with origin coordinate being on bottom left of image
-    stbi_set_flip_vertically_on_load(1);
     int x, y, n;
-    unsigned char * data = stbi_load(m_filename.c_str(), &x, &y, &n, 0);
+    unsigned char * data = m_image_loader.load(m_filename, &x, &y, &n);
     if (data == nullptr) {
         throw std::runtime_error("Unable to load texture");
     }
@@ -36,7 +29,7 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     }
 
     glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(data);
+    m_image_loader.free(data);
 }
 
 void Texture::bind(GLenum texture_unit) const {

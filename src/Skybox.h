@@ -2,6 +2,7 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
+#include "ImageLoader.h"
 #include "ShaderHandler.h"
 
 #include <glm/glm.hpp>
@@ -75,5 +76,6 @@ private:
     std::vector<std::string> m_filenames;
     std::shared_ptr<ShaderHandler> m_shader_handler;
     GLuint m_tex;
+    ImageLoader m_image_loader;
 };
 
