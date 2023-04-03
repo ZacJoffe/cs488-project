@@ -32,7 +32,6 @@ public:
     bool handleKeyInput(int key, int action, int mods) override;
 
 private:
-    void initBackgroundColor();
     void initCamera();
     void initProjectionMatrix(int framebuffer_width, int framebuffer_height);
     void initScene();

@@ -11,7 +11,6 @@
 using namespace game_state_constants;
 
 GameState::GameState(int framebuffer_width, int framebuffer_height) : m_shooting(false) {
-    initBackgroundColor(); // TODO DELETEME
     initCamera();
     initProjectionMatrix(framebuffer_width, framebuffer_height);
     initScene();
@@ -75,10 +74,6 @@ bool GameState::handleKeyInput(int key, int action, int mods) {
     }
 
     return false;
-}
-
-void GameState::initBackgroundColor() {
-    glClearColor(0.3, 0.5, 0.7, 1.0);
 }
 
 void GameState::initCamera() {
