@@ -2,6 +2,7 @@
 
 #include "BoundingBox.h"
 #include "Enemy.h"
+#include "GameContext.h"
 #include "Ray.h"
 #include "Rng.h"
 #include "ShaderHandler.h"
@@ -27,7 +28,7 @@ namespace scene_constants {
 
 class Scene {
 public:
-    Scene(unsigned int num_enemies);
+    Scene(const GameContext & game_context);
 
     void draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const;
     std::list<BoundingBox> getStaticCollidableObjects() const;
@@ -37,9 +38,10 @@ public:
     void respawnEnemies();
 
 private:
-    void initSkybox();
-    void initFloor();
-    void initWalls();
+    void initSkybox(const std::vector<std::string> & filenames);
+    void initFloor(const std::string & texture_filename);
+    void initWalls(const std::string & texture_filename);
+    void initEnemyTexture(const std::string & texture_filename);
     void initEnemies();
 
     std::shared_ptr<ShaderHandler> m_shader_handler;

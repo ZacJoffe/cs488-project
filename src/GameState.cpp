@@ -10,10 +10,11 @@
 
 using namespace game_state_constants;
 
-GameState::GameState(int framebuffer_width, int framebuffer_height) : m_shooting(false) {
+GameState::GameState(const GameContext & game_context, int framebuffer_width, int framebuffer_height) : m_shooting(false) {
+    // TODO game context stuff
     initCamera();
     initProjectionMatrix(framebuffer_width, framebuffer_height);
-    initScene();
+    initScene(game_context);
     initSoundFiles();
 }
 
@@ -105,9 +106,9 @@ void GameState::initProjectionMatrix(int framebuffer_width, int framebuffer_heig
     );
 }
 
-void GameState::initScene() {
+void GameState::initScene(const GameContext & game_context) {
     // TODO let the number of enemies be a parameter in the UI
-    m_scene = std::make_unique<Scene>(5);
+    m_scene = std::make_unique<Scene>(game_context);
 }
 
 void GameState::initSoundFiles() {

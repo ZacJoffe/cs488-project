@@ -16,7 +16,7 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
         "./assets/shaders/particle.vs",
         "./assets/shaders/particle.fs"
     );
-    m_texture = std::make_unique<Texture>("./assets/textures/fire.png");
+    m_texture = std::make_unique<Texture>("./assets/textures/particles/fire.png");
 
     std::string id = "particle_cube";
     ObjFileDecoder::decode("./assets/meshes/cube.obj", id, m_positions, m_normals, m_uv_coords);

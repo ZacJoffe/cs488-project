@@ -4,6 +4,7 @@
 
 #include "cs488-framework/OpenGLImport.hpp"
 #include "Camera.h"
+#include "GameContext.h"
 #include "InputHandler.h"
 #include "Scene.h"
 
@@ -21,7 +22,7 @@ namespace game_state_constants {
 
 class GameState : public State {
 public:
-    GameState(int framebuffer_width, int framebuffer_height);
+    GameState(const GameContext & game_context, int framebuffer_width, int framebuffer_height);
     ~GameState() override;
 
     void appLogic(float delta_time) override;
@@ -35,7 +36,7 @@ public:
 private:
     void initCamera();
     void initProjectionMatrix(int framebuffer_width, int framebuffer_height);
-    void initScene();
+    void initScene(const GameContext & game_context);
     void initSoundFiles();
 
     std::shared_ptr<Camera> m_camera; // encapsulates the view matrix

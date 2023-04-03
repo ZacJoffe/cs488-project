@@ -10,16 +10,19 @@
 
 using namespace scene_constants;
 
-Scene::Scene(unsigned int num_enemies) : m_num_enemies(num_enemies) {
+Scene::Scene(const GameContext & game_context) {
+    m_num_enemies = game_context.num_enemies;
+
     // init shader handler
     m_shader_handler = std::make_shared<ShaderHandler>(
-        "./assets/shaders/VertexShader.vs",
-        "./assets/shaders/FragmentShader.fs"
+        "./assets/shaders/generic.vs",
+        "./assets/shaders/generic.fs"
     );
 
-    initSkybox();
-    initFloor();
-    initWalls();
+    initSkybox(game_context.skybox);
+    initFloor(game_context.floor_texture);
+    initWalls(game_context.wall_texture);
+    initEnemyTexture(game_context.enemy_texture);
     initEnemies();
 }
 
@@ -92,34 +95,7 @@ void Scene::respawnEnemies() {
     initEnemies();
 }
 
-void Scene::initSkybox() {
-    std::vector<std::string> filenames = {
-        "./assets/textures/skybox/stormydays/stormydays_ft.tga", // right
-        "./assets/textures/skybox/stormydays/stormydays_bk.tga", // left
-        "./assets/textures/skybox/stormydays/stormydays_up.tga", // top
-        "./assets/textures/skybox/stormydays/stormydays_dn.tga", // bottom
-        "./assets/textures/skybox/stormydays/stormydays_rt.tga", // back
-        "./assets/textures/skybox/stormydays/stormydays_lf.tga"  // front
-    };
-
-    // std::vector<std::string> filenames = {
-    //     "./assets/textures/skybox/teal1/0003.jpg", // right
-    //     "./assets/textures/skybox/teal1/0005.jpg", // left
-    //     "./assets/textures/skybox/teal1/0006.jpg", // top
-    //     "./assets/textures/skybox/teal1/0001.jpg", // bottom
-    //     "./assets/textures/skybox/teal1/0002.jpg", // front
-    //     "./assets/textures/skybox/teal1/0004.jpg"  // back
-    // };
-
-    // std::vector<std::string> filenames = {
-    //     "./assets/textures/skybox/miramar/miramar_ft.tga", // right
-    //     "./assets/textures/skybox/miramar/miramar_bk.tga", // left
-    //     "./assets/textures/skybox/miramar/miramar_up.tga", // top
-    //     "./assets/textures/skybox/miramar/miramar_dn.tga", // bottom
-    //     "./assets/textures/skybox/miramar/miramar_rt.tga", // back
-    //     "./assets/textures/skybox/miramar/miramar_lf.tga" // front
-    // };
-
+void Scene::initSkybox(const std::vector<std::string> & filenames) {
     m_skybox_shader_handler = std::make_shared<ShaderHandler>(
         "./assets/shaders/skybox.vs",
         "./assets/shaders/skybox.fs"
@@ -127,8 +103,8 @@ void Scene::initSkybox() {
     m_skybox = std::make_unique<Skybox>(filenames, m_skybox_shader_handler);
 }
 
-void Scene::initFloor() {
-    m_floor_texture = std::make_shared<Texture>("./assets/textures/Grass_02.png");
+void Scene::initFloor(const std::string & texture_filename) {
+    m_floor_texture = std::make_shared<Texture>(texture_filename);
     m_floor = Tiles(
         glm::mat4(1.0f),
         WORLD_BOUNDARY_MAX.x,
@@ -139,8 +115,8 @@ void Scene::initFloor() {
     );
 }
 
-void Scene::initWalls() {
-    m_wall_texture = std::make_shared<Texture>("./assets/textures/stone wall 4.png");
+void Scene::initWalls(const std::string & texture_filename) {
+    m_wall_texture = std::make_shared<Texture>(texture_filename);
 
     /*
     2D (x-z plane) diagram of scene
@@ -210,11 +186,11 @@ void Scene::initWalls() {
     );
 }
 
-void Scene::initEnemies() {
-    if (m_enemy_texture == nullptr) {
-        m_enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
-    }
+void Scene::initEnemyTexture(const std::string & texture_filename) {
+    m_enemy_texture = std::make_shared<Texture>(texture_filename);
+}
 
+void Scene::initEnemies() {
     m_enemies.clear();
     for (unsigned int i = 0; i < m_num_enemies; ++i) {
         m_enemies.emplace_back(
