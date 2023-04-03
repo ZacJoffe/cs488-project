@@ -51,7 +51,6 @@ linkLibs = {
     "cs488-framework",
     "imgui",
     "soloud",
-    "asound",
     "glfw3",
     "GL",
     "Xinerama",
@@ -114,12 +113,12 @@ solution "BuildStaticLibs"
         objdir "build"
         targetdir "lib"
         includedirs (includeDirList)
-        defines {"WITH_ALSA"}
+        defines {"WITH_MINIAUDIO"}
         files {
            "shared/soloud/src/core/*.cpp",
            "shared/soloud/src/audiosource/wav/*.cpp",
            "shared/soloud/src/audiosource/wav/*.c",
-           "shared/soloud/src/backend/alsa/soloud_alsa.cpp",
+           "shared/soloud/src/backend/miniaudio/**.c*",
         }
 
     project "fps"
