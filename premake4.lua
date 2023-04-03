@@ -114,15 +114,11 @@ solution "BuildStaticLibs"
         objdir "build"
         targetdir "lib"
         includedirs (includeDirList)
-        -- includedirs {
-        --    "shared/soloud/src/audiosource/wav",
-        -- }
         defines {"WITH_ALSA"}
         files {
            "shared/soloud/src/core/*.cpp",
            "shared/soloud/src/audiosource/wav/*.cpp",
            "shared/soloud/src/audiosource/wav/*.c",
-           -- "shared/soloud/src/backend/oss/soloud_oss.cpp",
            "shared/soloud/src/backend/alsa/soloud_alsa.cpp",
         }
 
@@ -138,7 +134,6 @@ solution "BuildStaticLibs"
         linkoptions (linkOptionList)
         includedirs (includeDirList)
         files {
-           -- "libIrrKlang.so",
            "src/*.cpp",
         }
 

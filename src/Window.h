@@ -65,3 +65,4 @@ private:
     SoLoud::Soloud m_soloud_engine;
     SoLoud::Wav m_gunshot_wav;
 };
+

@@ -65,8 +65,7 @@ void Window::initScene() {
 
 void Window::initSoundEngine() {
     m_soloud_engine.init();
-    const auto moss = m_gunshot_wav.load("./assets/sounds/gunshot.wav");
-    std::cout << moss << std::endl;
+    m_gunshot_wav.load("./assets/sounds/gunshot.wav");
 }
 
 void Window::calculateDeltaTime() {
@@ -166,3 +165,4 @@ bool Window::keyInputEvent(int key, int action, int mods) {
 
     return true;
 }
+
