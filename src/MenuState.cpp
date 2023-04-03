@@ -22,7 +22,7 @@ MenuState::~MenuState() {}
 
 void MenuState::appLogic(float delta_time) {}
 
-void MenuState::guiLogic() {
+void MenuState::guiLogic(const std::unique_ptr<GameContext> & game_context) {
     if (m_show_root) {
         ImGui::Begin("Root", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
         ImGui::SetWindowSize(ImVec2(0, 0));

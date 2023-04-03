@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameContext.h"
 #include "State.h"
 #include "imgui.h"
 
@@ -9,12 +10,14 @@ public:
     ~MenuState() override;
 
     void appLogic(float delta_time) override;
-    void guiLogic() override;
+    void guiLogic(const std::unique_ptr<GameContext> & game_context) override;
     void draw() override;
     void handleMouseMove(double xpos, double ypos) override;
     void handleMouseButtonInput(int button, int actions, int mods) override;
     bool handleKeyInput(int key, int action, int mods) override;
     bool switchStates() override;
+
+    GameContext getGameContext();
 
 private:
     bool m_show_root;

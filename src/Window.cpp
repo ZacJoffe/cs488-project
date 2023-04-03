@@ -17,6 +17,7 @@ Window::~Window() {}
 void Window::init() {
     // always start in menu state
     m_state = std::make_unique<MenuState>(m_framebufferWidth, m_framebufferHeight);
+    m_game_context = std::make_unique<GameContext>();
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
@@ -28,7 +29,7 @@ void Window::appLogic() {
 }
 
 void Window::guiLogic() {
-    m_state->guiLogic();
+    m_state->guiLogic(m_game_context);
     if (m_state->switchStates()) {
         switchToGameState();
     }
@@ -79,8 +80,7 @@ void Window::switchToGameState() {
     std::cout << "switching to game state" << std::endl;
 
     m_state_value = StateValue::Game;
-    // TODO make game context be returned from menu state
-    m_state = std::make_unique<GameState>(GameContext(), m_framebufferWidth, m_framebufferHeight);
+    m_state = std::make_unique<GameState>(*m_game_context, m_framebufferWidth, m_framebufferHeight);
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 

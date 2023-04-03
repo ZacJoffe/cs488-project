@@ -36,7 +36,7 @@ void GameState::appLogic(float delta_time) {
     m_scene->tick(delta_time);
 }
 
-void GameState::guiLogic() {}
+void GameState::guiLogic(const std::unique_ptr<GameContext> & game_context) {}
 
 void GameState::draw() {
     glEnable(GL_DEPTH_TEST);

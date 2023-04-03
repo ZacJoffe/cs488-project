@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cs488-framework/CS488Window.hpp"
+#include "GameContext.h"
 #include "State.h"
 
 #include <memory>
@@ -30,6 +31,7 @@ private:
 
     StateValue m_state_value;
     std::unique_ptr<State> m_state;
+    std::unique_ptr<GameContext> m_game_context;
 
     float m_delta_time;
     float m_last_frame_time;

@@ -26,7 +26,7 @@ public:
     ~GameState() override;
 
     void appLogic(float delta_time) override;
-    void guiLogic() override;
+    void guiLogic(const std::unique_ptr<GameContext> & game_context) override;
     void draw() override;
     void handleMouseMove(double xpos, double ypos) override;
     void handleMouseButtonInput(int button, int actions, int mods) override;
