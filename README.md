@@ -20,17 +20,17 @@ $ ./fps
   - zlib/libpng
 
 ### Assets
-- textures - https://opengameart.org/content/tileable-grass-textures-set-1
+- floor textures - https://opengameart.org/content/tileable-grass-textures-set-1
   - CC0 1.0 Universal
 
-- textures - https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
+- wall textures - https://opengameart.org/content/wall-grass-rock-stone-wood-and-dirt-480
   - CC0 1.0 Universal
 
-- gun - https://opengameart.org/content/high-poly-ak-47
-  - CC0 1.0 Universal
-
-- textures - https://www.manytextures.com/texture/260/red+hot+fire+flames/
+- fire textures - https://www.manytextures.com/texture/260/red+hot+fire+flames/
   - CC0 BY 4.0
+
+- skybox textures - https://opengameart.org/content/stormy-days-skybox
+  - CC BY 3.0
 
 - gun sound effect - https://opengameart.org/content/futuristic-shotgun
   - CC BY-SA 3.0
