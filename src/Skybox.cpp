@@ -1,8 +1,9 @@
 #include "Skybox.h"
 
 #include <gl3w/GL/gl3w.h>
-#include "GL/glcorearb.h"
+#include <gl3w/GL/glcorearb.h>
 #include "cs488-framework/GlErrorCheck.hpp"
+#include "ImageLoader.h"
 
 #include <stdexcept>
 
@@ -51,8 +52,10 @@ void Skybox::initTextures() {
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_tex);
 
     int x, y, n;
+    ImageLoader & image_loader = ImageLoader::getInstance();
+    image_loader.setFlipVertically(false);
     for (size_t i = 0; i < m_filenames.size(); ++i) {
-        unsigned char * data = m_image_loader.load(m_filenames[i], &x, &y, &n);
+        unsigned char * data = image_loader.load(m_filenames[i], &x, &y, &n);
         if (data == nullptr) {
             throw std::runtime_error("Unable to load texture");
         }
@@ -65,8 +68,9 @@ void Skybox::initTextures() {
             throw std::runtime_error(&"Unexpected number of components per pixel: " [ n]);
         }
 
-        m_image_loader.free(data);
+        image_loader.free(data);
     }
+    image_loader.setFlipVertically(true);
 
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -1,6 +1,7 @@
 #include "Texture.h"
 
 #include <gl3w/GL/gl3w.h>
+#include "ImageLoader.h"
 
 #include <stdexcept>
 
@@ -14,7 +15,9 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int x, y, n;
-    unsigned char * data = m_image_loader.load(m_filename, &x, &y, &n);
+    ImageLoader & image_loader = ImageLoader::getInstance();
+    image_loader.setFlipVertically(true);
+    unsigned char * data = image_loader.load(m_filename, &x, &y, &n);
     if (data == nullptr) {
         throw std::runtime_error("Unable to load texture");
     }
@@ -29,7 +32,7 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     }
 
     glGenerateMipmap(GL_TEXTURE_2D);
-    m_image_loader.free(data);
+    image_loader.free(data);
 }
 
 void Texture::bind(GLenum texture_unit) const {
