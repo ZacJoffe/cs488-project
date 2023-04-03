@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "SoundEngine.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
@@ -23,6 +24,7 @@ Camera::Camera(const glm::vec3 & pos, const glm::vec3 & front, const glm::vec3 &
     m_sprinting(false)
 {
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);
+    m_footstep_wav.load("./assets/sounds/footsteps/0.ogg");
 }
 
 Camera::~Camera() {}
@@ -149,6 +151,11 @@ void Camera::move(float delta_time, InputHandler & input_handler, const std::lis
             m_pos.y = m_initial_y;
             m_jumping = false;
         }
+    }
+
+    if (m_pos != prev_pos && !m_jumping) {
+        SoundEngine & sound_engine = SoundEngine::getInstance();
+        sound_engine.playIfAvailable(m_footstep_wav);
     }
 
     // debugCameraPrint();

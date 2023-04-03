@@ -10,6 +10,7 @@ public:
     void operator=(SoundEngine const &) = delete;
 
     void play(SoLoud::Wav & wav);
+    void playIfAvailable(SoLoud::Wav & wav);
 
 private:
     SoundEngine();

@@ -12,6 +12,9 @@
 #include <optional>
 #include <utility>
 
+#include <soloud.h>
+#include <soloud_wav.h>
+
 namespace camera_constants {
     static const float DEFAULT_YAW = -45.0f;
     static const float DEFAULT_PITCH = 45.0f;
@@ -79,5 +82,7 @@ private:
     bool m_sprinting;
 
     BoundingBox m_bounding_box_xz;
+
+    SoLoud::Wav m_footstep_wav;
 };
 
