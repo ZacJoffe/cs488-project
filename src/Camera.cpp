@@ -166,11 +166,10 @@ void Camera::move(float delta_time, InputHandler & input_handler, const std::lis
 
 void Camera::updateDirection(const InputHandler & input_handler) {
     const auto [dx, dy] = input_handler.getCursorDeltas();
+    // std::cout << dx << ", " << dy << std::endl;
 
     m_yaw += dx * SENSITIVITY;
     m_pitch += dy * SENSITIVITY;
-
-    // std::cout << m_pitch << std::endl;
     m_pitch = glm::clamp(m_pitch, MIN_PITCH, MAX_PITCH);
 
     m_front = glm::normalize(

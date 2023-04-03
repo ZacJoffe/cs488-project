@@ -46,6 +46,7 @@ void GameState::draw() {
 void GameState::handleMouseMove(double xpos, double ypos) {
     float x_pos = static_cast<float>(xpos);
     float y_pos = static_cast<float>(ypos);
+
     // std::cout << x_pos << ", " << y_pos << std::endl;
     m_input_handler.updateCursorPos(std::make_pair(x_pos, y_pos));
     m_camera->updateDirection(m_input_handler);
@@ -82,6 +83,9 @@ void GameState::initCamera() {
         glm::vec3(0.0f, 0.0f, -1.0f),
         glm::vec3(0.0f, 1.0f, 0.0f)
     );
+
+    // HACK init the direction of the camera here
+    m_camera->updateDirection(m_input_handler);
 }
 
 void GameState::initProjectionMatrix(int framebuffer_width, int framebuffer_height) {
@@ -109,3 +113,4 @@ void GameState::initSoundFiles() {
 bool GameState::switchStates() {
     return false;
 }
+

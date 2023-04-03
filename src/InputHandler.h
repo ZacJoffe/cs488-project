@@ -34,4 +34,7 @@ private:
     std::unordered_map<Key, bool> m_key_states;
     std::pair<float, float> m_prev_cursor_pos;
     std::pair<float, float> m_cursor_pos_deltas;
+
+    bool m_first_cursor_move;
 };
+

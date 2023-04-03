@@ -7,7 +7,8 @@
 
 InputHandler::InputHandler() :
     m_prev_cursor_pos(0.0f, 0.0f),
-    m_cursor_pos_deltas(0.0f, 0.0f) {}
+    m_cursor_pos_deltas(0.0f, 0.0f),
+    m_first_cursor_move(true) {}
 
 void InputHandler::pressKey(int key) {
     setKeyHelper(key, true);
@@ -18,6 +19,11 @@ void InputHandler::releaseKey(int key) {
 }
 
 void InputHandler::updateCursorPos(const std::pair<float, float> & cursor_pos) {
+    if (m_first_cursor_move) {
+        m_prev_cursor_pos = cursor_pos;
+        m_first_cursor_move = false;
+    }
+
     m_cursor_pos_deltas.first = (cursor_pos.first - m_prev_cursor_pos.first);
     m_cursor_pos_deltas.second = (m_prev_cursor_pos.second - cursor_pos.second);
     m_prev_cursor_pos = cursor_pos;

@@ -17,8 +17,8 @@
 #include <soloud_wav.h>
 
 namespace camera_constants {
-    static const float DEFAULT_YAW = -45.0f;
-    static const float DEFAULT_PITCH = 45.0f;
+    static const float DEFAULT_YAW = 45.0f;
+    static const float DEFAULT_PITCH = 0.0f;
     static const float SENSITIVITY = 0.1f;
 
     static const float MIN_PITCH = -80.0f;
