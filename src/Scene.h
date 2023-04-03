@@ -1,10 +1,13 @@
 #pragma once
 
+#include <gl3w/GL/gl3w.h>
+#include <gl3w/GL/glcorearb.h>
 #include "BoundingBox.h"
 #include "Enemy.h"
 #include "Ray.h"
 #include "Rng.h"
 #include "ShaderHandler.h"
+#include "ShadowMap.h"
 #include "Skybox.h"
 #include "Texture.h"
 #include "Tile.h"
@@ -39,6 +42,8 @@ private:
     void initSkybox();
     void initFloor();
     void initWalls();
+    void initShadowMap();
+    void drawHelper() const;
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
 
@@ -54,5 +59,8 @@ private:
     std::unique_ptr<Skybox> m_skybox;
 
     Rng m_rng;
+
+    std::shared_ptr<ShaderHandler> m_shadow_map_shader_handler;
+    std::unique_ptr<ShadowMap> m_shadow_map;
 };
 

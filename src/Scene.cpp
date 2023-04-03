@@ -31,16 +31,22 @@ Scene::Scene(unsigned int num_enemies) {
     initSkybox();
     initFloor();
     initWalls();
+    initShadowMap();
 }
 
 void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm::mat4 & model) const {
     m_skybox->draw(projection, view);
+
+    m_shadow_map->setup();
+    drawHelper();
 
     m_shader_handler->enable();
     m_shader_handler->uploadMat4Uniform("projection", projection);
     m_shader_handler->uploadMat4Uniform("view", view);
     m_shader_handler->uploadMat4Uniform("model", model);
 
+    drawHelper();
+    /*
     glActiveTexture(GL_TEXTURE0);
     m_floor.draw();
 
@@ -56,6 +62,7 @@ void Scene::draw(const glm::mat4 & projection, const glm::mat4 & view, const glm
 
     m_shader_handler->disable();
     glBindVertexArray(0);
+    */
 }
 
 std::list<BoundingBox> Scene::getStaticCollidableObjects() const {
@@ -214,5 +221,31 @@ void Scene::initWalls() {
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
     );
+}
+
+void Scene::initShadowMap() {
+    m_shadow_map_shader_handler = std::make_shared<ShaderHandler>(
+        "./assets/shaders/depth.vs",
+        "./assets/shaders/depth.fs"
+    );
+    m_shadow_map = std::make_unique<ShadowMap>(m_shadow_map_shader_handler);
+}
+
+void Scene::drawHelper() const {
+    glActiveTexture(GL_TEXTURE0);
+    m_floor.draw();
+
+    for (const auto & wall : m_walls) {
+        glActiveTexture(GL_TEXTURE1);
+        wall.draw();
+    }
+
+    for (const auto & enemy : m_enemies) {
+        glActiveTexture(GL_TEXTURE1);
+        enemy.draw(projection, view);
+    }
+
+    m_shader_handler->disable();
+    glBindVertexArray(0);
 }
 
