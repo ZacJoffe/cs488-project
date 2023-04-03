@@ -7,8 +7,6 @@
 
 MenuState::MenuState() : m_show_root(true), m_switch_states(false) {
     ImGuiIO & io = ImGui::GetIO();
-    // m_font_title = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 36));
-    // m_font_normal = std::unique_ptr<ImFont>(io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 12));
     m_font_title = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 36);
     m_font_normal = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 12);
 
@@ -22,12 +20,10 @@ void MenuState::appLogic(float delta_time) {}
 void MenuState::guiLogic() {
     if (m_show_root) {
         ImGui::Begin("Root", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
-        // ImGui::PushFont(m_font_title.get());
         ImGui::PushFont(m_font_title);
         ImGui::Text("Codename: Kefka");
         ImGui::PopFont();
 
-        // ImGui::PushFont(m_font_normal.get());
         ImGui::PushFont(m_font_normal);
         if (ImGui::Button("Start Game")) {
             std::cout << "start game button pressed" << std::endl;

@@ -3,8 +3,6 @@
 #include "State.h"
 #include "imgui.h"
 
-#include <memory>
-
 class MenuState : public State {
 public:
     MenuState();
@@ -20,8 +18,6 @@ public:
 
 private:
     bool m_show_root;
-    // std::unique_ptr<ImFont> m_font_title;
-    // std::unique_ptr<ImFont> m_font_normal;
     ImFont * m_font_title;
     ImFont * m_font_normal;
 

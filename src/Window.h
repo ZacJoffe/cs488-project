@@ -25,7 +25,6 @@ protected:
     bool keyInputEvent(int key, int action, int mods) override;
 
 private:
-    // void setState(const StateValue & state_value);
     void switchToGameState();
     void calculateDeltaTime();
 
