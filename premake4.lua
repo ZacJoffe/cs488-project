@@ -100,20 +100,6 @@ solution "BuildStaticLibs"
             "shared/gl3w/GL/gl3w.c",
         }
 
-    -- Build lodepng static library
-    -- project "lodepng"
-    --     kind "StaticLib"
-    --     language "C++"
-    --     location "build"
-    --     objdir "build"
-    --     targetdir "lib"
-    --     includedirs (includeDirList)
-    --     includedirs {
-    --         "shared/lodepng"
-    --     }
-    --     files {
-    --         "shared/lodepng/lodepng.cpp"
-    --     }
 
     project "fps"
         kind "ConsoleApp"
