@@ -1,6 +1,8 @@
 #include "GameState.h"
+
 #include "cs488-framework/OpenGLImport.hpp"
 #include "cs488-framework/GlErrorCheck.hpp"
+#include "SoundEngine.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,11 +11,11 @@
 using namespace game_state_constants;
 
 GameState::GameState(int framebuffer_width, int framebuffer_height) : m_shooting(false) {
-    initBackgroundColor();
+    initBackgroundColor(); // TODO DELETEME
     initCamera();
     initProjectionMatrix(framebuffer_width, framebuffer_height);
     initScene();
-    initSoundEngine();
+    initSoundFiles();
 }
 
 GameState::~GameState() {}
@@ -54,7 +56,9 @@ void GameState::handleMouseButtonInput(int button, int actions, int mods) {
     if (button == GLFW_MOUSE_BUTTON_LEFT && actions == GLFW_PRESS) {
         std::cout << "shooting ray" << std::endl;
         m_shooting = true;
-        m_soloud_engine.play(m_gunshot_wav);
+
+        SoundEngine & sound_engine = SoundEngine::getInstance();
+        sound_engine.play(m_gunshot_wav);
     }
 }
 
@@ -103,9 +107,7 @@ void GameState::initScene() {
     m_scene = std::make_unique<Scene>(5);
 }
 
-void GameState::initSoundEngine() {
-    // TODO cleanup with deinit
-    m_soloud_engine.init();
+void GameState::initSoundFiles() {
     m_gunshot_wav.load("./assets/sounds/gunshot.wav");
 }
 

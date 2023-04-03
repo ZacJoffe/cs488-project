@@ -36,7 +36,7 @@ private:
     void initCamera();
     void initProjectionMatrix(int framebuffer_width, int framebuffer_height);
     void initScene();
-    void initSoundEngine();
+    void initSoundFiles();
 
     std::shared_ptr<Camera> m_camera; // encapsulates the view matrix
     glm::mat4 m_projection;
@@ -46,7 +46,6 @@ private:
 
     std::unique_ptr<Scene> m_scene;
 
-    SoLoud::Soloud m_soloud_engine;
     SoLoud::Wav m_gunshot_wav;
 
     bool m_shooting;
