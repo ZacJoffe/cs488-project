@@ -34,10 +34,10 @@ std::pair<float, float> InputHandler::getCursorDeltas() const {
 }
 
 Actions InputHandler::getActions() {
-    bool initiateJump = false, sprint = false;
+    bool initiate_jump = false, sprint = false;
 
     if (m_key_states[Key::Space]) {
-        initiateJump = true;
+        initiate_jump = true;
     }
 
     if (m_key_states[Key::Shift]) {
@@ -70,7 +70,16 @@ Actions InputHandler::getActions() {
         direction = MovementDirection::right;
     }
 
-    return Actions(direction, initiateJump, sprint);
+    return Actions(direction, initiate_jump, sprint);
+}
+
+bool InputHandler::respawnEnemies() {
+    if (m_key_states[Key::R]) {
+        m_key_states[Key::R] = false;
+        return true;
+    }
+
+    return false;
 }
 
 void InputHandler::setKeyHelper(int key, bool is_pressed) {
@@ -127,6 +136,15 @@ void InputHandler::setKeyHelper(int key, bool is_pressed) {
                 std::cout << "shift key released" << std::endl;
             }
             m_key_states[Key::Shift] = is_pressed;
+            return;
+        }
+        case GLFW_KEY_R: {
+            if (is_pressed) {
+                std::cout << "r key pressed" << std::endl;
+            } else {
+                std::cout << "r key released" << std::endl;
+            }
+            m_key_states[Key::R] = is_pressed;
             return;
         }
     }

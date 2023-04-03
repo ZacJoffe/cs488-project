@@ -50,7 +50,7 @@ glm::vec3 Camera::getDirection() const {
 
 void Camera::move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects) {
     const Actions actions = input_handler.getActions();
-    if (actions.initiateJump) {
+    if (actions.initiate_jump) {
         initiateJump();
     }
 

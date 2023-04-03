@@ -10,20 +10,20 @@
 
 using namespace scene_constants;
 
-Scene::Scene(unsigned int num_enemies) {
+Scene::Scene(unsigned int num_enemies) : m_num_enemies(num_enemies) {
     // init shader handler
     m_shader_handler = std::make_shared<ShaderHandler>(
         "./assets/shaders/VertexShader.vs",
         "./assets/shaders/FragmentShader.fs"
     );
 
-    const auto enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
-    for (unsigned int i = 0; i < num_enemies; ++i) {
+    m_enemy_texture = std::make_shared<Texture>("./assets/textures/stone 2.png");
+    for (unsigned int i = 0; i < m_num_enemies; ++i) {
         m_enemies.emplace_back(
             m_shader_handler,
             // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
             glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
-            enemy_texture,
+            m_enemy_texture,
             "./assets/meshes/sphere.obj"
         );
     }
@@ -95,6 +95,19 @@ void Scene::handleShot(const Ray & ray) {
 void Scene::tick(float delta_time) {
     for (auto & enemy : m_enemies) {
         enemy.move(getStaticCollidableObjects(), delta_time);
+    }
+}
+
+void Scene::respawnEnemies() {
+    m_enemies.clear();
+    for (unsigned int i = 0; i < m_num_enemies; ++i) {
+        m_enemies.emplace_back(
+            m_shader_handler,
+            // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
+            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
+            m_enemy_texture,
+            "./assets/meshes/sphere.obj"
+        );
     }
 }
 

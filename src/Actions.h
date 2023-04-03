@@ -16,7 +16,8 @@ enum class MovementDirection {
 
 struct Actions {
     std::optional<MovementDirection> direction;
-    bool initiateJump;
+    bool initiate_jump;
     bool sprint;
-    Actions(const std::optional<MovementDirection> & direction, bool initiateJump, bool sprint) : direction(direction), initiateJump(initiateJump), sprint(sprint) {}
+    Actions(const std::optional<MovementDirection> & direction, bool initiate_jump, bool sprint) :
+        direction(direction), initiate_jump(initiate_jump), sprint(sprint) {}
 };

@@ -18,6 +18,7 @@ public:
     std::pair<float, float> getCursorDeltas() const;
     // cannot be const since this technically modifies m_key_states
     Actions getActions();
+    bool respawnEnemies();
 
 private:
     enum class Key {
@@ -27,6 +28,7 @@ private:
         D = GLFW_KEY_D,
         Space = GLFW_KEY_SPACE,
         Shift = GLFW_KEY_LEFT_SHIFT,
+        R = GLFW_KEY_R,
     };
 
     void setKeyHelper(int key, bool is_pressed);

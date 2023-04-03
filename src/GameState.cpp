@@ -27,6 +27,10 @@ void GameState::appLogic(float delta_time) {
         m_shooting = false;
     }
 
+    if (m_input_handler.respawnEnemies()) {
+        m_scene->respawnEnemies();
+    }
+
     m_camera->move(delta_time, m_input_handler, m_scene->getAllCollidableObjects());
     m_scene->tick(delta_time);
 }

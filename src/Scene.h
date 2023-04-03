@@ -34,6 +34,7 @@ public:
     std::list<BoundingBox> getAllCollidableObjects() const;
     void handleShot(const Ray & ray);
     void tick(float delta_time);
+    void respawnEnemies();
 
 private:
     void initSkybox();
@@ -48,6 +49,8 @@ private:
     std::shared_ptr<Texture> m_wall_texture;
     std::array<Tiles, 4> m_walls;
 
+    unsigned int m_num_enemies;
+    std::shared_ptr<Texture> m_enemy_texture;
     std::list<Enemy> m_enemies;
 
     std::shared_ptr<ShaderHandler> m_skybox_shader_handler;
