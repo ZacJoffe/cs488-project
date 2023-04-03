@@ -106,3 +106,6 @@ void GameState::initSoundFiles() {
     m_gunshot_wav.load("./assets/sounds/gunshot.wav");
 }
 
+bool GameState::switchStates() {
+    return false;
+}

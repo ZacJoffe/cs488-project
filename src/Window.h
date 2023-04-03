@@ -25,8 +25,11 @@ protected:
     bool keyInputEvent(int key, int action, int mods) override;
 
 private:
+    // void setState(const StateValue & state_value);
+    void switchToGameState();
     void calculateDeltaTime();
 
+    StateValue m_state_value;
     std::unique_ptr<State> m_state;
 
     float m_delta_time;

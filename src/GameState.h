@@ -30,6 +30,7 @@ public:
     void handleMouseMove(double xpos, double ypos) override;
     void handleMouseButtonInput(int button, int actions, int mods) override;
     bool handleKeyInput(int key, int action, int mods) override;
+    bool switchStates() override;
 
 private:
     void initCamera();
