@@ -4,7 +4,7 @@ A first-person shooter game engine written for the [CS488](https://student.cs.uw
 The name "Kefka" comes from the main antagonist of my favorite game, [Final Fantasy VI](https://en.wikipedia.org/wiki/Final_Fantasy_VI). I've thought of this project as the "final boss" of my degree, so this name felt appropriate.
 
 ## Building and Running
-I combined the two build scripts into a single `premake4` script. This script is used to build the source and libraries:
+Ensure the repo is cloned with submodules. A single `premake4` script is used to build the source and libraries:
 ```sh
 $ premake4 gmake && make
 ```
@@ -13,8 +13,6 @@ Run the binary in the root directory (or else assets will fail to load):
 ```sh
 $ ./fps
 ```
-
-Please note that this is not compatible with existing CS488 framework. Libraries were added, the CS488 framework code is modified, and ImGui is updated to the latest version. The code must be built and run with all files included in the submission!
 
 ## UI
 The main menu has two buttons: one that lets you start the game, and another that lets you tweak game parameters. The following can be changed from the options menu:
