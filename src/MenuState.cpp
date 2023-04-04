@@ -64,14 +64,18 @@ void MenuState::guiLogic(const std::unique_ptr<GameContext> & game_context) {
         );
         ImGui::PushFont(m_font_normal);
         ImGui::SliderScalar("World Size", ImGuiDataType_U32, &game_context->world_size, &game_context_constants::MIN_WORLD_SIZE, &game_context_constants::MAX_WORLD_SIZE);
+        const char * floor_textures[] = { "Floor1", "Floor2", "Floor3" };
+        ImGui::ListBox("Floor Texture", &game_context->floor_texture, floor_textures, game_context_constants::NUM_FLOOR_TEXTURES, game_context_constants::NUM_FLOOR_TEXTURES);
 
-        if (ImGui::Button("Start Game")) {
-            std::cout << "start game button pressed" << std::endl;
-            m_switch_states = true;
-        }
-        ImGui::PopFont();
+        const char * wall_textures[] = { "Wall1", "Wall2", "Wall3" };
+        ImGui::ListBox("Wall Texture", &game_context->wall_texture, wall_textures, game_context_constants::NUM_WALL_TEXTURES, game_context_constants::NUM_WALL_TEXTURES);
 
-        ImGui::PushFont(m_font_normal);
+        const char * enemy_textures[] = { "Enemy1", "Enemy2", "Enemy3" };
+        ImGui::ListBox("Enemy Texture", &game_context->enemy_texture, enemy_textures, game_context_constants::NUM_ENEMY_TEXTURES, game_context_constants::NUM_ENEMY_TEXTURES);
+
+        const char * skyboxes[] = { "Storm", "The Void", "Cloudy" };
+        ImGui::ListBox("Skybox", &game_context->skybox, skyboxes, game_context_constants::NUM_SKYBOXES, game_context_constants::NUM_SKYBOXES);
+
         if (ImGui::Button("Back to Main Menu")) {
             m_show_root = true;
         }

@@ -66,16 +66,16 @@ namespace game_context_constants {
 struct GameContext {
     unsigned int num_enemies;
     unsigned int world_size;
-    std::string floor_texture;
-    std::string wall_texture;
-    std::string enemy_texture;
-    std::vector<std::string> skybox;
+    int floor_texture;
+    int wall_texture;
+    int enemy_texture;
+    int skybox;
     GameContext() :
         num_enemies(game_context_constants::DEFAULT_NUM_ENEMIES),
         world_size(game_context_constants::DEFAULT_WORLD_SIZE),
-        floor_texture(game_context_constants::FLOOR_TEXTURES[0]),
-        wall_texture(game_context_constants::WALL_TEXTURES[0]),
-        enemy_texture(game_context_constants::ENEMY_TEXTURES[0]),
-        skybox(game_context_constants::SKYBOXES[0]) {}
+        floor_texture(0),
+        wall_texture(0),
+        enemy_texture(0),
+        skybox(0) {}
 };
 

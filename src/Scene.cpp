@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "GameContext.h"
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
@@ -20,10 +21,10 @@ Scene::Scene(const GameContext & game_context) {
         "./assets/shaders/generic.fs"
     );
 
-    initSkybox(game_context.skybox);
-    initFloor(game_context.floor_texture);
-    initWalls(game_context.wall_texture);
-    initEnemyTexture(game_context.enemy_texture);
+    initSkybox(game_context_constants::SKYBOXES[game_context.skybox]);
+    initFloor(game_context_constants::FLOOR_TEXTURES[game_context.floor_texture]);
+    initWalls(game_context_constants::WALL_TEXTURES[game_context.wall_texture]);
+    initEnemyTexture(game_context_constants::ENEMY_TEXTURES[game_context.enemy_texture]);
     initEnemies();
 }
 
