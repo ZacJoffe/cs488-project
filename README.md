@@ -4,7 +4,7 @@ A first-person shooter game engine written for the [CS488](https://student.cs.uw
 The name "Kefka" comes from the main antagonist of my favorite game, [Final Fantasy VI](https://en.wikipedia.org/wiki/Final_Fantasy_VI). I've thought of this project as the "final boss" of my degree, so this name felt appropriate.
 
 ## Building and Running
-A single `premake4` script is used to build the source and libraries:
+Ensure the repo is cloned with submodules. A single `premake4` script is used to build the source and libraries:
 ```sh
 $ premake4 gmake && make
 ```
@@ -23,6 +23,7 @@ The game is controlled using the mouse and keyboard. If you've played a first-pe
 - `space`: jump
 - `left shift`: hold to sprint
 - `r`: respawn enemies
+- `escape`: close game
 
 The mouse is used to look around the world, and the left mouse button shoots.
 
