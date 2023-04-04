@@ -17,12 +17,9 @@
 #include <vector>
 
 namespace scene_constants {
-    // N x Y x N world
-    static const float N = 50.0f;
+    // NOTE the world is N x Y x N, where N is passed in to the Scene
+    // constructor via the game context
     static const float Y = 5.0f;
-    static const glm::vec3 WORLD_BOUNDARY_MIN = glm::vec3(0.0f, 2.0f, 0.0f);
-    static const glm::vec3 WORLD_BOUNDARY_MAX = glm::vec3(N, Y, N);
-
     static const float BOUNDING_BOX_OFFSET = 0.2f;
 }
 
@@ -45,6 +42,8 @@ private:
     void initEnemies();
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
+
+    unsigned int m_world_size;
 
     std::shared_ptr<Texture> m_floor_texture;
     Tiles m_floor;

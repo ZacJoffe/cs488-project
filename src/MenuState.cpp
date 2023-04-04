@@ -1,6 +1,7 @@
 #include "MenuState.h"
 #include <gl3w/GL/gl3w.h>
 #include <GLFW/glfw3.h>
+#include "GameContext.h"
 #include "imgui.h"
 
 #include <iostream>
@@ -46,8 +47,33 @@ void MenuState::guiLogic(const std::unique_ptr<GameContext> & game_context) {
 
         ImGui::PushFont(m_font_normal);
         if (ImGui::Button("Options")) {
+            m_show_root = false;
+        }
+        ImGui::PopFont();
+
+        ImGui::End();
+    } else {
+        ImGui::Begin("Root", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove);
+        ImGui::SetWindowSize(ImVec2(0, 0));
+        // center on screen
+        ImGui::SetWindowPos(
+            ImVec2(
+                m_framebuffer_width * 0.5f - ImGui::GetWindowWidth() * 0.5f,
+                m_framebuffer_height * 0.5f - ImGui::GetWindowHeight() * 0.5f
+            )
+        );
+        ImGui::PushFont(m_font_normal);
+        ImGui::SliderScalar("World Size", ImGuiDataType_U32, &game_context->world_size, &game_context_constants::MIN_WORLD_SIZE, &game_context_constants::MAX_WORLD_SIZE);
+
+        if (ImGui::Button("Start Game")) {
             std::cout << "start game button pressed" << std::endl;
             m_switch_states = true;
+        }
+        ImGui::PopFont();
+
+        ImGui::PushFont(m_font_normal);
+        if (ImGui::Button("Back to Main Menu")) {
+            m_show_root = true;
         }
         ImGui::PopFont();
 

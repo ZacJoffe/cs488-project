@@ -10,8 +10,8 @@ namespace game_context_constants {
     static const unsigned int MAX_NUM_ENEMIES = 10;
 
     static const unsigned int DEFAULT_WORLD_SIZE = 50;
-    static const unsigned int MIN_WORLD_SIZE = 10;
-    static const unsigned int MAX_WORLD_SIZE = 100;
+    static const unsigned int MIN_WORLD_SIZE = 20;
+    static const unsigned int MAX_WORLD_SIZE = 75;
 
     static const unsigned int NUM_FLOOR_TEXTURES = 3;
     static const std::string FLOOR_TEXTURES[3] = {
@@ -78,3 +78,4 @@ struct GameContext {
         enemy_texture(game_context_constants::ENEMY_TEXTURES[0]),
         skybox(game_context_constants::SKYBOXES[0]) {}
 };
+

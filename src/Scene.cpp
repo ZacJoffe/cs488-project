@@ -11,6 +11,7 @@
 using namespace scene_constants;
 
 Scene::Scene(const GameContext & game_context) {
+    m_world_size = game_context.world_size;
     m_num_enemies = game_context.num_enemies;
 
     // init shader handler
@@ -107,8 +108,8 @@ void Scene::initFloor(const std::string & texture_filename) {
     m_floor_texture = std::make_shared<Texture>(texture_filename);
     m_floor = Tiles(
         glm::mat4(1.0f),
-        WORLD_BOUNDARY_MAX.x,
-        WORLD_BOUNDARY_MAX.z,
+        m_world_size,
+        m_world_size,
         m_shader_handler,
         m_floor_texture,
         nullptr
@@ -138,12 +139,13 @@ void Scene::initWalls(const std::string & texture_filename) {
 
     // this is pretty messy, but it seems to work!
     // left wall bl -> tl (0, 0 -> N, 0)
+    const float N = static_cast<float>(m_world_size);
     glm::mat4 trans = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, -N));
     m_walls[0] = Tiles(
-        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - WORLD_BOUNDARY_MAX.y)),
-        WORLD_BOUNDARY_MAX.x,
-        WORLD_BOUNDARY_MAX.y,
+        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - Y)),
+        N,
+        Y,
         m_shader_handler,
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, BOUNDING_BOX_OFFSET))
@@ -153,9 +155,9 @@ void Scene::initWalls(const std::string & texture_filename) {
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[1] = Tiles(
-        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - WORLD_BOUNDARY_MAX.y)),
-        50,
-        10,
+        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - Y)),
+        N,
+        Y,
         m_shader_handler,
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(N - BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
@@ -165,9 +167,9 @@ void Scene::initWalls(const std::string & texture_filename) {
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[2] = Tiles(
-        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - WORLD_BOUNDARY_MAX.y)),
-        50,
-        10,
+        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - Y)),
+        N,
+        Y,
         m_shader_handler,
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, N - BOUNDING_BOX_OFFSET), glm::vec2(N + BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
@@ -177,9 +179,9 @@ void Scene::initWalls(const std::string & texture_filename) {
     trans = glm::translate(trans, glm::vec3(N, 0.0f, 0.0f));
     trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
     m_walls[3] = Tiles(
-        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - WORLD_BOUNDARY_MAX.y)),
-        50,
-        10,
+        glm::translate(trans, glm::vec3(0.0f, 0.0f, N - Y)),
+        N,
+        Y,
         m_shader_handler,
         m_wall_texture,
         std::make_shared<BoundingBox>(glm::vec2(-BOUNDING_BOX_OFFSET, -BOUNDING_BOX_OFFSET), glm::vec2(BOUNDING_BOX_OFFSET, N + BOUNDING_BOX_OFFSET))
@@ -196,7 +198,7 @@ void Scene::initEnemies() {
         m_enemies.emplace_back(
             m_shader_handler,
             // randomly generate coordinates between (2, 2) and (N - 2, N - 2)
-            glm::vec3((N - 4.0f) * m_rng() + 2.0f, 2.0f, (N - 4.0f) * m_rng() + 2.0f),
+            glm::vec3((m_world_size - 4.0f) * m_rng() + 2.0f, 2.0f, (m_world_size - 4.0f) * m_rng() + 2.0f),
             m_enemy_texture,
             "./assets/meshes/sphere.obj"
         );
