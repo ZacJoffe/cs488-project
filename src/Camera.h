@@ -48,8 +48,6 @@ public:
     glm::vec3 getGunPosition() const;
     glm::vec3 getDirection() const;
 
-    // TODO move around, look around
-    // also update the view uniform in this class for now I'll do it in window?
     void move(float delta_time, InputHandler & input_handler, const std::list<BoundingBox> & collidable_objects);
     void updateDirection(const InputHandler & input_handler);
 

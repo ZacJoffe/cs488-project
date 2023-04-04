@@ -64,6 +64,8 @@ void MenuState::guiLogic(const std::unique_ptr<GameContext> & game_context) {
         );
         ImGui::PushFont(m_font_normal);
         ImGui::SliderScalar("World Size", ImGuiDataType_U32, &game_context->world_size, &game_context_constants::MIN_WORLD_SIZE, &game_context_constants::MAX_WORLD_SIZE);
+        ImGui::SliderScalar("Num Enemies", ImGuiDataType_U32, &game_context->num_enemies, &game_context_constants::MIN_NUM_ENEMIES, &game_context_constants::MAX_NUM_ENEMIES);
+
         const char * floor_textures[] = { "Grass 1", "Grass 2", "Grass 3", "Leaves", "Sand" };
         ImGui::ListBox("Floor Texture", &game_context->floor_texture, floor_textures, game_context_constants::NUM_FLOOR_TEXTURES, game_context_constants::NUM_FLOOR_TEXTURES);
 

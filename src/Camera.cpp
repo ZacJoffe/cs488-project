@@ -76,7 +76,6 @@ void Camera::move(float delta_time, InputHandler & input_handler, const std::lis
                 return speed * right_axis;
             }
             case MovementDirection::back_right: {
-                // TODO replace -1 with some negative constant that limits backward movement speed
                 return -1 * speed * forward_left_axis;
             }
             case MovementDirection::back: {

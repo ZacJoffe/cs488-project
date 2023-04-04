@@ -41,7 +41,7 @@ private:
 
     std::shared_ptr<Camera> m_camera; // encapsulates the view matrix
     glm::mat4 m_projection;
-    glm::mat4 m_model; // TODO delete?
+    glm::mat4 m_model;
 
     InputHandler m_input_handler;
 

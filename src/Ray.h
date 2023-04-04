@@ -7,7 +7,6 @@
 using LineSegment = std::pair<glm::vec2, glm::vec2>;
 
 namespace ray_constants {
-    // TODO adjust
     static const float EPSILON = 0.001f;
 }
 
