@@ -64,13 +64,13 @@ void MenuState::guiLogic(const std::unique_ptr<GameContext> & game_context) {
         );
         ImGui::PushFont(m_font_normal);
         ImGui::SliderScalar("World Size", ImGuiDataType_U32, &game_context->world_size, &game_context_constants::MIN_WORLD_SIZE, &game_context_constants::MAX_WORLD_SIZE);
-        const char * floor_textures[] = { "Floor1", "Floor2", "Floor3" };
+        const char * floor_textures[] = { "Grass 1", "Grass 2", "Grass 3", "Leaves", "Sand" };
         ImGui::ListBox("Floor Texture", &game_context->floor_texture, floor_textures, game_context_constants::NUM_FLOOR_TEXTURES, game_context_constants::NUM_FLOOR_TEXTURES);
 
-        const char * wall_textures[] = { "Wall1", "Wall2", "Wall3" };
+        const char * wall_textures[] = { "Stone 1", "Stone 2", "Stone 3", "Paving", "Wood" };
         ImGui::ListBox("Wall Texture", &game_context->wall_texture, wall_textures, game_context_constants::NUM_WALL_TEXTURES, game_context_constants::NUM_WALL_TEXTURES);
 
-        const char * enemy_textures[] = { "Enemy1", "Enemy2", "Enemy3" };
+        const char * enemy_textures[] = { "Mayahem 1", "Mayahem 2", "Mayahem 3", "Snowball", "Fireball" };
         ImGui::ListBox("Enemy Texture", &game_context->enemy_texture, enemy_textures, game_context_constants::NUM_ENEMY_TEXTURES, game_context_constants::NUM_ENEMY_TEXTURES);
 
         const char * skyboxes[] = { "Storm", "The Void", "Cloudy" };

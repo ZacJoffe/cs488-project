@@ -13,25 +13,31 @@ namespace game_context_constants {
     static const unsigned int MIN_WORLD_SIZE = 20;
     static const unsigned int MAX_WORLD_SIZE = 75;
 
-    static const unsigned int NUM_FLOOR_TEXTURES = 3;
-    static const std::string FLOOR_TEXTURES[3] = {
+    static const unsigned int NUM_FLOOR_TEXTURES = 5;
+    static const std::string FLOOR_TEXTURES[NUM_FLOOR_TEXTURES] = {
         "./assets/textures/floor/Grass_02.png",
         "./assets/textures/floor/Grass_01.png",
         "./assets/textures/floor/Grass_03.png",
+        "./assets/textures/floor/leaves 1.png",
+        "./assets/textures/floor/sand 1.png"
     };
 
-    static const unsigned int NUM_WALL_TEXTURES = 3;
-    static const std::string WALL_TEXTURES[3] = {
+    static const unsigned int NUM_WALL_TEXTURES = 5;
+    static const std::string WALL_TEXTURES[NUM_WALL_TEXTURES] = {
         "./assets/textures/wall/stone wall 4.png",
         "./assets/textures/wall/stone wall 2.png",
         "./assets/textures/wall/stone wall 7.png",
+        "./assets/textures/wall/paving 4.png",
+        "./assets/textures/wall/wood 3.png"
     };
 
-    static const unsigned int NUM_ENEMY_TEXTURES = 3;
-    static const std::string ENEMY_TEXTURES[3] = {
+    static const unsigned int NUM_ENEMY_TEXTURES = 5;
+    static const std::string ENEMY_TEXTURES[NUM_ENEMY_TEXTURES] = {
         "./assets/textures/enemy/stone 2.png",
         "./assets/textures/enemy/stone 1.png",
         "./assets/textures/enemy/stone 3.png",
+        "./assets/textures/enemy/snow 1.png",
+        "./assets/textures/enemy/fire.png"
     };
 
     static const unsigned int NUM_SKYBOXES = 3;
