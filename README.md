@@ -4,7 +4,7 @@ A first-person shooter game engine written for the [CS488](https://student.cs.uw
 The name "Kefka" comes from the main antagonist of my favorite game, [Final Fantasy VI](https://en.wikipedia.org/wiki/Final_Fantasy_VI). I've thought of this project as the "final boss" of my degree, so this name felt appropriate.
 
 ## Building and Running
-Ensure the repo is cloned with submodules. A single `premake4` script is used to build the source and libraries:
+I combined the two build scripts into a single `premake4` script. This script is used to build the source and libraries:
 ```sh
 $ premake4 gmake && make
 ```
@@ -14,9 +14,21 @@ Run the binary in the root directory (or else assets will fail to load):
 $ ./fps
 ```
 
-## Controls
+Please note that this is not compatible with existing CS488 framework. Libraries were added, the CS488 framework code is modified, and ImGui is updated to the latest version. The code must be built and run with all files included in the submission!
+
+## UI
+The main menu has two buttons: one that lets you start the game, and another that lets you tweak game parameters. The following can be changed from the options menu:
+- World size
+- Floor texture
+- Wall texture
+- Enemy texture
+- Skybox
+
+Pressing the `s` key at any time in the main menu will start the game with the currently selected parameters.
+
+### Controls
 The game is controlled using the mouse and keyboard. If you've played a first-person shooter on PC in the last 25 years, the controls should feel intuitive. In case you haven't:
-- `w`: move foward
+- `w`: move forward
 - `a`: move left
 - `s`: move back
 - `d`: move right
@@ -31,22 +43,22 @@ The mouse is used to look around the world, and the left mouse button shoots.
 Credit for all libraries and assets used in this repo go to their respective owners. The list of libraries and assets used are detailed in the following subsections.
 
 ### Libraries
-- gl3w - https://github.com/skaslev/gl3w
+- [gl3w](https://github.com/skaslev/gl3w)
   - The Unlicense
 
-- glfw - https://github.com/glfw/glfw
+- [glfw](https://github.com/glfw/glfw)
   - zlib License
 
-- glm - https://github.com/g-truc/glm
+- [glm](https://github.com/g-truc/glm)
   - MIT License
 
-- ImGui - https://github.com/ocornut/imgui
+- [ImGui](https://github.com/ocornut/imgui)
   - MIT License
 
-- stb (image loader) - https://github.com/nothings/stb/blob/master/stb_image.h
+- [stb](https://github.com/nothings/stb)
   - MIT License
 
-- SoLoud - https://github.com/jarikomppa/soloud
+- [SoLoud](https://github.com/jarikomppa/soloud)
   - zlib/libpng License
 
 ### Assets
@@ -79,4 +91,18 @@ Credit for all libraries and assets used in this repo go to their respective own
 
 - fonts - Roboto - https://fonts.google.com/specimen/Roboto
   - Apache-2.0
+
+## Objectives
+The project implements the first 8 objectives. The full list of objectives is as follows:
+
+1. Model the scene for the player to move around in.
+1. Main menu user interface that the player interacts with to start the game.
+1. Texture mapping.
+1. Particle system.
+1. Synchronized sound corresponding to player actions.
+1. Static collision detection of surrounding environment.
+1. Dynamic collision detection of bullets fired by the player with enemies in the environment.
+1. Physics engine with friction and gravity.
+1. Shadows using shadow mapping (partially implemented, see the `shadow-mapping` branch).
+1. Keyframe animation using linear interpolation (unimplemented).
 
