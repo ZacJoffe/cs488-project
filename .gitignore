@@ -1,7 +1,3 @@
-*.aux
-*.log
-*.toc
-
 *.o
 compile_commands.json
 
