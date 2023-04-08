@@ -27,7 +27,6 @@ namespace camera_constants {
 }
 
 namespace physics_constants {
-    // TODO change this for the demo?
     static const float ACCELERATION = 50.0f;
     static const float MAX_WALK_SPEED = 5.0f;
     static const float MAX_SPRINT_SPEED = 15.0f;

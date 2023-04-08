@@ -18,3 +18,4 @@ struct BoundingBox {
 
     std::list<LineSegment> getLineSegments() const;
 };
+

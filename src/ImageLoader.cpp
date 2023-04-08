@@ -20,8 +20,5 @@ void ImageLoader::free(unsigned char * data) const {
     stbi_image_free(data);
 }
 
-ImageLoader::ImageLoader() {
-    // force stbi to load image with origin coordinate being on bottom left of image
-    // stbi_set_flip_vertically_on_load(1);
-}
+ImageLoader::ImageLoader() {}
 

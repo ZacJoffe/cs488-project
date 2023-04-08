@@ -51,7 +51,6 @@ private:
     GLuint m_vbo_vertices;
     GLuint m_vbo_normals;
     GLuint m_vbo_uvs;
-    // GLuint m_ebo;
 
     std::shared_ptr<ShaderHandler> m_shader_handler;
     std::shared_ptr<Texture> m_texture;

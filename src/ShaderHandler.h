@@ -20,3 +20,4 @@ public:
 private:
     ShaderProgram m_shader;
 };
+

@@ -207,7 +207,6 @@ void Camera::initiateJump() {
         m_jumping = true;
         m_velocity_y = INITIAL_JUMP_VELOCITY;
 
-
         SoundEngine & sound_engine = SoundEngine::getInstance();
         if (m_rng() < 0.5) {
             sound_engine.play(m_jump_wav1);
@@ -230,4 +229,5 @@ void Camera::updatePosition(const glm::vec3 & velocity, std::list<BoundingBox> c
     m_pos = new_pos;
     m_bounding_box_xz = new_bounding_box;
 }
+
 

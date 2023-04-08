@@ -17,8 +17,6 @@ public:
     bool handleKeyInput(int key, int action, int mods) override;
     bool switchStates() override;
 
-    GameContext getGameContext();
-
 private:
     bool m_show_root;
     ImFont * m_font_title;

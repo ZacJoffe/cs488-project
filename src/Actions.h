@@ -21,3 +21,4 @@ struct Actions {
     Actions(const std::optional<MovementDirection> & direction, bool initiate_jump, bool sprint) :
         direction(direction), initiate_jump(initiate_jump), sprint(sprint) {}
 };
+

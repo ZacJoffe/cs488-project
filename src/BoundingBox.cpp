@@ -41,3 +41,4 @@ std::list<LineSegment> BoundingBox::getLineSegments() const {
         { min, glm::vec2(min.x, max.y) }, // bottom
     };
 }
+

@@ -88,4 +88,3 @@ private:
     std::shared_ptr<BoundingBox> m_bounding_box_xy; // min, max
 };
 
-
