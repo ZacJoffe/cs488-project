@@ -6,16 +6,17 @@
 
 #include <iostream>
 
-MenuState::MenuState(int framebuffer_width, int framebuffer_height) :
+MenuState::MenuState(int framebuffer_width,
+                     int framebuffer_height,
+                     ImFont * const font_title,
+                     ImFont * const font_normal) :
     m_show_root(true),
     m_switch_states(false),
     m_framebuffer_width(framebuffer_width),
-    m_framebuffer_height(framebuffer_height)
+    m_framebuffer_height(framebuffer_height),
+    m_font_title(font_title),
+    m_font_normal(font_normal)
 {
-    ImGuiIO & io = ImGui::GetIO();
-    m_font_title = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 48);
-    m_font_normal = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 16);
-
     glClearColor(0.3, 0.5, 0.7, 1.0);
 }
 

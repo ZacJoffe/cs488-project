@@ -2,7 +2,10 @@
 
 #include "cs488-framework/CS488Window.hpp"
 #include "GameContext.h"
+#include "GameState.h"
+#include "MenuState.h"
 #include "State.h"
+#include "imgui.h"
 
 #include <memory>
 
@@ -26,12 +29,17 @@ protected:
     bool keyInputEvent(int key, int action, int mods) override;
 
 private:
-    void switchToGameState();
+    void toggleState();
     void calculateDeltaTime();
 
-    StateValue m_state_value;
-    std::unique_ptr<State> m_state;
+    StateValue m_curr_state_value;
+    std::unique_ptr<State> m_curr_state;
+    // std::shared_ptr<MenuState> m_menu_state;
+    // std::shared_ptr<GameState> m_game_state;
     std::unique_ptr<GameContext> m_game_context;
+
+    ImFont * m_font_title;
+    ImFont * m_font_normal;
 
     float m_delta_time;
     float m_last_frame_time;

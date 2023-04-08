@@ -50,5 +50,7 @@ private:
     SoLoud::Wav m_gunshot_wav;
 
     bool m_shooting;
+
+    bool m_switch_states;
 };
 

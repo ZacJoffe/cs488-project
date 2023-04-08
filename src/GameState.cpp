@@ -10,7 +10,9 @@
 
 using namespace game_state_constants;
 
-GameState::GameState(const GameContext & game_context, int framebuffer_width, int framebuffer_height) : m_shooting(false) {
+GameState::GameState(const GameContext & game_context, int framebuffer_width, int framebuffer_height) :
+    m_shooting(false), m_switch_states(false)
+{
     initCamera();
     initProjectionMatrix(framebuffer_width, framebuffer_height);
     initScene(game_context);
@@ -69,8 +71,9 @@ void GameState::handleMouseButtonInput(int button, int actions, int mods) {
 bool GameState::handleKeyInput(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
-            std::cout << "quitting game..." << std::endl;
-            return true;
+            std::cout << "returning to menu..." << std::endl;
+            m_switch_states = true;
+            return false;
         }
 
         m_input_handler.pressKey(key);
@@ -114,7 +117,6 @@ void GameState::initSoundFiles() {
 }
 
 bool GameState::switchStates() {
-    // TODO
-    return false;
+    return m_switch_states;
 }
 

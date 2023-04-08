@@ -10,13 +10,17 @@
 Window::Window() :
     m_delta_time(0.0f),
     m_last_frame_time(0.0f),
-    m_state_value(StateValue::Menu) {}
+    m_curr_state_value(StateValue::Menu) {}
 
 Window::~Window() {}
 
 void Window::init() {
+    ImGuiIO & io = ImGui::GetIO();
+    m_font_title = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 48);
+    m_font_normal = io.Fonts->AddFontFromFileTTF("./assets/fonts/roboto/Roboto-Regular.ttf", 16);
+
     // always start in menu state
-    m_state = std::make_unique<MenuState>(m_framebufferWidth, m_framebufferHeight);
+    m_curr_state = std::make_unique<MenuState>(m_framebufferWidth, m_framebufferHeight, m_font_title, m_font_normal);
     m_game_context = std::make_unique<GameContext>();
     glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
@@ -25,18 +29,18 @@ void Window::appLogic() {
     calculateDeltaTime();
     // std::cout << m_delta_time << std::endl;
 
-    m_state->appLogic(m_delta_time);
+    m_curr_state->appLogic(m_delta_time);
 }
 
 void Window::guiLogic() {
-    m_state->guiLogic(m_game_context);
-    if (m_state->switchStates()) {
-        switchToGameState();
+    m_curr_state->guiLogic(m_game_context);
+    if (m_curr_state->switchStates()) {
+        toggleState();
     }
 }
 
 void Window::draw() {
-    m_state->draw();
+    m_curr_state->draw();
 }
 
 void Window::cleanup() {}
@@ -48,14 +52,14 @@ bool Window::cursorEnterWindowEvent(int entered) {
 }
 
 bool Window::mouseMoveEvent(double xPos, double yPos) {
-    m_state->handleMouseMove(xPos, yPos);
+    m_curr_state->handleMouseMove(xPos, yPos);
 
     // this value is not used by the caller in the cs488 framework
     return false;
 }
 
 bool Window::mouseButtonInputEvent(int button, int actions, int mods) {
-    m_state->handleMouseButtonInput(button, actions, mods);
+    m_curr_state->handleMouseButtonInput(button, actions, mods);
 
     return false;
 }
@@ -69,21 +73,32 @@ bool Window::windowResizeEvent(int width, int height) {
 }
 
 bool Window::keyInputEvent(int key, int action, int mods) {
-    if (m_state->handleKeyInput(key, action, mods)) {
+    if (m_curr_state->handleKeyInput(key, action, mods)) {
         glfwSetWindowShouldClose(m_window, GL_TRUE);
     }
 
     return true;
 }
 
-void Window::switchToGameState() {
-    std::cout << "switching to game state" << std::endl;
-    // std::cout << m_game_context->world_size << std::endl;
-    std::cout << m_game_context->floor_texture << std::endl;
+void Window::toggleState() {
+    switch (m_curr_state_value) {
+        case StateValue::Menu: {
+            std::cout << "switching to game state" << std::endl;
 
-    m_state_value = StateValue::Game;
-    m_state = std::make_unique<GameState>(*m_game_context, m_framebufferWidth, m_framebufferHeight);
-    glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            m_curr_state_value = StateValue::Game;
+            m_curr_state = std::make_unique<GameState>(*m_game_context, m_framebufferWidth, m_framebufferHeight);
+            glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            break;
+        }
+        case StateValue::Game: {
+            std::cout << "switching to game state" << std::endl;
+
+            m_curr_state_value = StateValue::Menu;
+            m_curr_state = std::make_unique<MenuState>(m_framebufferWidth, m_framebufferHeight, m_font_title, m_font_normal);
+            glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            break;
+        }
+    }
 }
 
 void Window::calculateDeltaTime() {
