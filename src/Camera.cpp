@@ -230,4 +230,3 @@ void Camera::updatePosition(const glm::vec3 & velocity, std::list<BoundingBox> c
     m_bounding_box_xz = new_bounding_box;
 }
 
-

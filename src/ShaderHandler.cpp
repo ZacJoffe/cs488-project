@@ -42,3 +42,4 @@ void ShaderHandler::uploadVec4Uniform(const std::string & name, const glm::vec4 
     GLint uni = m_shader.getUniformLocation(name.c_str());
     glUniform4f(uni, v.x, v.y, v.z, v.w);
 }
+

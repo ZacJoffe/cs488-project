@@ -64,7 +64,7 @@ namespace game_context_constants {
             "./assets/textures/skybox/miramar/miramar_up.tga", // top
             "./assets/textures/skybox/miramar/miramar_dn.tga", // bottom
             "./assets/textures/skybox/miramar/miramar_rt.tga", // back
-            "./assets/textures/skybox/miramar/miramar_lf.tga" // front
+            "./assets/textures/skybox/miramar/miramar_lf.tga"  // front
         }
     };
 }

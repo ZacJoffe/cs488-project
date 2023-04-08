@@ -91,3 +91,4 @@ void Tiles::draw() const {
 std::shared_ptr<BoundingBox> Tiles::getBoundingBox() const {
     return m_bounding_box_xy;
 }
+

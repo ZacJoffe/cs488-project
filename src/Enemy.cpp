@@ -160,4 +160,3 @@ bool Enemy::tryUpdatePosition(const glm::vec3 & velocity, std::list<BoundingBox>
     return true;
 }
 
-

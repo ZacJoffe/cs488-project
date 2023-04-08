@@ -42,3 +42,4 @@ bool Ray::collisionTestHelper(const LineSegment & line_segment) const {
     const float s = (d_x * (z_0 - e_z) + d_z * (e_x - x_0)) / den;
     return s >= 0 && s <= 1;
 }
+
