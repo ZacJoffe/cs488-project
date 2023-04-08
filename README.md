@@ -4,9 +4,9 @@ A first-person shooter game engine written for the [CS488](https://student.cs.uw
 The name "Kefka" comes from the main antagonist of my favorite game, [Final Fantasy VI](https://en.wikipedia.org/wiki/Final_Fantasy_VI). I've thought of this project as the "final boss" of my degree, so this name felt appropriate.
 
 ## Building and Running
-Ensure the repo is cloned with submodules. A single `premake4` script is used to build the source and libraries:
+Ensure the repo is cloned with submodules. A single `premake5` script is used to build the source and libraries:
 ```sh
-$ premake4 gmake && make
+$ premake5 gmake2 && make
 ```
 
 Run the binary in the root directory (or else assets will fail to load):

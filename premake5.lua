@@ -46,13 +46,13 @@ linkLibs = {
 solution "BuildStaticLibs"
     configurations { "Debug", "Release" }
 
-    configuration "Debug"
+    filter "Debug"
         defines { "DEBUG" }
-        flags { "Symbols" }
+        symbols "On"
 
-    configuration "Release"
+    filter "Release"
         defines { "NDEBUG" }
-        flags { "Optimize" }
+        optimize "On"
 
     -- build cs488-framework static library
     project "cs488-framework"
