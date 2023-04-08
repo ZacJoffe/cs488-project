@@ -12,6 +12,7 @@ MenuState::MenuState(int framebuffer_width,
                      ImFont * const font_normal) :
     m_show_root(true),
     m_switch_states(false),
+    m_close_window(false),
     m_framebuffer_width(framebuffer_width),
     m_framebuffer_height(framebuffer_height),
     m_font_title(font_title),
@@ -94,11 +95,12 @@ void MenuState::handleMouseMove(double xpos, double ypos) {}
 
 void MenuState::handleMouseButtonInput(int button, int actions, int mods) {}
 
-bool MenuState::handleKeyInput(int key, int action, int mods) {
+void MenuState::handleKeyInput(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             std::cout << "quitting game..." << std::endl;
-            return true;
+            m_close_window = true;
+            return;
         }
 
         // this is mostly here for quicker debugging/testing
@@ -106,11 +108,13 @@ bool MenuState::handleKeyInput(int key, int action, int mods) {
             m_switch_states = true;
         }
     }
-
-    return false;
 }
 
-bool MenuState::switchStates() {
+bool MenuState::shouldSwitchStates() {
     return m_switch_states;
+}
+
+bool MenuState::shouldCloseWindow() {
+    return m_close_window;
 }
 

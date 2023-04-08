@@ -26,17 +26,23 @@ void Window::init() {
 }
 
 void Window::appLogic() {
+    if (m_curr_state->shouldCloseWindow()) {
+        glfwSetWindowShouldClose(m_window, GL_TRUE);
+        return;
+    }
+
+    if (m_curr_state->shouldSwitchStates()) {
+        toggleState();
+        return;
+    }
+
     calculateDeltaTime();
-    // std::cout << m_delta_time << std::endl;
 
     m_curr_state->appLogic(m_delta_time);
 }
 
 void Window::guiLogic() {
     m_curr_state->guiLogic(m_game_context);
-    if (m_curr_state->switchStates()) {
-        toggleState();
-    }
 }
 
 void Window::draw() {
@@ -73,9 +79,7 @@ bool Window::windowResizeEvent(int width, int height) {
 }
 
 bool Window::keyInputEvent(int key, int action, int mods) {
-    if (m_curr_state->handleKeyInput(key, action, mods)) {
-        glfwSetWindowShouldClose(m_window, GL_TRUE);
-    }
+    m_curr_state->handleKeyInput(key, action, mods);
 
     return true;
 }

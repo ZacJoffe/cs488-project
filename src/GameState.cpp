@@ -68,20 +68,18 @@ void GameState::handleMouseButtonInput(int button, int actions, int mods) {
     }
 }
 
-bool GameState::handleKeyInput(int key, int action, int mods) {
+void GameState::handleKeyInput(int key, int action, int mods) {
     if (action == GLFW_PRESS) {
         if (key == GLFW_KEY_ESCAPE) {
             std::cout << "returning to menu..." << std::endl;
             m_switch_states = true;
-            return false;
+            return;
         }
 
         m_input_handler.pressKey(key);
     } else if (action == GLFW_RELEASE) {
         m_input_handler.releaseKey(key);
     }
-
-    return false;
 }
 
 void GameState::initCamera() {
@@ -116,7 +114,11 @@ void GameState::initSoundFiles() {
     m_gunshot_wav.load("./assets/sounds/gunshot.wav");
 }
 
-bool GameState::switchStates() {
+bool GameState::shouldSwitchStates() {
     return m_switch_states;
+}
+
+bool GameState::shouldCloseWindow() {
+    return false;
 }
 
