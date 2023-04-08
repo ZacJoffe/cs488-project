@@ -14,11 +14,7 @@ libDirectories = {
 
 buildOptions = {"-std=c++17"}
 
--- Get the current OS platform
-PLATFORM = os.get()
-
--- Build glfw3 static library and copy it into <cs488_root>/lib if it is not
--- already present.
+-- Build glfw3 static library and copy it into ./lib if it is not already present.
 if not os.isfile("lib/libglfw3.a") then
     os.chdir("shared/glfw-3.3")
     os.mkdir("build")
@@ -29,23 +25,6 @@ if not os.isfile("lib/libglfw3.a") then
     os.mkdir("lib")
     os.execute("cp shared/glfw-3.3/build/src/libglfw3.a lib/")
 end
-
--- Build lua-5.3.1 library and copyt it into <cs488_root>/lib if it is not
--- already present.
-if not os.isfile("lib/liblua.a") then
-    os.chdir("shared/lua-5.3.1")
-
-    if PLATFORM == "linux" then
-        os.execute("make linux")
-    end
-
-    os.chdir("../../")
-    os.execute("cp shared/lua-5.3.1/src/liblua.a lib/")
-end
-
--- if not os.isfile("lib/libIrrKlang.so") then
---    os.execute("cp shared/irrKlang/bin/linux-gcc-64/libIrrKlang.so lib/")
--- end
 
 linkLibs = {
     "cs488-framework",
@@ -64,7 +43,6 @@ linkLibs = {
     "pthread",
 }
 
-
 solution "BuildStaticLibs"
     configurations { "Debug", "Release" }
 
@@ -76,7 +54,7 @@ solution "BuildStaticLibs"
         defines { "NDEBUG" }
         flags { "Optimize" }
 
-    -- Builds cs488-framework static library
+    -- build cs488-framework static library
     project "cs488-framework"
         kind "StaticLib"
         language "C++"
@@ -87,7 +65,7 @@ solution "BuildStaticLibs"
         includedirs (includeDirList)
         files { "shared/cs488-framework/*.cpp" }
 
-    -- Build imgui static library
+    -- build imgui static library
     project "imgui"
         kind "StaticLib"
         language "C++"
@@ -106,6 +84,7 @@ solution "BuildStaticLibs"
             "shared/gl3w/GL/gl3w.c",
         }
 
+    -- build soloud static library
     project "soloud"
         kind "StaticLib"
         language "C++"
@@ -121,6 +100,7 @@ solution "BuildStaticLibs"
            "shared/soloud/src/backend/miniaudio/**.c*",
         }
 
+    -- build fps application
     project "fps"
         kind "ConsoleApp"
         language "C++"
@@ -132,7 +112,5 @@ solution "BuildStaticLibs"
         links (linkLibs)
         linkoptions (linkOptionList)
         includedirs (includeDirList)
-        files {
-           "src/*.cpp",
-        }
+        files { "src/*.cpp" }
 
