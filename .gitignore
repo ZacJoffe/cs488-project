@@ -12,3 +12,5 @@ compile_commands.json
 imgui.ini
 
 fps
+
+/shared/cs488-framework
