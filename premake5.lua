@@ -27,7 +27,6 @@ if not os.isfile("lib/libglfw3.a") then
 end
 
 linkLibs = {
-    "cs488-framework",
     "imgui",
     "soloud",
     "glfw3",
@@ -53,17 +52,6 @@ solution "BuildStaticLibs"
     filter "Release"
         defines { "NDEBUG" }
         optimize "On"
-
-    -- build cs488-framework static library
-    project "cs488-framework"
-        kind "StaticLib"
-        language "C++"
-        location "build"
-        objdir "build"
-        targetdir "lib"
-        buildoptions (buildOptions)
-        includedirs (includeDirList)
-        files { "shared/cs488-framework/*.cpp" }
 
     -- build imgui static library
     project "imgui"
