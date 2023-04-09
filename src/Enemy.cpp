@@ -1,11 +1,11 @@
 #include "Enemy.h"
 
 #include <gl3w/GL/gl3w.h>
-#include "cs488-framework/ObjFileDecoder.hpp" // TODO
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/constants.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include "GlErrorCheck.h"
+#include "ObjFileDecoder.h"
 
 #include <cstdlib>
 #include <ctime>
@@ -25,7 +25,8 @@ Enemy::Enemy(const std::shared_ptr<ShaderHandler> & shader_handler,
     ++s_enemy_count;
 
     std::string obj_name = ""; // unused
-    ObjFileDecoder::decode(mesh_filename.c_str(), obj_name, m_positions, m_normals, m_uv_coords);
+    const ObjFileDecoder & obj_file_decoder = ObjFileDecoder::getInstance();
+    obj_file_decoder.decode(mesh_filename.c_str(), obj_name, m_positions, m_normals, m_uv_coords);
     initBuffers();
 
     m_bounding_box_xz = updateBoundingBoxHelper(m_pos);

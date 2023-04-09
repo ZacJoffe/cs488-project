@@ -2,10 +2,10 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
-#include "cs488-framework/ObjFileDecoder.hpp" // TODO
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include "GlErrorCheck.h"
+#include "ObjFileDecoder.h"
 
 #include <iostream>
 
@@ -19,7 +19,9 @@ ParticleEmitter::ParticleEmitter(unsigned int num_particles) : m_num_particles(n
     m_texture = std::make_unique<Texture>("./assets/textures/particles/fire.png");
 
     std::string id = "particle_cube";
-    ObjFileDecoder::decode("./assets/meshes/cube.obj", id, m_positions, m_normals, m_uv_coords);
+
+    const ObjFileDecoder & obj_file_decoder = ObjFileDecoder::getInstance();
+    obj_file_decoder.decode("./assets/meshes/cube.obj", id, m_positions, m_normals, m_uv_coords);
     initBuffers();
 }
 
