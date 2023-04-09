@@ -1,9 +1,11 @@
 #pragma once
 
-#include "cs488-framework/ShaderProgram.hpp"
+#include <gl3w/GL/gl3w.h>
+#include <gl3w/GL/glcorearb.h>
 #include <glm/glm.hpp>
 
-// composition-based wrapper of the ShaderProgram class
+#include <string>
+
 class ShaderHandler {
 public:
     ShaderHandler(const std::string & vertex_filename, const std::string & fragment_filename);
@@ -18,6 +20,19 @@ public:
     void uploadVec4Uniform(const std::string & name, const glm::vec4 & v) const;
 
 private:
-    ShaderProgram m_shader;
+    struct Shader {
+        GLuint shader_object;
+        std::string filepath;
+
+        Shader() : shader_object(0), filepath() {}
+    };
+
+    void extractSourceAndCompile(const Shader & shader);
+    GLint getUniformLocation(const std::string & name) const;
+
+    Shader m_vertex_shader;
+    Shader m_fragment_shader;
+
+    GLuint m_program_object;
 };
 
