@@ -2,7 +2,7 @@
 
 #include "State.h"
 
-#include "cs488-framework/OpenGLImport.hpp"
+#include <gl3w/GL/gl3w.h>
 #include "Camera.h"
 #include "GameContext.h"
 #include "InputHandler.h"

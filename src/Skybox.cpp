@@ -2,7 +2,7 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
-#include "cs488-framework/GlErrorCheck.hpp"
+#include "GlErrorCheck.h"
 #include "ImageLoader.h"
 
 #include <stdexcept>

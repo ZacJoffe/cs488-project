@@ -1,7 +1,7 @@
 #include "GameState.h"
 
-#include "cs488-framework/OpenGLImport.hpp"
-#include "cs488-framework/GlErrorCheck.hpp"
+#include <gl3w/GL/gl3w.h>
+#include "GlErrorCheck.h"
 #include "SoundEngine.h"
 
 #include <glm/glm.hpp>
