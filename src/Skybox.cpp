@@ -61,7 +61,7 @@ void Skybox::initTextures() {
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_tex);
 
     int x, y, n;
-    ImageLoader & image_loader = ImageLoader::getInstance();
+    const ImageLoader & image_loader = ImageLoader::getInstance();
     image_loader.setFlipVertically(false);
     for (size_t i = 0; i < m_filenames.size(); ++i) {
         unsigned char * data = image_loader.load(m_filenames[i], &x, &y, &n);

@@ -15,7 +15,7 @@ Texture::Texture(const std::string & filename) : m_filename(filename) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     int x, y, n;
-    ImageLoader & image_loader = ImageLoader::getInstance();
+    const ImageLoader & image_loader = ImageLoader::getInstance();
     image_loader.setFlipVertically(true);
     unsigned char * data = image_loader.load(m_filename, &x, &y, &n);
     if (data == nullptr) {
