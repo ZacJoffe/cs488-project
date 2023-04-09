@@ -2,10 +2,10 @@
 
 #include <gl3w/GL/gl3w.h>
 #include <gl3w/GL/glcorearb.h>
-#include "cs488-framework/GlErrorCheck.hpp"
-#include "cs488-framework/ObjFileDecoder.hpp"
+#include "cs488-framework/ObjFileDecoder.hpp" // TODO
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include "GlErrorCheck.h"
 
 #include <iostream>
 

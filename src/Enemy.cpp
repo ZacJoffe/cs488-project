@@ -1,11 +1,11 @@
 #include "Enemy.h"
 
 #include <gl3w/GL/gl3w.h>
-#include "cs488-framework/ObjFileDecoder.hpp"
-#include "cs488-framework/GlErrorCheck.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/constants.hpp"
+#include "cs488-framework/ObjFileDecoder.hpp" // TODO
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/constants.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include "GlErrorCheck.h"
 
 #include <cstdlib>
 #include <ctime>

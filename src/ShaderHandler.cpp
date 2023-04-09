@@ -1,5 +1,5 @@
 #include "ShaderHandler.h"
-#include "cs488-framework/GlErrorCheck.hpp" // TODO
+#include "GlErrorCheck.h"
 
 #include <cstdio>
 #include <fstream>

@@ -1,6 +1,5 @@
 #pragma once
 
-// #include "cs488-framework/CS488Window.hpp"
 #define GLFW_INCLUDE_GLCOREARB
 #include <GLFW/glfw3.h>
 
